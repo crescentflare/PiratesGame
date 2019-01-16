@@ -1,0 +1,77 @@
+package com.crescentflare.piratesgame.infrastructure.uri
+
+import android.content.Context
+import com.crescentflare.piratesgame.infrastructure.coreextensions.urlDecode
+import com.crescentflare.viewletcreator.utility.ViewletMapUtil
+
+/**
+ * URI: defines a location (internal or external) for an image
+ */
+class ImageURI(string: String?) {
+
+    // ---
+    // Members
+    // ---
+
+    var scheme = ""
+    var parameters = mutableMapOf<String, String>()
+    var pathComponents = emptyList<String>()
+
+
+    // ---
+    // Initialization
+    // ---
+
+    init {
+        if (string != null) {
+            // Extract scheme
+            var checkString = string
+            val schemeMarker = checkString.indexOf("://")
+            if (schemeMarker >= 0) {
+                scheme = checkString.substring(0, schemeMarker)
+                checkString = checkString.substring(schemeMarker + 3)
+            }
+
+            // Extract parameters
+            val paramMarker = checkString.indexOf('?')
+            if (paramMarker >= 0) {
+                // Get parameter string
+                val paramString = checkString.substring(paramMarker + 1)
+                checkString = checkString.substring(0, paramMarker)
+
+                // Split into separate parameters and fill dictionary
+                val paramItems = paramString.split("&")
+                for (paramItem in paramItems) {
+                    val paramSet = paramItem.split("=")
+                    if (paramSet.size == 2) {
+                        parameters[paramSet[0].urlDecode()] = paramSet[1].urlDecode()
+                    }
+                }
+            }
+
+            // Finally set path to the remaining string
+            pathComponents = checkString.split("/")
+        }
+    }
+
+
+    // ---
+    // Extract values
+    // ---
+
+    val fullPath: String
+        get() = pathComponents.joinToString("/")
+
+    val tintColor: Int
+        get() = ViewletMapUtil.optionalColor(parameters.toMap(), "colorize", 0)
+
+
+    // ---
+    // Helper
+    // ---
+
+    fun getInternalImageResource(context: Context): Int {
+        return context.resources.getIdentifier(fullPath, "drawable", context.packageName)
+    }
+
+}

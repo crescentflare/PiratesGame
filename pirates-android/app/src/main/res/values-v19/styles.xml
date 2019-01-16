@@ -1,0 +1,12 @@
+<resources>
+
+    <!-- Override for fullscreen -->
+    <style name="AppTheme.Fullscreen">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowBackground">@color/black</item>
+    </style>
+
+</resources>

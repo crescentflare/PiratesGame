@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Default colors -->
+    <color name="colorPrimary">#07575b</color>
+    <color name="colorPrimaryDark">#003b46</color>
+    <color name="colorAccent">#66a5ad</color>
+
+    <!-- Text -->
+    <color name="text">#ffffff</color>
+    <color name="textInverted">#000000</color>
+
+    <!-- Generic colors -->
+    <color name="black">#000000</color>
+</resources>

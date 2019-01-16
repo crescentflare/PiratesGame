@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Text -->
+    <dimen name="text">16sp</dimen>
+    <dimen name="titleText">20sp</dimen>
+    <dimen name="subTitleText">18sp</dimen>
+
+    <!-- Screen specific -->
+    <dimen name="splashLogoMargin">16dp</dimen>
+</resources>
