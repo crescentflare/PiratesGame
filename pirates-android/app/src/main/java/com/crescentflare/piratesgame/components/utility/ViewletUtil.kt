@@ -100,7 +100,7 @@ object ViewletUtil {
     // Subview creation
     // ---
 
-    fun createSubviews(container: ViewGroup, parent: ViewGroup, attributes: Map<String, Any>, subviewItems: Any, binder: ViewletBinder) {
+    fun createSubviews(container: ViewGroup, parent: ViewGroup, attributes: Map<String, Any>, subviewItems: Any?, binder: ViewletBinder) {
         // Check if children are the same before and after the update, then they can be updated instead of re-created
         var canRecycle = false
         val recycling = ViewletMapUtil.optionalBoolean(attributes, "recycling", false)

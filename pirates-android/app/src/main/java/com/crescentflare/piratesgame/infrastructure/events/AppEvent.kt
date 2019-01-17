@@ -9,6 +9,27 @@ import com.crescentflare.viewletcreator.utility.ViewletMapUtil
 class AppEvent {
 
     // ---
+    // Static: factory method
+    // ---
+
+    companion object {
+
+        fun fromObject(value: Any?): AppEvent? {
+            if (value is String) {
+                return AppEvent(value)
+            } else if (value is Map<*, *>) {
+                val result: Map<String, Any>? = ViewletMapUtil.asStringObjectMap(value)
+                if (result != null) {
+                    return AppEvent(result)
+                }
+            }
+            return null
+        }
+
+    }
+
+
+    // ---
     // Members
     // ---
 
