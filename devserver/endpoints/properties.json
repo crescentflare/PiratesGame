@@ -1,0 +1,7 @@
+{
+  "name": "Server for json pages",
+  "description": "Main index page",
+  "method": "GET",
+  "responseCode": 200,
+  "generates": "indexPage"
+}
