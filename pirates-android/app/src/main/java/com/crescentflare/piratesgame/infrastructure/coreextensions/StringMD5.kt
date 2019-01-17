@@ -1,8 +1,6 @@
 package com.crescentflare.piratesgame.infrastructure.coreextensions
 
-import java.lang.Exception
 import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
 
 /**
  * Core extension: extends string to calculate MD5

@@ -4,9 +4,12 @@ import android.app.Application
 import com.crescentflare.piratesgame.components.complexviews.PublisherLogo
 import com.crescentflare.piratesgame.components.containers.FrameContainerView
 import com.crescentflare.piratesgame.components.containers.LinearContainerView
+import com.crescentflare.piratesgame.components.simpleviewlets.ImageViewlet
 import com.crescentflare.viewletcreator.ViewletCreator
 import com.crescentflare.piratesgame.components.utility.ViewletUtil
 import com.crescentflare.piratesgame.components.simpleviewlets.SpacerViewlet
+import com.crescentflare.piratesgame.components.simpleviewlets.SpinnerViewlet
+import com.crescentflare.piratesgame.components.simpleviewlets.TextViewlet
 import com.crescentflare.viewletcreator.utility.ViewletResourceDimensionLookup
 import com.crescentflare.viewletcreator.utility.ViewletMapUtil
 import com.crescentflare.viewletcreator.utility.ViewletResourceColorLookup
@@ -44,7 +47,10 @@ class BaseApplication : Application() {
         ViewletCreator.registerViewlet( "linearContainer", LinearContainerView.viewlet)
 
         // Simple viewlets
+        ViewletCreator.registerViewlet("image", ImageViewlet.viewlet)
         ViewletCreator.registerViewlet("spacer", SpacerViewlet.viewlet)
+        ViewletCreator.registerViewlet("spinner", SpinnerViewlet.viewlet)
+        ViewletCreator.registerViewlet("text", TextViewlet.viewlet)
         ViewletCreator.registerViewlet("view", ViewletUtil.basicViewViewlet)
     }
 

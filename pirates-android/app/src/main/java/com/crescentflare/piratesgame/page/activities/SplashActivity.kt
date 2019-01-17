@@ -1,9 +1,7 @@
 package com.crescentflare.piratesgame.page.activities
 
-import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.crescentflare.piratesgame.R
 import com.crescentflare.piratesgame.components.containers.FrameContainerView
 import com.crescentflare.piratesgame.components.utility.ViewletUtil
 import com.crescentflare.piratesgame.infrastructure.events.AppEvent
@@ -19,7 +17,7 @@ class SplashActivity : AppCompatActivity(), AppEventObserver, PageLoaderContinuo
     // Members
     // ---
 
-//    private val pageLoader by lazy { PageLoader(this, "http://192.168.1.169:1313/pages/splash.json") }
+//    private val pageLoader by lazy { PageLoader(this, "http://192.168.1.12:1313/pages/splash.json") }
     private val pageLoader by lazy { PageLoader(this, "splash.json") }
     private val containerView by lazy { FrameContainerView(this) }
 

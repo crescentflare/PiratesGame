@@ -47,11 +47,7 @@ class CustomTypefaceSpan(private val newType: Typeface) : TypefaceSpan("") {
             // Remember old style
             val oldStyle: Int
             val old = paint.typeface
-            if (old == null) {
-                oldStyle = 0
-            } else {
-                oldStyle = old.style
-            }
+            oldStyle = old?.style ?: 0
 
             // Apply simulated style
             val fake = oldStyle and tf.style.inv()

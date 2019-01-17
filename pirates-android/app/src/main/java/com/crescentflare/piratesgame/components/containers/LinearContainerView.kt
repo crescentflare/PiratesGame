@@ -39,26 +39,25 @@ class LinearContainerView : UniLinearContainer, AppEventObserver, AppEventLabele
             override fun update(view: View, attributes: Map<String, Any>, parent: ViewGroup?, binder: ViewletBinder?): Boolean {
                 if (view is LinearContainerView) {
                     // Orientation
-                    val linearContainer = view
                     val orientationString = ViewletMapUtil.optionalString(attributes, "orientation", "")
                     if (orientationString == "horizontal") {
-                        linearContainer.orientation = UniLinearContainer.HORIZONTAL
+                        view.orientation = UniLinearContainer.HORIZONTAL
                     } else {
-                        linearContainer.orientation = UniLinearContainer.VERTICAL
+                        view.orientation = UniLinearContainer.VERTICAL
                     }
 
                     // Create or update children
-                    ViewletUtil.createSubviews(linearContainer, linearContainer, attributes, attributes["items"], binder)
+                    ViewletUtil.createSubviews(view, view, attributes, attributes["items"], binder)
 
                     // Generic view properties
                     ViewletUtil.applyGenericViewAttributes(view, attributes)
 
                     // Event handling
-                    linearContainer.tapEvent = AppEvent.fromObject(attributes["tapEvent"])
+                    view.tapEvent = AppEvent.fromObject(attributes["tapEvent"])
 
                     // Forward event observer
                     if (parent is AppEventObserver) {
-                        linearContainer.eventObserver = parent
+                        view.eventObserver = parent
                     }
                     return true
                 }
@@ -110,10 +109,10 @@ class LinearContainerView : UniLinearContainer, AppEventObserver, AppEventLabele
     var eventObserver: AppEventObserver?
         get() = eventObserverReference?.get()
         set(newValue) {
-            if (newValue != null) {
-                eventObserverReference = WeakReference(newValue)
+            eventObserverReference = if (newValue != null) {
+                WeakReference(newValue)
             } else {
-                eventObserverReference = null
+                null
             }
         }
 
@@ -124,14 +123,12 @@ class LinearContainerView : UniLinearContainer, AppEventObserver, AppEventLabele
                 setOnClickListener(null)
             }
             if (this.tapEvent != null) {
-                setOnClickListener(object : View.OnClickListener {
-                    override fun onClick(view: View) {
-                        val currentTapEvent = this@LinearContainerView.tapEvent
-                        if (currentTapEvent != null) {
-                            observedEvent(currentTapEvent, senderLabel)
-                        }
+                setOnClickListener {
+                    val currentTapEvent = this@LinearContainerView.tapEvent
+                    if (currentTapEvent != null) {
+                        observedEvent(currentTapEvent, senderLabel)
                     }
-                })
+                }
             }
         }
 

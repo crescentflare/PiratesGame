@@ -40,21 +40,20 @@ class FrameContainerView : UniFrameContainer, AppEventObserver, AppEventLabeledS
             override fun update(view: View, attributes: Map<String, Any>, parent: ViewGroup?, binder: ViewletBinder?): Boolean {
                 if (view is FrameContainerView) {
                     // Set container name
-                    val frameContainer = view
-                    frameContainer.contentDescription = ViewletMapUtil.optionalString(attributes, "containerName", null)
+                    view.contentDescription = ViewletMapUtil.optionalString(attributes, "containerName", null)
 
                     // Create or update children
-                    ViewletUtil.createSubviews(frameContainer, frameContainer, attributes, attributes["items"], binder)
+                    ViewletUtil.createSubviews(view, view, attributes, attributes["items"], binder)
 
                     // Generic view properties
                     ViewletUtil.applyGenericViewAttributes(view, attributes)
 
                     // Event handling
-                    frameContainer.tapEvent = AppEvent.fromObject(attributes["tapEvent"])
+                    view.tapEvent = AppEvent.fromObject(attributes["tapEvent"])
 
                     // Forward event observer
                     if (parent is AppEventObserver) {
-                        frameContainer.eventObserver = parent
+                        view.eventObserver = parent
                     }
                     return true
                 }
@@ -107,10 +106,10 @@ class FrameContainerView : UniFrameContainer, AppEventObserver, AppEventLabeledS
     var eventObserver: AppEventObserver?
         get() = eventObserverReference?.get()
         set(newValue) {
-            if (newValue != null) {
-                eventObserverReference = WeakReference(newValue)
+            eventObserverReference = if (newValue != null) {
+                WeakReference(newValue)
             } else {
-                eventObserverReference = null
+                null
             }
         }
 
@@ -121,14 +120,12 @@ class FrameContainerView : UniFrameContainer, AppEventObserver, AppEventLabeledS
                 setOnClickListener(null)
             }
             if (this.tapEvent != null) {
-                setOnClickListener(object : View.OnClickListener {
-                    override fun onClick(view: View) {
-                        val currentTapEvent = this@FrameContainerView.tapEvent
-                        if (currentTapEvent != null) {
-                            observedEvent(currentTapEvent, senderLabel)
-                        }
+                setOnClickListener {
+                    val currentTapEvent = this@FrameContainerView.tapEvent
+                    if (currentTapEvent != null) {
+                        observedEvent(currentTapEvent, senderLabel)
                     }
-                })
+                }
             }
         }
 
