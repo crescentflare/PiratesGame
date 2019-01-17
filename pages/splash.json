@@ -1,0 +1,47 @@
+{
+  "dataSets": {
+    "layout": {
+      "viewlet": "frameContainer",
+      "width": "stretchToParent",
+      "height": "stretchToParent",
+      "backgroundColor": "$black",
+      "recycling": true,
+      "items": [
+        {
+          "viewlet": "splashAnimation",
+          "width": "stretchToParent",
+          "height": "stretchToParent",
+          "gradientColor": "#0000a0",
+          "backgroundImage": "app://background_loading",
+          "autoAnimation": true,
+          "on": true
+        },
+        {
+          "viewlet": "linearContainer",
+          "width": "stretchToParent",
+          "gravity": "bottom",
+          "recycling": true,
+          "items": [
+            {
+              "viewlet": "text",
+              "width": "stretchToParent",
+              "marginTop": 32,
+              "padding": [ 10, 0, 10, 10 ],
+              "localizedText": "SPLASH_LOADING_TEXT",
+              "textAlignment": "center",
+              "visibility": "hidden"
+            },
+            {
+              "viewlet": "spacer",
+              "takeHeight": "bottomBar"
+            },
+            {
+              "viewlet": "spacer",
+              "takeHeight": "bottomSafeArea"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
