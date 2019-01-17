@@ -153,6 +153,7 @@ class PageLoader(context: Context, location: String) {
                     waiting = true
                     GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
                         delay(waitingTime.toLong())
+                        waiting = false
                         tryNextContinuousLoad()
                     }
                 }
