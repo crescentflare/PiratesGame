@@ -37,7 +37,7 @@ class FrameContainerView : UniFrameContainer, AppEventObserver, AppEventLabeledS
                 return FrameContainerView(context)
             }
 
-            override fun update(view: View, attributes: Map<String, Any>, parent: ViewGroup, binder: ViewletBinder): Boolean {
+            override fun update(view: View, attributes: Map<String, Any>, parent: ViewGroup?, binder: ViewletBinder): Boolean {
                 if (view is FrameContainerView) {
                     // Set container name
                     val frameContainer = view

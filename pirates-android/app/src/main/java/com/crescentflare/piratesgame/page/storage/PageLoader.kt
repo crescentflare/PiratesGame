@@ -107,7 +107,7 @@ class PageLoader(context: Context, location: String) {
     fun loadInternalSync(): Page? {
         if (loadInternal) {
             try {
-                val stream = context.getAssets().open("page/${location}")
+                val stream = context.getAssets().open("pages/${location}")
                 val jsonString = stream.bufferedReader().use { it.readText() }
                 return Page(jsonString)
             } catch (ignored: IOException) {

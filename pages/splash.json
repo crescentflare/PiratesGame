@@ -4,7 +4,7 @@
       "viewlet": "frameContainer",
       "width": "stretchToParent",
       "height": "stretchToParent",
-      "backgroundColor": "$black",
+      "backgroundColor": "#00ff00",
       "recycling": true,
       "items": [
         {

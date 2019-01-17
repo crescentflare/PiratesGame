@@ -11,7 +11,7 @@ class PageCache {
 
     companion object {
 
-        lateinit var instance: PageCache
+        var instance = PageCache()
 
     }
 

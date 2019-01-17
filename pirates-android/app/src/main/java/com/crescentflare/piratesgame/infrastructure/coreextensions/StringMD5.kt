@@ -1,5 +1,6 @@
 package com.crescentflare.piratesgame.infrastructure.coreextensions
 
+import java.lang.Exception
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
@@ -17,12 +18,12 @@ fun String.md5(): String {
         val hexArray = "0123456789abcdef".toCharArray()
         val hexChars = CharArray(digest.size * 2)
         for (j in digest.indices) {
-            val v = digest[j] % 256
+            val v = digest[j].toInt() and 0xFF
             hexChars[j * 2] = hexArray[v.ushr(4)]
             hexChars[j * 2 + 1] = hexArray[v and 0x0F]
         }
         return String(hexChars)
-    } catch (ignored: NoSuchAlgorithmException) {
+    } catch (ignored: Exception) {
     }
 
     // Return recognizable error when failed

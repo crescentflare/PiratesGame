@@ -50,7 +50,7 @@ object ViewletUtil {
     // Inflate with assertion
     // ---
 
-    fun assertInflateOn(view: View, attributes: Map<String, Any>, binder: ViewletAnnotationBinder) {
+    fun assertInflateOn(view: View, attributes: Map<String, Any>, binder: ViewletBinder) {
         assertInflateOn(view, attributes, null, binder)
     }
 
