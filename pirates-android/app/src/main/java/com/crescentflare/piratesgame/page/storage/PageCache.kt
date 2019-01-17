@@ -3,18 +3,7 @@ package com.crescentflare.piratesgame.page.storage
 /**
  * Page storage: cached loaded page items
  */
-class PageCache {
-
-    // ---
-    // Static: singleton instance
-    // ---
-
-    companion object {
-
-        var instance = PageCache()
-
-    }
-
+object PageCache {
 
     // ---
     // Members

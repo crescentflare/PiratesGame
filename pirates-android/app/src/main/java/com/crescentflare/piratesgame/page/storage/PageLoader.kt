@@ -39,20 +39,20 @@ class PageLoader(context: Context, location: String) {
     // ---
 
     fun load(completion: (page: Page?, exception: Throwable?) -> Unit) {
-        val cachedPage = PageCache.instance.getEntry(location)
+        val cachedPage = PageCache.getEntry(location)
         if (cachedPage != null) {
             completion(cachedPage, null)
         } else if (loadInternal) {
             loadInternal {
                 if (it != null) {
-                    PageCache.instance.storeEntry(location, it)
+                    PageCache.storeEntry(location, it)
                 }
                 completion(it, null)
             }
         } else {
             loadOnline("ignore") { page, exception ->
                 if (page != null) {
-                    PageCache.instance.storeEntry(location, page)
+                    PageCache.storeEntry(location, page)
                 }
                 completion(page, exception)
             }
@@ -135,17 +135,17 @@ class PageLoader(context: Context, location: String) {
             if (loadInternal) {
                 loadInternal {
                     if (it != null) {
-                        PageCache.instance.storeEntry(location, it)
+                        PageCache.storeEntry(location, it)
                         continuousCompletion?.get()?.didUpdatePage(it)
                     }
                 }
             } else {
-                val hash = PageCache.instance.getEntry(location)?.hash ?: "unknown"
+                val hash = PageCache.getEntry(location)?.hash ?: "unknown"
                 loadOnline(hash) { page, _ ->
                     var waitingTime = 2000
                     if (page != null) {
                         if (hash != page.hash) {
-                            PageCache.instance.storeEntry(location, page)
+                            PageCache.storeEntry(location, page)
                             continuousCompletion?.get()?.didUpdatePage(page)
                         }
                         waitingTime = 100

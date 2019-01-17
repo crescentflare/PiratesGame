@@ -56,7 +56,7 @@ class MarkdownGenerator @JvmOverloads constructor(private val applicationContext
                     )
                 }
                 builder.setSpan(
-                    CustomTypefaceSpan(AppFonts.instance.getTypeface("titleBold")),
+                    CustomTypefaceSpan(AppFonts.getTypeface("titleBold")),
                     start,
                     end,
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -108,9 +108,9 @@ class MarkdownGenerator @JvmOverloads constructor(private val applicationContext
 
     private fun typefaceForWeight(weight: Int): Typeface? {
         when (weight) {
-            0 -> return AppFonts.instance.getTypeface("normal")
-            1 -> return AppFonts.instance.getTypeface("italics")
-            2 -> return AppFonts.instance.getTypeface("bold")
+            0 -> return AppFonts.getTypeface("normal")
+            1 -> return AppFonts.getTypeface("italics")
+            2 -> return AppFonts.getTypeface("bold")
         }
         return null
     }

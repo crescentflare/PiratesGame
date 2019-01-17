@@ -8,18 +8,7 @@ import java.util.HashMap
 /**
  * Styling: the fonts used in the app, available everywhere
  */
-class AppFonts private constructor() {
-
-    // ---
-    // Static: singleton instance
-    // ---
-
-    companion object {
-
-        lateinit var instance: AppFonts
-
-    }
-
+object AppFonts {
 
     // ---
     // Members
@@ -33,7 +22,7 @@ class AppFonts private constructor() {
     // Available font constants
     // ---
 
-    enum class Font private constructor(private val id: Int, private val filename: String) {
+    enum class Font constructor(private val id: Int, private val filename: String) {
 
         AndroidDefault(0, ""),
         TitleBold(1, "Primitive.ttf");

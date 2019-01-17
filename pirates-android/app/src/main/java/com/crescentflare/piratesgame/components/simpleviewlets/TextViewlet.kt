@@ -60,7 +60,7 @@ object TextViewlet {
                 view.setTextColor(ViewletMapUtil.optionalColor(attributes,"textColor", ContextCompat.getColor(view.getContext(), R.color.text)))
 
                 // Font
-                view.typeface = AppFonts.instance.getTypeface(ViewletMapUtil.optionalString(attributes, "font", "normal"))
+                view.typeface = AppFonts.getTypeface(ViewletMapUtil.optionalString(attributes, "font", "normal"))
 
                 // Text alignment
                 val textAlignment = TextAlignment.fromString(ViewletMapUtil.optionalString(attributes, "textAlignment", ""))
@@ -86,7 +86,7 @@ object TextViewlet {
 
     fun newTextView(context: Context): UniTextView {
         val textView = UniTextView(context)
-        textView.typeface = AppFonts.instance.getTypeface("normal")
+        textView.typeface = AppFonts.getTypeface("normal")
         textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, context.resources.getDimensionPixelSize(R.dimen.text).toFloat())
         textView.setTextColor(ContextCompat.getColor(context, R.color.text))
         return textView
