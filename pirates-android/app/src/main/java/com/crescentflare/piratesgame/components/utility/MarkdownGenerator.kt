@@ -96,6 +96,7 @@ class MarkdownGenerator @JvmOverloads constructor(private val applicationContext
                 )
                 return
             }
+            else -> {}
         }
         super.applySpan(builder, type, weight, start, end, extra)
     }
