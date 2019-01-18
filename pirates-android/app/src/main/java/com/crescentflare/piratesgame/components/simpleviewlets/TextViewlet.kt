@@ -33,7 +33,7 @@ object TextViewlet {
             return UniTextView(context)
         }
 
-        override fun update(view: View, attributes: Map<String, Any>, parent: ViewGroup?, binder: ViewletBinder?): Boolean {
+        override fun update(view: View, attributes: Map<String, Any>?, parent: ViewGroup?, binder: ViewletBinder?): Boolean {
             if (view is UniTextView) {
                 // Text
                 val maxLines = ViewletMapUtil.optionalInteger(attributes, "maxLines", 0)
@@ -73,7 +73,7 @@ object TextViewlet {
             return false
         }
 
-        override fun canRecycle(view: View, attributes: Map<String, Any>): Boolean {
+        override fun canRecycle(view: View, attributes: Map<String, Any>?): Boolean {
             return view is UniTextView
         }
 

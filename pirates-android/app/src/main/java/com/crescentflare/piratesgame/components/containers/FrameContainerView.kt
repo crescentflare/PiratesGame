@@ -37,19 +37,19 @@ class FrameContainerView : UniFrameContainer, AppEventObserver, AppEventLabeledS
                 return FrameContainerView(context)
             }
 
-            override fun update(view: View, attributes: Map<String, Any>, parent: ViewGroup?, binder: ViewletBinder?): Boolean {
+            override fun update(view: View, attributes: Map<String, Any>?, parent: ViewGroup?, binder: ViewletBinder?): Boolean {
                 if (view is FrameContainerView) {
                     // Set container name
                     view.contentDescription = ViewletMapUtil.optionalString(attributes, "containerName", null)
 
                     // Create or update children
-                    ViewletUtil.createSubviews(view, view, attributes, attributes["items"], binder)
+                    ViewletUtil.createSubviews(view, view, attributes, attributes?.get("items"), binder)
 
                     // Generic view properties
                     ViewletUtil.applyGenericViewAttributes(view, attributes)
 
                     // Event handling
-                    view.tapEvent = AppEvent.fromObject(attributes["tapEvent"])
+                    view.tapEvent = AppEvent.fromObject(attributes?.get("tapEvent"))
 
                     // Forward event observer
                     if (parent is AppEventObserver) {
@@ -60,7 +60,7 @@ class FrameContainerView : UniFrameContainer, AppEventObserver, AppEventLabeledS
                 return false
             }
 
-            override fun canRecycle(view: View, attributes: Map<String, Any>): Boolean {
+            override fun canRecycle(view: View, attributes: Map<String, Any>?): Boolean {
                 return view is FrameContainerView
             }
         }

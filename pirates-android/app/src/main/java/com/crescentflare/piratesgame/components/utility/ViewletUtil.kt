@@ -34,12 +34,12 @@ object ViewletUtil {
             return UniView(context)
         }
 
-        override fun update(view: View, attributes: Map<String, Any>, parent: ViewGroup, binder: ViewletBinder): Boolean {
+        override fun update(view: View, attributes: Map<String, Any>?, parent: ViewGroup?, binder: ViewletBinder?): Boolean {
             ViewletUtil.applyGenericViewAttributes(view, attributes)
             return true
         }
 
-        override fun canRecycle(view: View, attributes: Map<String, Any>): Boolean {
+        override fun canRecycle(view: View, attributes: Map<String, Any>?): Boolean {
             return view is UniView
         }
 
@@ -50,11 +50,11 @@ object ViewletUtil {
     // Inflate with assertion
     // ---
 
-    fun assertInflateOn(view: View, attributes: Map<String, Any>, binder: ViewletBinder) {
+    fun assertInflateOn(view: View, attributes: Map<String, Any>?, binder: ViewletBinder) {
         assertInflateOn(view, attributes, null, binder)
     }
 
-    fun assertInflateOn(view: View, attributes: Map<String, Any>, parent: ViewGroup?, binder: ViewletBinder) {
+    fun assertInflateOn(view: View, attributes: Map<String, Any>?, parent: ViewGroup?, binder: ViewletBinder) {
         val inflateResult = ViewletCreator.inflateOn(view, attributes, parent, binder)
         if (BuildConfig.DEBUG) {
             // First check if attributes are not null
@@ -100,7 +100,7 @@ object ViewletUtil {
     // Subview creation
     // ---
 
-    fun createSubviews(container: ViewGroup, parent: ViewGroup, attributes: Map<String, Any>, subviewItems: Any?, binder: ViewletBinder?) {
+    fun createSubviews(container: ViewGroup, parent: ViewGroup, attributes: Map<String, Any>?, subviewItems: Any?, binder: ViewletBinder?) {
         // Check if children are the same before and after the update, then they can be updated instead of re-created
         var canRecycle = false
         val recycling = ViewletMapUtil.optionalBoolean(attributes, "recycling", false)
@@ -217,7 +217,7 @@ object ViewletUtil {
     // Shared generic view handling
     // ---
 
-    fun applyGenericViewAttributes(view: View, attributes: Map<String, Any>) {
+    fun applyGenericViewAttributes(view: View, attributes: Map<String, Any>?) {
         // Visibility
         val visibility = ViewletMapUtil.optionalString(attributes, "visibility", "")
         view.visibility = when(visibility) {
@@ -254,7 +254,7 @@ object ViewletUtil {
     // Shared layout parameters handling
     // ---
 
-    private fun applyLayoutAttributes(view: View, attributes: Map<String, Any>) {
+    private fun applyLayoutAttributes(view: View, attributes: Map<String, Any>?) {
         // Margin
         val layoutParams = if (view.layoutParams is UniLayoutParams) {
             view.layoutParams as UniLayoutParams
@@ -304,67 +304,71 @@ object ViewletUtil {
     // Viewlet property helpers
     // ---
 
-    private fun optionalHorizontalGravity(attributes: Map<String, Any>, defaultValue: Float): Float {
+    private fun optionalHorizontalGravity(attributes: Map<String, Any>?, defaultValue: Float): Float {
         // Extract horizontal gravity from shared horizontal/vertical string
-        var gravityString: String? = null
-        if (attributes["gravity"] is String) {
-            gravityString = attributes["gravity"] as String
-        }
-        if (gravityString != null) {
-            if (gravityString == "center" || gravityString == "centerHorizontal") {
-                return 0.5f
-            } else if (gravityString == "left") {
-                return 0.0f
-            } else if (gravityString == "right") {
-                return 1.0f
+        if (attributes != null) {
+            var gravityString: String? = null
+            if (attributes["gravity"] is String) {
+                gravityString = attributes["gravity"] as String
             }
-            return defaultValue
-        }
+            if (gravityString != null) {
+                if (gravityString == "center" || gravityString == "centerHorizontal") {
+                    return 0.5f
+                } else if (gravityString == "left") {
+                    return 0.0f
+                } else if (gravityString == "right") {
+                    return 1.0f
+                }
+                return defaultValue
+            }
 
-        // Check horizontal gravity being specified separately
-        var horizontalGravityString: String? = null
-        if (attributes["horizontalGravity"] is String) {
-            horizontalGravityString = attributes["horizontalGravity"] as String
-        }
-        if (horizontalGravityString != null) {
-            return when(horizontalGravityString) {
-                "center" -> 0.5f
-                "left" -> 0.0f
-                "right" -> 1.0f
-                else -> defaultValue
+            // Check horizontal gravity being specified separately
+            var horizontalGravityString: String? = null
+            if (attributes["horizontalGravity"] is String) {
+                horizontalGravityString = attributes["horizontalGravity"] as String
+            }
+            if (horizontalGravityString != null) {
+                return when (horizontalGravityString) {
+                    "center" -> 0.5f
+                    "left" -> 0.0f
+                    "right" -> 1.0f
+                    else -> defaultValue
+                }
             }
         }
         return ViewletMapUtil.optionalFloat(attributes, "horizontalGravity", defaultValue)
     }
 
-    private fun optionalVerticalGravity(attributes: Map<String, Any>, defaultValue: Float): Float {
+    private fun optionalVerticalGravity(attributes: Map<String, Any>?, defaultValue: Float): Float {
         // Extract horizontal gravity from shared horizontal/vertical string
-        var gravityString: String? = null
-        if (attributes["gravity"] is String) {
-            gravityString = attributes["gravity"] as String
-        }
-        if (gravityString != null) {
-            if (gravityString == "center" || gravityString == "centerVertical") {
-                return 0.5f
-            } else if (gravityString == "top") {
-                return 0.0f
-            } else if (gravityString == "bottom") {
-                return 1.0f
+        if (attributes != null) {
+            var gravityString: String? = null
+            if (attributes["gravity"] is String) {
+                gravityString = attributes["gravity"] as String
             }
-            return defaultValue
-        }
+            if (gravityString != null) {
+                if (gravityString == "center" || gravityString == "centerVertical") {
+                    return 0.5f
+                } else if (gravityString == "top") {
+                    return 0.0f
+                } else if (gravityString == "bottom") {
+                    return 1.0f
+                }
+                return defaultValue
+            }
 
-        // Check horizontal gravity being specified separately
-        var verticalGravityString: String? = null
-        if (attributes["verticalGravity"] is String) {
-            verticalGravityString = attributes["verticalGravity"] as String
-        }
-        if (verticalGravityString != null) {
-            return when(verticalGravityString) {
-                "center" -> 0.5f
-                "top" -> 0.0f
-                "bottom" -> 1.0f
-                else -> defaultValue
+            // Check horizontal gravity being specified separately
+            var verticalGravityString: String? = null
+            if (attributes["verticalGravity"] is String) {
+                verticalGravityString = attributes["verticalGravity"] as String
+            }
+            if (verticalGravityString != null) {
+                return when (verticalGravityString) {
+                    "center" -> 0.5f
+                    "top" -> 0.0f
+                    "bottom" -> 1.0f
+                    else -> defaultValue
+                }
             }
         }
         return ViewletMapUtil.optionalFloat(attributes, "verticalGravity", defaultValue)

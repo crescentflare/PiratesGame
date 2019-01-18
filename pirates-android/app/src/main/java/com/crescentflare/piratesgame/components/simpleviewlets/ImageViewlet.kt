@@ -28,7 +28,7 @@ object ImageViewlet {
             return UniImageView(context)
         }
 
-        override fun update(view: View, attributes: Map<String, Any>, parent: ViewGroup?, binder: ViewletBinder?): Boolean {
+        override fun update(view: View, attributes: Map<String, Any>?, parent: ViewGroup?, binder: ViewletBinder?): Boolean {
             if (view is UniImageView) {
                 // Set image
                 applyImageUri(view, ImageURI(ViewletMapUtil.optionalString(attributes, "uri", null)))
@@ -44,7 +44,7 @@ object ImageViewlet {
             return false
         }
 
-        override fun canRecycle(view: View, attributes: Map<String, Any>): Boolean {
+        override fun canRecycle(view: View, attributes: Map<String, Any>?): Boolean {
             return view is UniImageView
         }
 
