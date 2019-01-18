@@ -1,6 +1,7 @@
 package com.crescentflare.piratesgame
 
 import android.app.Application
+import com.crescentflare.piratesgame.components.basicviews.GradientView
 import com.crescentflare.piratesgame.components.complexviews.PublisherLogo
 import com.crescentflare.piratesgame.components.containers.FrameContainerView
 import com.crescentflare.piratesgame.components.containers.LinearContainerView
@@ -38,6 +39,9 @@ class BaseApplication : Application() {
         // Lookups
         ViewletMapUtil.setColorLookup(ViewletResourceColorLookup(this))
         ViewletMapUtil.setDimensionLookup(ViewletResourceDimensionLookup(this))
+
+        // Basic views
+        ViewletCreator.registerViewlet("gradient", GradientView.viewlet)
 
         // Complex views
         ViewletCreator.registerViewlet("publisherLogo", PublisherLogo.viewlet)
