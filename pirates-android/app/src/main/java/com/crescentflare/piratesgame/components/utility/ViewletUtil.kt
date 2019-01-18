@@ -15,6 +15,7 @@ import com.crescentflare.viewletcreator.binder.ViewletAnnotationBinder
 import com.crescentflare.viewletcreator.binder.ViewletBinder
 import com.crescentflare.viewletcreator.binder.ViewletRef
 import com.crescentflare.viewletcreator.utility.ViewletMapUtil
+import kotlinx.coroutines.*
 
 import org.junit.Assert
 import java.util.Arrays
@@ -210,6 +211,29 @@ object ViewletUtil {
 
     fun localizedString(context: Context, localizedKey: String?, fallbackString: String?): String? {
         return localizedKey?.localized(context) ?: fallbackString
+    }
+
+
+    // ---
+    // Waiting for view helpers
+    // ---
+
+    fun waitViewLayout(view: View?, completion: () -> Unit, timeout: () -> Unit, maxIterations: Int = 8) {
+        // If no iterations are left, time out
+        if (maxIterations == 0) {
+            timeout()
+            return
+        }
+
+        // Check view state, complete or try again
+        if (view?.width ?: 0 == 0 || view?.height ?: 0 == 0) {
+            GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+                delay(1)
+                ViewletUtil.waitViewLayout(view, completion, timeout, maxIterations - 1)
+            }
+        } else {
+            completion()
+        }
     }
 
 

@@ -1,11 +1,15 @@
 package com.crescentflare.piratesgame.components.compoundviews
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.annotation.TargetApi
 import android.content.Context
+import android.content.res.Resources
 import android.os.Build
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
 import com.crescentflare.piratesgame.R
 import com.crescentflare.piratesgame.components.basicviews.GradientView
 import com.crescentflare.piratesgame.components.complexviews.PublisherLogo
@@ -38,7 +42,7 @@ class SplashAnimation : FrameContainerView {
         // Static: reference to layout resource
         // ---
 
-        val layoutResource = R.raw.splash_animation
+        const val layoutResource = R.raw.splash_animation
 
 
         // ---
@@ -166,12 +170,33 @@ class SplashAnimation : FrameContainerView {
         }
 
         // Change state with optional animation
-        if (animated && false) {
-            // TODO: implement animation
+        if (animated) {
+            logoView?.setOn(on, true, {
+                ImageViewlet.applyImageURI(backgroundImageView, backgroundImage)
+            }, {
+                // Animate
+                val verticalDistance = Resources.getSystem().displayMetrics.heightPixels / 6f
+                val animation = AnimatorSet()
+                animation.playTogether(
+                    ObjectAnimator.ofFloat(logoView, View.TRANSLATION_Y, if (on) 0f else -verticalDistance, if (on) -verticalDistance else 0f),
+                    ObjectAnimator.ofFloat(backgroundGradientView, View.ALPHA, if (on) 0f else 1f, if (on) 1f else 0f)
+                )
+                animation.duration = 500
+                animation.startDelay = 500
+                animation.interpolator = AccelerateDecelerateInterpolator()
+                animation.start()
+
+                // Apply state
+                val setOnEvent = this.setOnEvent
+                currentOn = on
+                if (setOnEvent != null && on) {
+                    eventObserver?.observedEvent(setOnEvent, this)
+                }
+            })
         } else {
             val setOnEvent = this.setOnEvent
             currentOn = on
-            // TODO: set logo on
+            logoView?.setOn(on, false)
             if (on) {
                 ImageViewlet.applyImageURI(backgroundImageView, backgroundImage)
             }

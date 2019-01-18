@@ -8,11 +8,11 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.os.Build
-import android.os.Handler
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
+import android.view.animation.LinearInterpolator
 import android.widget.ImageView
 import com.crescentflare.piratesgame.R
 import com.crescentflare.piratesgame.components.utility.ViewletUtil
@@ -59,13 +59,12 @@ class PublisherLogo : ViewGroup {
     // Members
     // ---
 
-    var waitLayoutListener: (() -> Unit)? = null
-    private val baseLogo: ImageView
-    private val logoEffect: ImageView
-    private val logoFlashEffect: ImageView
+    private val baseLogo by lazy { ImageView(context) }
+    private val logoEffect by lazy { ImageView(context) }
+    private val logoFlashEffect by lazy { ImageView(context) }
     private val effectUpOffset: Int
     private val effectLeftOffset: Int
-    private var effectShown = false
+    private var currentOn = false
 
 
     // ---
@@ -89,20 +88,14 @@ class PublisherLogo : ViewGroup {
 
     init {
         // Add base logo
-        baseLogo = ImageView(context)
         baseLogo.setImageResource(R.drawable.logo_publisher)
         addView(baseLogo)
 
         // Add overlay effect
-        logoEffect = ImageView(context)
+        logoEffect.alpha = 0f
         addView(logoEffect)
-        logoEffect.visibility = GONE
-
-        // Add flash effect for overlay
-        logoFlashEffect = ImageView(context)
+        logoFlashEffect.alpha = 0f
         addView(logoFlashEffect)
-        logoFlashEffect.visibility = GONE
-        logoFlashEffect.colorFilter = PorterDuffColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
 
         // Pre-calculate offsets
         effectUpOffset = (-36 * Resources.getSystem().displayMetrics.density).toInt()
@@ -115,38 +108,76 @@ class PublisherLogo : ViewGroup {
 
 
     // ---
-    // Animation
+    // Configurable values
     // ---
 
-    fun showEffect(duration: Long, startCallback: () -> Unit) {
-        // Return early if effect is already shown
-        if (effectShown) {
+    var autoAnimation = false
+
+    var on: Boolean
+        get() = currentOn
+        set(on) {
+            setOn(on, autoAnimation)
+        }
+
+    fun setOn(on: Boolean, animated: Boolean, afterAssetLoad: (() -> Unit)? = null, completion: (() -> Unit)? = null) {
+        // Safeguard against non-changing operations
+        if (on == currentOn) {
             return
         }
 
-        // Set resource and show effect after layout pass
-        effectShown = true
-        logoEffect.setImageResource(R.drawable.logo_publisher_effect)
-        logoFlashEffect.setImageResource(R.drawable.logo_publisher_effect)
-        requestLayout()
-        Handler().postDelayed({
-            playEffectAnimation(duration, startCallback)
-        }, 1)
-    }
+        // Change state with optional animation
+        if (animated) {
+            ViewletUtil.waitViewLayout(this, {
+                if (on) {
+                    if (logoEffect.drawable == null) {
+                        logoEffect.setImageResource(R.drawable.logo_publisher_effect)
+                        logoFlashEffect.setImageResource(R.drawable.logo_publisher_effect)
+                        logoFlashEffect.colorFilter = PorterDuffColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
+                        afterAssetLoad?.invoke()
+                    }
+                    ViewletUtil.waitViewLayout(logoEffect, {
+                        // Prepare effect visibility
+                        logoEffect.alpha = 1f
+                        logoFlashEffect.alpha = 0.8f
 
-    private fun playEffectAnimation(duration: Long, startCallback: () -> Unit) {
-        // Prepare visibility
-        logoFlashEffect.visibility = VISIBLE
-        logoEffect.visibility = VISIBLE
+                        // Start animation
+                        val animation = ObjectAnimator.ofFloat(logoFlashEffect, ALPHA, 0.8f, 0f)
+                        animation.duration = 1000
+                        animation.interpolator = DecelerateInterpolator()
+                        animation.start()
 
-        // Play
-        val animation = ObjectAnimator.ofFloat(logoFlashEffect, ALPHA, 0.8f, 0f)
-        animation.duration = duration
-        animation.interpolator = DecelerateInterpolator()
-        animation.start()
+                        // Apply state
+                        currentOn = on
+                        completion?.invoke()
+                    }, {
+                        setOn(on, false)
+                    })
+                } else {
+                    // Prepare effect visibility
+                    logoEffect.alpha = 1f
 
-        // Inform callback that it started
-        startCallback.invoke()
+                    // Start animation
+                    val animation = ObjectAnimator.ofFloat(logoEffect, ALPHA, 1f, 0f)
+                    animation.duration = 1000
+                    animation.interpolator = LinearInterpolator()
+                    animation.start()
+
+                    // Apply state
+                    currentOn = on
+                    completion?.invoke()
+                }
+            }, {
+                setOn(on, false)
+            })
+        } else {
+            currentOn = on
+            if (on && logoEffect.drawable == null) {
+                logoEffect.setImageResource(R.drawable.logo_publisher_effect)
+                afterAssetLoad?.invoke()
+            }
+            logoEffect.alpha = if (on) 1f else 0f
+            completion?.invoke()
+        }
     }
 
 
@@ -256,9 +287,6 @@ class PublisherLogo : ViewGroup {
         val scaledLeftOffset = (effectLeftOffset * scaleFactor).toInt()
         logoEffect.layout(paddingLeft + scaledLeftOffset, centerY - scaledLogoHeight / 2 + scaledUpOffset, paddingLeft + scaledLeftOffset + scaledEffectWidth, centerY - scaledLogoHeight / 2 + scaledUpOffset + scaledEffectHeight)
         logoFlashEffect.layout(paddingLeft + scaledLeftOffset, centerY - scaledLogoHeight / 2 + scaledUpOffset, paddingLeft + scaledLeftOffset + scaledEffectWidth, centerY - scaledLogoHeight / 2 + scaledUpOffset + scaledEffectHeight)
-
-        // Inform listener
-        waitLayoutListener?.invoke()
     }
 
 }
