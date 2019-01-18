@@ -117,6 +117,17 @@ class GradientView : UniView {
 
     private fun updateState() {
         gradientDrawable.colors = intArrayOf(startColor, endColor)
+        gradientDrawable.orientation = when(angle % 360) {
+            in 0..44 -> GradientDrawable.Orientation.TOP_BOTTOM
+            in 45..89 -> GradientDrawable.Orientation.TR_BL
+            in 90..134 -> GradientDrawable.Orientation.RIGHT_LEFT
+            in 135..179 -> GradientDrawable.Orientation.BR_TL
+            in 180..224 -> GradientDrawable.Orientation.BOTTOM_TOP
+            in 225..269 -> GradientDrawable.Orientation.BL_TR
+            in 270..314 -> GradientDrawable.Orientation.LEFT_RIGHT
+            in 315..359 -> GradientDrawable.Orientation.TL_BR
+            else -> GradientDrawable.Orientation.TOP_BOTTOM
+        }
         gradientDrawable.gradientRadius = angle.toFloat()
         background = gradientDrawable
     }
