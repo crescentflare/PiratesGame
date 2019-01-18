@@ -19,14 +19,10 @@ import com.crescentflare.viewletcreator.utility.ViewletMapUtil
 class GradientView : UniView {
 
     // ---
-    // Statics
+    // Static: viewlet integration
     // ---
 
     companion object {
-
-        // ---
-        // Static: viewlet integration
-        // ---
 
         val viewlet: ViewletCreator.Viewlet = object : ViewletCreator.Viewlet {
 

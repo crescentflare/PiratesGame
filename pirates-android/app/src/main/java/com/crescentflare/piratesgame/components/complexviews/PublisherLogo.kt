@@ -26,14 +26,10 @@ import com.crescentflare.viewletcreator.binder.ViewletBinder
 class PublisherLogo : ViewGroup {
 
     // ---
-    // Statics
+    // Static: viewlet integration
     // ---
 
     companion object {
-
-        // ---
-        // Static: viewlet integration
-        // ---
 
         val viewlet: ViewletCreator.Viewlet = object : ViewletCreator.Viewlet {
 

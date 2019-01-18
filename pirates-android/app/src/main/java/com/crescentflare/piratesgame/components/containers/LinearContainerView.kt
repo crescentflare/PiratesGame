@@ -19,17 +19,13 @@ import java.lang.ref.WeakReference
 /**
  * Container view: basic layout container for horizontally or vertically aligned views
  */
-class LinearContainerView : UniLinearContainer, AppEventObserver, AppEventLabeledSender {
+open class LinearContainerView : UniLinearContainer, AppEventObserver, AppEventLabeledSender {
 
     // ---
-    // Statics
+    // Static: viewlet integration
     // ---
 
     companion object {
-
-        // ---
-        // Viewlet integration
-        // ---
 
         val viewlet: ViewletCreator.Viewlet = object : ViewletCreator.Viewlet {
             override fun create(context: Context): View {

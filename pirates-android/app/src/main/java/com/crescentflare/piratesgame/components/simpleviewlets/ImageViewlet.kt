@@ -31,7 +31,7 @@ object ImageViewlet {
         override fun update(view: View, attributes: Map<String, Any>?, parent: ViewGroup?, binder: ViewletBinder?): Boolean {
             if (view is UniImageView) {
                 // Set image
-                applyImageUri(view, ImageURI(ViewletMapUtil.optionalString(attributes, "uri", null)))
+                applyImageURI(view, ImageURI(ViewletMapUtil.optionalString(attributes, "uri", null)))
 
                 // Scale factor
                 val scaleType = ScaleType.fromString(ViewletMapUtil.optionalString(attributes, "scaleType", ""))
@@ -55,7 +55,7 @@ object ImageViewlet {
     // Helpers
     // ---
 
-    fun applyImageUri(imageView: UniImageView?, uri: ImageURI?): Boolean {
+    fun applyImageURI(imageView: UniImageView?, uri: ImageURI?): Boolean {
         if (imageView != null) {
             if (uri != null) {
                 val imageResource = uri.getInternalImageResource(imageView.context)

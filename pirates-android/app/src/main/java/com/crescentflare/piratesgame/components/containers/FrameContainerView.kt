@@ -20,17 +20,13 @@ import java.lang.ref.WeakReference
 /**
  * Container view: basic layout container for overlapping views
  */
-class FrameContainerView : UniFrameContainer, AppEventObserver, AppEventLabeledSender {
+open class FrameContainerView : UniFrameContainer, AppEventObserver, AppEventLabeledSender {
 
     // ---
-    // Statics
+    // Static: viewlet integration
     // ---
 
     companion object {
-
-        // ---
-        // Static: viewlet integration
-        // ---
 
         val viewlet: ViewletCreator.Viewlet = object : ViewletCreator.Viewlet {
             override fun create(context: Context): View {
