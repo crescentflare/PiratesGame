@@ -37,7 +37,7 @@ class PublisherLogo : ViewGroup {
                 return PublisherLogo(context)
             }
 
-            override fun update(view: View, attributes: Map<String, Any>?, parent: ViewGroup?, binder: ViewletBinder?): Boolean {
+            override fun update(view: View, attributes: Map<String, Any>, parent: ViewGroup?, binder: ViewletBinder?): Boolean {
                 if (view is PublisherLogo) {
                     // Generic view properties
                     ViewletUtil.applyGenericViewAttributes(view, attributes)
@@ -46,7 +46,7 @@ class PublisherLogo : ViewGroup {
                 return false
             }
 
-            override fun canRecycle(view: View, attributes: Map<String, Any>?): Boolean {
+            override fun canRecycle(view: View, attributes: Map<String, Any>): Boolean {
                 return view is PublisherLogo
             }
 

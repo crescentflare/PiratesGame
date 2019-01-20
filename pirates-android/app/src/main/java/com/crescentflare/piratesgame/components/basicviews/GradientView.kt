@@ -30,7 +30,7 @@ class GradientView : UniView {
                 return GradientView(context)
             }
 
-            override fun update(view: View, attributes: Map<String, Any>?, parent: ViewGroup?, binder: ViewletBinder?): Boolean {
+            override fun update(view: View, attributes: Map<String, Any>, parent: ViewGroup?, binder: ViewletBinder?): Boolean {
                 if (view is GradientView) {
                     // Generic view properties
                     ViewletUtil.applyGenericViewAttributes(view, attributes)
@@ -44,7 +44,7 @@ class GradientView : UniView {
                 return false
             }
 
-            override fun canRecycle(view: View, attributes: Map<String, Any>?): Boolean {
+            override fun canRecycle(view: View, attributes: Map<String, Any>): Boolean {
                 return view is GradientView
             }
 

@@ -29,7 +29,7 @@ dependencies {
 
     // Framework dependencies
     implementation 'com.crescentflare.unilayout:UniLayoutLib:0.4.0'
-    implementation 'com.crescentflare.viewletcreator:ViewletCreatorLib:0.4.0'
+    implementation 'com.crescentflare.viewletcreator:ViewletCreatorLib:0.4.4'
     implementation 'com.crescentflare.simplemarkdownparser:SimpleMarkdownParserLib:0.6.0'
 
     // Other libraries

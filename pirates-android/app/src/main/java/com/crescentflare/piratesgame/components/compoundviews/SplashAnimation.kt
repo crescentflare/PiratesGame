@@ -55,7 +55,7 @@ class SplashAnimation : FrameContainerView {
                 return SplashAnimation(context)
             }
 
-            override fun update(view: View, attributes: Map<String, Any>?, parent: ViewGroup?, binder: ViewletBinder?): Boolean {
+            override fun update(view: View, attributes: Map<String, Any>, parent: ViewGroup?, binder: ViewletBinder?): Boolean {
                 if (view is SplashAnimation) {
                     // Apply background
                     view.gradientColor = ViewletMapUtil.optionalColor(attributes, "gradientColor", 0)
@@ -69,7 +69,7 @@ class SplashAnimation : FrameContainerView {
                     ViewletUtil.applyGenericViewAttributes(view, attributes)
 
                     // Event handling
-                    view.setOnEvent = AppEvent.fromObject(attributes?.get("setOnEvent"))
+                    view.setOnEvent = AppEvent.fromObject(attributes["setOnEvent"])
 
                     // Forward event observer
                     if (parent is AppEventObserver) {
@@ -80,7 +80,7 @@ class SplashAnimation : FrameContainerView {
                 return false
             }
 
-            override fun canRecycle(view: View, attributes: Map<String, Any>?): Boolean {
+            override fun canRecycle(view: View, attributes: Map<String, Any>): Boolean {
                 return view is SplashAnimation
             }
 

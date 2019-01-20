@@ -28,7 +28,7 @@ object ImageViewlet {
             return UniImageView(context)
         }
 
-        override fun update(view: View, attributes: Map<String, Any>?, parent: ViewGroup?, binder: ViewletBinder?): Boolean {
+        override fun update(view: View, attributes: Map<String, Any>, parent: ViewGroup?, binder: ViewletBinder?): Boolean {
             if (view is UniImageView) {
                 // Set image
                 applyImageURI(view, ImageURI(ViewletMapUtil.optionalString(attributes, "uri", null)))
@@ -44,7 +44,7 @@ object ImageViewlet {
             return false
         }
 
-        override fun canRecycle(view: View, attributes: Map<String, Any>?): Boolean {
+        override fun canRecycle(view: View, attributes: Map<String, Any>): Boolean {
             return view is UniImageView
         }
 
@@ -61,8 +61,8 @@ object ImageViewlet {
                 val imageResource = uri.getInternalImageResource(imageView.context)
                 if (imageResource > 0) {
                     imageView.setImageResource(imageResource)
-                    if (uri.tintColor > 0) {
-                        imageView.colorFilter = PorterDuffColorFilter(uri.tintColor, PorterDuff.Mode.MULTIPLY)
+                    if (uri.tintColor != 0) {
+                        imageView.colorFilter = PorterDuffColorFilter(uri.tintColor, PorterDuff.Mode.SRC_IN)
                     } else {
                         imageView.colorFilter = null
                     }
