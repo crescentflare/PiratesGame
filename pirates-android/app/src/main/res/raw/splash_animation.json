@@ -11,8 +11,8 @@
         {
           "viewlet": "frameContainer",
           "width": "stretchToParent",
-          "height": 456,
-          "marginBottom": -64,
+          "height": 256,
+          "marginBottom": 64,
           "items": [
             {
               "refId": "backgroundGradient",
@@ -25,7 +25,7 @@
               "viewlet": "image",
               "width": "stretchToParent",
               "height": "stretchToParent",
-              "marginTop": 240,
+              "marginTop": 40,
               "gravity": "bottom",
               "scaleType": "scaleCrop"
             }
