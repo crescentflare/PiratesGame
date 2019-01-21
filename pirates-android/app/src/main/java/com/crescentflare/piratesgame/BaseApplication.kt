@@ -12,6 +12,7 @@ import com.crescentflare.piratesgame.components.utility.ViewletUtil
 import com.crescentflare.piratesgame.components.simpleviewlets.SpacerViewlet
 import com.crescentflare.piratesgame.components.simpleviewlets.SpinnerViewlet
 import com.crescentflare.piratesgame.components.simpleviewlets.TextViewlet
+import com.crescentflare.piratesgame.components.styling.AppFonts
 import com.crescentflare.viewletcreator.utility.ViewletResourceDimensionLookup
 import com.crescentflare.viewletcreator.utility.ViewletMapUtil
 import com.crescentflare.viewletcreator.utility.ViewletResourceColorLookup
@@ -28,6 +29,7 @@ class BaseApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        AppFonts.setContext(this)
         registerViewlets()
     }
 

@@ -1,5 +1,6 @@
 package com.crescentflare.piratesgame.components.styling
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Typeface
 
@@ -7,47 +8,43 @@ import java.util.HashMap
 
 /**
  * Styling: the fonts used in the app, available everywhere
+ * Note: suppress static field leak warning, the context is set through the base application class
  */
+@SuppressLint("StaticFieldLeak")
 object AppFonts {
 
     // ---
-    // Members
+    // Fonts
     // ---
 
-    private val loadedTypefaces = HashMap<Font, Typeface>()
+    val normal = Font(null, Typeface.NORMAL)
+    val italics = Font(null, Typeface.ITALIC)
+    val bold = Font(null, Typeface.BOLD)
+    val boldItalics = Font(null, Typeface.BOLD_ITALIC)
+    val titleBold = Font("Primitive.ttf")
+
+
+    // ---
+    // Font lookup
+    // ---
+
+    val fontLookup = mapOf<String, Font>(
+        Pair("normal", normal),
+        Pair("italics", italics),
+        Pair("bold", bold),
+        Pair("boldItalics", boldItalics),
+        Pair("titleNormal", titleBold),
+        Pair("titleItalics", titleBold),
+        Pair("titleBold", titleBold),
+        Pair("titleBoldItalics", titleBold)
+    )
+
+
+    // ---
+    // Set application context for loading typefaces
+    // ---
+
     private var context: Context? = null
-
-
-    // ---
-    // Available font constants
-    // ---
-
-    enum class Font constructor(private val id: Int, private val filename: String) {
-
-        AndroidDefault(0, ""),
-        TitleBold(1, "Primitive.ttf");
-
-        fun toId(): Int {
-            return id
-        }
-
-        fun toFilename(): String {
-            return filename
-        }
-
-        companion object {
-
-            fun fromId(id: Int): Font {
-                for (e in values()) {
-                    if (e.toId() == id) {
-                        return e
-                    }
-                }
-                return AndroidDefault
-            }
-        }
-
-    }
 
     fun setContext(context: Context) {
         this.context = context
@@ -55,55 +52,51 @@ object AppFonts {
 
 
     // ---
+    // Font helper class
+    // ---
+
+    class Font constructor(private val filename: String?, private val style: Int = Typeface.NORMAL) {
+
+        val typeface: Typeface
+            get() {
+                // Return cached typeface if it's there
+                val checkLoadedTypeface = loadedTypeface
+                if (checkLoadedTypeface != null) {
+                    return checkLoadedTypeface
+                }
+
+                // Load typeface when needed
+                if (filename != null && context != null) {
+                    val typeface = Typeface.createFromAsset(context?.assets, "fonts/" + filename)
+                    if (typeface != null) {
+                        loadedTypeface = typeface
+                        return typeface
+                    }
+                }
+
+                // Return default typeface
+                val defaultTypeface = Typeface.create(Typeface.DEFAULT, style)
+                loadedTypeface = defaultTypeface
+                return defaultTypeface
+            }
+
+        var loadedTypeface: Typeface? = null
+
+    }
+
+
+    // ---
     // Get a typeface
     // ---
 
-    fun getTypeface(font: Font?): Typeface {
-        // Check if font is different than default
-        val context = this.context
-        if (font != null && font != Font.AndroidDefault && context != null) {
-            val loadedTypeface = loadedTypefaces[font]
-            if (loadedTypeface != null) {
-                return loadedTypeface
-            }
-            val typeface = Typeface.createFromAsset(context.assets, "fonts/" + font.toFilename())
-            if (typeface != null) {
-                loadedTypefaces[font] = typeface
-                return typeface
-            }
-        }
-
-        // If title demi font could not load, fall back to the system bold
-        var style = Typeface.NORMAL
-        if (font == Font.TitleBold) {
-            style = Typeface.BOLD
-        }
-
-        // Create typeface and return result
-        return Typeface.create(Typeface.DEFAULT, style)
-    }
-
     fun getTypeface(fontName: String?): Typeface {
-        var font = Font.AndroidDefault
         if (fontName != null) {
-            if (fontName == "normal" || fontName == "systemNormal" || fontName == "system") {
-                return Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
-            } else if (fontName == "italics" || fontName == "systemItalics") {
-                return Typeface.create(Typeface.DEFAULT, Typeface.ITALIC)
-            } else if (fontName == "bold" || fontName == "systemBold") {
-                return Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
-            } else if (fontName == "boldItalics" || fontName == "systemBoldItalics") {
-                return Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC)
-            } else if (fontName == "titleNormal" || fontName == "titleItalics" || fontName == "titleBold" || fontName == "titleBoldItalics") {
-                return getTypeface(Font.TitleBold)
-            }
-            for (checkFont in Font.values()) {
-                if (checkFont.toFilename().replace(".otf", "").replace(".ttf", "") == fontName) {
-                    font = checkFont
-                }
+            val font = fontLookup[fontName]
+            if (font != null) {
+                return font.typeface
             }
         }
-        return getTypeface(font)
+        return normal.typeface
     }
 
 }

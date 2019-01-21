@@ -15,6 +15,7 @@ import com.crescentflare.viewletcreator.binder.ViewletBinder
 import com.crescentflare.viewletcreator.ViewletCreator
 import com.crescentflare.unilayout.views.UniView
 
+
 /**
  * Basic view viewlet: a spacing element
  */
@@ -66,8 +67,22 @@ class SpacerViewlet : UniView {
         }
 
         fun getNavigationBarHeight(context: Context): Int {
-            val resourceId = context.resources.getIdentifier("navigation_bar_height", "dimen", "android")
-            return if (resourceId > 0) context.resources.getDimensionPixelSize(resourceId) else 0
+            // Check if a bar is present (with a workaround for emulators because it doesn't use the configuration correctly)
+            val id = context.resources.getIdentifier("config_showNavigationBar", "bool", "android")
+            var hasNavigationBar = false
+            if (id > 0) {
+                hasNavigationBar = context.resources.getBoolean(id)
+                if (Build.HARDWARE.toLowerCase().equals("ranchu") || Build.MODEL.toLowerCase().contains("android sdk built for")) { // Force true for common emulators
+                    hasNavigationBar = true
+                }
+            }
+
+            // Return height if available
+            if (hasNavigationBar) {
+                val resourceId = context.resources.getIdentifier("navigation_bar_height", "dimen", "android")
+                return if (resourceId > 0) context.resources.getDimensionPixelSize(resourceId) else 0
+            }
+            return 0
         }
 
     }

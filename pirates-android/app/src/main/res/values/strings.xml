@@ -1,3 +1,4 @@
 <resources>
     <string name="global_app">Pirates</string>
+    <string name="splash_loading_text">Loading game...</string>
 </resources>

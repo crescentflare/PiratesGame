@@ -61,6 +61,7 @@ class CustomTypefaceSpan(private val newType: Typeface) : TypefaceSpan("") {
             // Set typeface
             paint.typeface = tf
         }
+
     }
 
 }
