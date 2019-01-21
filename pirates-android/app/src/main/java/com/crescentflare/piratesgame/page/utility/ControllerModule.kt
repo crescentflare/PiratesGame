@@ -1,6 +1,6 @@
 package com.crescentflare.piratesgame.page.utility
 
-import android.support.v7.app.AppCompatActivity
+import android.content.Context
 import com.crescentflare.piratesgame.infrastructure.events.AppEvent
 
 /**
@@ -8,7 +8,7 @@ import com.crescentflare.piratesgame.infrastructure.events.AppEvent
  */
 interface ControllerModule {
 
-    fun create(activity: AppCompatActivity)
+    fun create(context: Context): ControllerModule
     fun catchEvent(event: AppEvent, sender: Any?): Boolean
 
 }
