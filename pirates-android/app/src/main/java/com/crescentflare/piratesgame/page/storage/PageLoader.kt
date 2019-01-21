@@ -123,6 +123,12 @@ class PageLoader(context: Context, location: String) {
 
     fun startLoadingContinuously(completion: PageLoaderContinuousCompletion) {
         continuousCompletion = WeakReference(completion)
+        if (!loadInternal) {
+            val page = PageCache.getEntry(location)
+            if (page != null) {
+                continuousCompletion?.get()?.didUpdatePage(page)
+            }
+        }
         tryNextContinuousLoad()
     }
 
