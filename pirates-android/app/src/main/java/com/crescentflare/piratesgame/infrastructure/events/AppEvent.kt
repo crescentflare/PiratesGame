@@ -33,7 +33,8 @@ class AppEvent {
     // Members
     // ---
 
-    var type = AppEventType.Unknown
+    var standardType = AppEventType.Unknown
+    var rawType = "unknown"
     var parameters = mutableMapOf<String, String>()
     var pathComponents = emptyList<String>()
 
@@ -64,7 +65,8 @@ class AppEvent {
         var checkString = string
         val schemeMarker = checkString.indexOf("://")
         if (schemeMarker >= 0) {
-            type = AppEventType.fromString(checkString.substring(0, schemeMarker))
+            rawType = checkString.substring(0, schemeMarker)
+            standardType = AppEventType.fromString(rawType)
             checkString = checkString.substring(schemeMarker + 3)
         }
 
@@ -90,7 +92,8 @@ class AppEvent {
     }
 
     private fun initParse(map: Map<String, Any>) {
-        type = AppEventType.fromString(map["type"] as? String ?: "")
+        rawType = map["type"] as? String ?: "unknown"
+        standardType = AppEventType.fromString(rawType)
         val path = map["path"]
         if (path is String) {
             pathComponents = path.split("/")

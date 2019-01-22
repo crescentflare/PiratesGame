@@ -8,8 +8,7 @@ enum class AppEventType(val value: String) {
     Unknown("unknown"),
     OpenWebSite("http"),
     OpenSecureWebsite("https"),
-    NavigateApp("navigate"),
-    Alert("alert");
+    NavigateApp("navigate");
 
     companion object {
 

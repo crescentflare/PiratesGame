@@ -6,8 +6,8 @@
     <color name="colorAccent">#66a5ad</color>
 
     <!-- Text -->
-    <color name="text">#ffffff</color>
-    <color name="textInverted">#000000</color>
+    <color name="text">#000000</color>
+    <color name="textInverted">#ffffff</color>
 
     <!-- Generic colors -->
     <color name="black">#000000</color>

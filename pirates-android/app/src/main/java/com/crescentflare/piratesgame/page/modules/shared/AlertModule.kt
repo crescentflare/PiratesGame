@@ -3,7 +3,6 @@ package com.crescentflare.piratesgame.page.modules.shared
 import android.app.AlertDialog
 import android.content.Context
 import com.crescentflare.piratesgame.infrastructure.events.AppEvent
-import com.crescentflare.piratesgame.infrastructure.events.AppEventType
 import com.crescentflare.piratesgame.page.utility.ControllerModule
 import java.lang.ref.WeakReference
 
@@ -16,6 +15,7 @@ class AlertModule: ControllerModule {
     // Members
     // ---
 
+    private val eventType = "alert"
     private var context: WeakReference<Context>? = null
 
 
@@ -34,7 +34,7 @@ class AlertModule: ControllerModule {
     // ---
 
     override fun catchEvent(event: AppEvent, sender: Any?): Boolean {
-        if (event.type == AppEventType.Alert) {
+        if (event.rawType == eventType) {
             val context = this.context?.get()
             if (context != null) {
                 val builder = AlertDialog.Builder(context)

@@ -47,12 +47,10 @@ class MarkdownGenerator @JvmOverloads constructor(private val applicationContext
             MarkdownTag.Type.Header -> {
                 if (!noColorization) {
                     builder.setSpan(
-                        ForegroundColorSpan(
-                            ContextCompat.getColor(
-                                applicationContext,
-                                R.color.colorPrimary
-                            )
-                        ), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                        ForegroundColorSpan(ContextCompat.getColor(applicationContext, R.color.colorPrimary)),
+                        start,
+                        end,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                     )
                 }
                 builder.setSpan(
@@ -63,24 +61,22 @@ class MarkdownGenerator @JvmOverloads constructor(private val applicationContext
                 )
                 if (weight == 1) {
                     builder.setSpan(
-                        RelativeSizeSpan(
-                            applicationContext.resources.getDimensionPixelSize(R.dimen.titleText).toFloat() / applicationContext.resources.getDimensionPixelSize(
-                                R.dimen.text
-                            ).toFloat()
-                        ), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                        RelativeSizeSpan(applicationContext.resources.getDimensionPixelSize(R.dimen.titleText).toFloat() / applicationContext.resources.getDimensionPixelSize(R.dimen.text).toFloat()),
+                        start,
+                        end,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                     )
                 } else if (weight == 2) {
                     builder.setSpan(
-                        RelativeSizeSpan(
-                            applicationContext.resources.getDimensionPixelSize(R.dimen.subTitleText).toFloat() / applicationContext.resources.getDimensionPixelSize(
-                                R.dimen.text
-                            ).toFloat()
-                        ), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                        RelativeSizeSpan(applicationContext.resources.getDimensionPixelSize(R.dimen.subTitleText).toFloat() / applicationContext.resources.getDimensionPixelSize(R.dimen.text).toFloat()),
+                        start,
+                        end,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                     )
                 }
                 return
             }
-            MarkdownTag.Type.TextStyle -> if (weight != 3) {
+            MarkdownTag.Type.TextStyle -> {
                 val typeface = typefaceForWeight(weight)
                 if (typeface != null) {
                     builder.setSpan(CustomTypefaceSpan(typeface), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
@@ -111,6 +107,7 @@ class MarkdownGenerator @JvmOverloads constructor(private val applicationContext
             0 -> return AppFonts.getTypeface("normal")
             1 -> return AppFonts.getTypeface("italics")
             2 -> return AppFonts.getTypeface("bold")
+            3 -> return AppFonts.getTypeface("boldItalics")
         }
         return null
     }

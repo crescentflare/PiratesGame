@@ -28,6 +28,7 @@
               "marginTop": 32,
               "padding": [ 10, 0, 10, 10 ],
               "localizedText": "SPLASH_LOADING_TEXT",
+              "textColor": "$textInverted",
               "textAlignment": "center",
               "visibility": "hidden"
             },
