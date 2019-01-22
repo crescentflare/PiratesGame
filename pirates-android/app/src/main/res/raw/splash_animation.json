@@ -1,7 +1,5 @@
 {
   "viewlet": "frameContainer",
-  "width": "stretchToParent",
-  "height": "stretchToParent",
   "items": [
     {
       "viewlet": "linearContainer",

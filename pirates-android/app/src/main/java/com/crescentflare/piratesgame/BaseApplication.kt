@@ -4,6 +4,7 @@ import android.app.Application
 import com.crescentflare.piratesgame.components.basicviews.GradientView
 import com.crescentflare.piratesgame.components.complexviews.PublisherLogo
 import com.crescentflare.piratesgame.components.compoundviews.SplashAnimation
+import com.crescentflare.piratesgame.components.compoundviews.SplashLoadingBar
 import com.crescentflare.piratesgame.components.containers.FrameContainerView
 import com.crescentflare.piratesgame.components.containers.LinearContainerView
 import com.crescentflare.piratesgame.components.simpleviewlets.ImageViewlet
@@ -48,6 +49,7 @@ class BaseApplication : Application() {
 
         // Compound views
         ViewletCreator.registerViewlet("splashAnimation", SplashAnimation.viewlet)
+        ViewletCreator.registerViewlet("splashLoadingBar", SplashLoadingBar.viewlet)
 
         // Complex views
         ViewletCreator.registerViewlet("publisherLogo", PublisherLogo.viewlet)

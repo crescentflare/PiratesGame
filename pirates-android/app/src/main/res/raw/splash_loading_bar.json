@@ -1,0 +1,28 @@
+{
+  "viewlet": "frameContainer",
+  "items": [
+    {
+      "viewlet": "view",
+      "width": "stretchToParent",
+      "height": "stretchToParent",
+      "backgroundColor": "#180c00",
+      "padding": [ 7, 7, 7, 7 ]
+    },
+    {
+      "refId": "bar",
+      "viewlet": "image",
+      "width": "stretchToParent",
+      "height": 8,
+      "margin": [ 8, 0, 8, 0 ],
+      "verticalGravity": "center",
+      "uri": "app://shape_splash_loading_bar?threePatch=16",
+      "scaleType": "stretch"
+    },
+    {
+      "viewlet": "image",
+      "width": "stretchToParent",
+      "uri": "app://shape_splash_loading_bar_overdraw?threePatch=16",
+      "scaleType": "stretch"
+    }
+  ]
+}
