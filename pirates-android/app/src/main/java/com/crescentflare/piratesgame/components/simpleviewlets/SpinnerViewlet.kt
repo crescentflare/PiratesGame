@@ -31,7 +31,8 @@ object SpinnerViewlet {
         override fun update(view: View, attributes: Map<String, Any>, parent: ViewGroup?, binder: ViewletBinder?): Boolean {
             if (view is UniSpinnerView) {
                 // Style
-                if (ViewletMapUtil.optionalString(attributes, "style", "") == "inverted") {
+                val colorStyle = ColorStyle.fromString(ViewletMapUtil.optionalString(attributes, "colorStyle", ""))
+                if (colorStyle == ColorStyle.Inverted) {
                     view.indeterminateDrawable.setColorFilter(-0x1, PorterDuff.Mode.MULTIPLY)
                 } else {
                     view.indeterminateDrawable.setColorFilter(ContextCompat.getColor(view.getContext(), R.color.colorPrimary), PorterDuff.Mode.MULTIPLY)
@@ -46,6 +47,31 @@ object SpinnerViewlet {
 
         override fun canRecycle(view: View, attributes: Map<String, Any>): Boolean {
             return view is UniSpinnerView
+        }
+
+    }
+
+
+    // ---
+    // Scale type enum
+    // ---
+
+    enum class ColorStyle(val value: String) {
+
+        Normal("normal"),
+        Inverted("inverted");
+
+        companion object {
+
+            fun fromString(string: String?): ColorStyle {
+                for (enum in ColorStyle.values()) {
+                    if (enum.value == string) {
+                        return enum
+                    }
+                }
+                return Normal
+            }
+
         }
 
     }
