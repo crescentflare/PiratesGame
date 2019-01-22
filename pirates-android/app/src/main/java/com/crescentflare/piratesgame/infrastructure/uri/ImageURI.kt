@@ -65,6 +65,12 @@ class ImageURI(string: String?) {
     val tintColor: Int
         get() = ViewletMapUtil.optionalColor(parameters.toMap(), "colorize", 0)
 
+    val threePatch: Int
+        get() = ViewletMapUtil.optionalDimension(parameters.toMap(), "threePatch", -1)
+
+    val ninePatch: Int
+        get() = ViewletMapUtil.optionalDimension(parameters.toMap(), "ninePatch", -1)
+
 
     // ---
     // Helper
