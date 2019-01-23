@@ -50,6 +50,13 @@ class SplashLoadingBar : FrameContainerView {
 
 
         // ---
+        // Static: Animation duration
+        // ---
+
+        const val animationDuration: Long = 250
+
+
+        // ---
         // Static: viewlet integration
         // ---
 
@@ -150,6 +157,7 @@ class SplashLoadingBar : FrameContainerView {
                 val oldProgress = currentProgress
                 val animation = ValueAnimator.ofFloat(oldProgress, Math.min(progress, 1f))
                 this.animation = animation
+                animation.duration = animationDuration
                 animation.addUpdateListener {
                     val value = it.animatedValue
                     if (value is Float) {

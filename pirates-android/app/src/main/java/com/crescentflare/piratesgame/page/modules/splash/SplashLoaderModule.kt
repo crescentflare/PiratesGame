@@ -39,7 +39,10 @@ class SplashLoaderModule: ControllerModule {
     // ---
 
     override fun onCreate(context: Context) {
+        // Keep weak reference to context
         this.context = WeakReference(context)
+
+        // Add loading tasks
         loadingTasks.add(LoadingTask {
             AppFonts.loadAll()
         })
@@ -83,20 +86,31 @@ class SplashLoaderModule: ControllerModule {
             delay(1000)
             busy = true
             showLoading()
-            startLoadTask()
+            startLoadTask {
+                GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+                    val bar = binder?.findByReference("loadingBar") as? SplashLoadingBar
+                    if (bar?.autoAnimation == true) {
+                        delay(SplashLoadingBar.animationDuration)
+                    }
+                    val eventObserver = context?.get() as? AppEventObserver
+                    eventObserver?.observedEvent(AppEvent("alert://simple?title=Loading+complete&text=TODO:+implement+next+screen"), null)
+                }
+            }
         }
     }
 
-    private fun startLoadTask(index: Int = 0) {
-        if (index >= loadingTasks.size || context?.get() == null) {
-            val eventObserver = context?.get() as? AppEventObserver
-            eventObserver?.observedEvent(AppEvent("alert://simple?title=Loading+complete&text=TODO:+implement+next+screen"), null)
+    private fun startLoadTask(index: Int = 0, completion: () -> Unit) {
+        if (context?.get() == null) {
+            return
+        }
+        if (index >= loadingTasks.size) {
+            completion()
             return
         }
         loadingTasks[index].start {
             val bar = binder?.findByReference("loadingBar") as? SplashLoadingBar
             bar?.progress = (index + 1).toFloat() / loadingTasks.size.toFloat()
-            startLoadTask(index + 1)
+            startLoadTask(index + 1, completion)
         }
     }
 
