@@ -7,6 +7,7 @@ import com.crescentflare.piratesgame.components.compoundviews.SplashAnimation
 import com.crescentflare.piratesgame.components.compoundviews.SplashLoadingBar
 import com.crescentflare.piratesgame.components.containers.FrameContainerView
 import com.crescentflare.piratesgame.components.containers.LinearContainerView
+import com.crescentflare.piratesgame.components.navigationbars.TransparentNavigationBar
 import com.crescentflare.piratesgame.components.simpleviewlets.ImageViewlet
 import com.crescentflare.viewletcreator.ViewletCreator
 import com.crescentflare.piratesgame.components.utility.ViewletUtil
@@ -58,6 +59,9 @@ class BaseApplication : Application() {
         // Containers
         ViewletCreator.registerViewlet("frameContainer", FrameContainerView.viewlet)
         ViewletCreator.registerViewlet( "linearContainer", LinearContainerView.viewlet)
+
+        // Navigation bars
+        ViewletCreator.registerViewlet("transparentNavigationBar", TransparentNavigationBar.viewlet)
 
         // Simple viewlets
         ViewletCreator.registerViewlet("image", ImageViewlet.viewlet)

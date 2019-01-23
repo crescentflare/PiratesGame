@@ -132,6 +132,7 @@ class SplashAnimation : FrameContainerView {
     init {
         ViewletUtil.assertInflateOn(this, ViewletLoader.loadAttributes(context, layoutResource),null, ViewletAnnotationBinder(this))
         backgroundGradientView?.alpha = 0.0f
+        clipChildren = false
     }
 
 

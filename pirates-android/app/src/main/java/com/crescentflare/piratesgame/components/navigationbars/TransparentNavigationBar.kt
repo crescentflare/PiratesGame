@@ -1,26 +1,23 @@
-package com.crescentflare.piratesgame.components.actionbars
+package com.crescentflare.piratesgame.components.navigationbars
 
 import android.annotation.TargetApi
 import android.content.Context
-import android.content.res.Resources
 import android.os.Build
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
-import com.crescentflare.piratesgame.R
-import android.util.TypedValue
 import com.crescentflare.piratesgame.components.utility.ViewletUtil
-import com.crescentflare.piratesgame.page.utility.ActionBarComponent
-import com.crescentflare.viewletcreator.utility.ViewletMapUtil
+import com.crescentflare.piratesgame.page.utility.NavigationBarComponent
 import com.crescentflare.viewletcreator.binder.ViewletBinder
 import com.crescentflare.viewletcreator.ViewletCreator
 import com.crescentflare.unilayout.views.UniView
+import com.crescentflare.viewletcreator.utility.ViewletMapUtil
 
 
 /**
- * Action bar: an invisible bar, used by default
+ * Navigation bar: an invisible bar, used by default
  */
-class TransparentActionBar : UniView, ActionBarComponent {
+class TransparentNavigationBar : UniView, NavigationBarComponent {
 
     // ---
     // Static: viewlet integration
@@ -31,11 +28,11 @@ class TransparentActionBar : UniView, ActionBarComponent {
         val viewlet: ViewletCreator.Viewlet = object : ViewletCreator.Viewlet {
 
             override fun create(context: Context): View {
-                return TransparentActionBar(context)
+                return TransparentNavigationBar(context)
             }
 
             override fun update(view: View, attributes: Map<String, Any>, parent: ViewGroup?, binder: ViewletBinder?): Boolean {
-                if (view is TransparentActionBar) {
+                if (view is TransparentNavigationBar) {
                     // Bar properties
                     view.lightContent = ViewletMapUtil.optionalBoolean(attributes, "lightContent", false)
 
@@ -47,7 +44,7 @@ class TransparentActionBar : UniView, ActionBarComponent {
             }
 
             override fun canRecycle(view: View, attributes: Map<String, Any>): Boolean {
-                return view is TransparentActionBar
+                return view is TransparentNavigationBar
             }
 
         }

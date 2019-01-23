@@ -67,6 +67,11 @@ class SpacerViewlet : UniView {
         }
 
         fun getNavigationBarHeight(context: Context): Int {
+            // Hiding of navigation bar and determining its size is not easily supported on versions older than Marshmellow, return 0
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                return 0
+            }
+
             // Check if a bar is present (with a workaround for emulators because it doesn't use the configuration correctly)
             val id = context.resources.getIdentifier("config_showNavigationBar", "bool", "android")
             var hasNavigationBar = false
