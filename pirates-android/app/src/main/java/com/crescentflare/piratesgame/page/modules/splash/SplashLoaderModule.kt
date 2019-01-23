@@ -82,12 +82,12 @@ class SplashLoaderModule: ControllerModule {
     // ---
 
     private fun startLoading() {
-        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+        GlobalScope.launch(Dispatchers.Main) {
             delay(1000)
             busy = true
             showLoading()
             startLoadTask {
-                GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+                GlobalScope.launch(Dispatchers.Main) {
                     val bar = binder?.findByReference("loadingBar") as? SplashLoadingBar
                     if (bar?.autoAnimation == true) {
                         delay(SplashLoadingBar.animationDuration)
@@ -146,12 +146,12 @@ class SplashLoaderModule: ControllerModule {
     private class LoadingTask(private val delay: Long = 0, private val loader: () -> Unit) {
 
         fun start(completion: () -> Unit) {
-            GlobalScope.launch(Dispatchers.Default, CoroutineStart.DEFAULT) {
+            GlobalScope.launch(Dispatchers.Default) {
                 if (delay > 0) {
                     delay(delay)
                 }
                 loader()
-                GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+                GlobalScope.launch(Dispatchers.Main) {
                     completion()
                 }
             }

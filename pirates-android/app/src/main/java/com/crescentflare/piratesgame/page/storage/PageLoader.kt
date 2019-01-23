@@ -65,7 +65,7 @@ class PageLoader(context: Context, location: String) {
             loading = true
             client.newCall(Request.Builder().url(location).header("X-Mock-Wait-Change-Hash", currentHash).build()).enqueue(object : Callback {
                 override fun onFailure(call: Call, exception: IOException) {
-                    GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+                    GlobalScope.launch(Dispatchers.Main) {
                         loading = false
                         completion(null, exception)
                     }
@@ -76,12 +76,12 @@ class PageLoader(context: Context, location: String) {
                     val jsonString = response.body()?.string()
                     if (jsonString != null) {
                         val page = Page(jsonString)
-                        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+                        GlobalScope.launch(Dispatchers.Main) {
                             loading = false
                             completion(page, null)
                         }
                     } else {
-                        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+                        GlobalScope.launch(Dispatchers.Main) {
                             loading = false
                             completion(null, null)
                         }
@@ -95,9 +95,9 @@ class PageLoader(context: Context, location: String) {
 
     private fun loadInternal(completion: (page: Page?) -> Unit) {
         loading = true
-        GlobalScope.launch(Dispatchers.Default, CoroutineStart.DEFAULT) {
+        GlobalScope.launch(Dispatchers.Default) {
             val page = loadInternalSync()
-            GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+            GlobalScope.launch(Dispatchers.Main) {
                 loading = false
                 completion(page)
             }
@@ -157,7 +157,7 @@ class PageLoader(context: Context, location: String) {
                         waitingTime = 100
                     }
                     waiting = true
-                    GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+                    GlobalScope.launch(Dispatchers.Main) {
                         delay(waitingTime.toLong())
                         waiting = false
                         tryNextContinuousLoad()
