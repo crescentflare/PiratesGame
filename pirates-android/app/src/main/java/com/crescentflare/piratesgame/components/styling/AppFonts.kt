@@ -80,7 +80,11 @@ object AppFonts {
                 return defaultTypeface
             }
 
-        var loadedTypeface: Typeface? = null
+        private var loadedTypeface: Typeface? = null
+
+        fun load() {
+            val dummy = typeface
+        }
 
     }
 
@@ -97,6 +101,17 @@ object AppFonts {
             }
         }
         return normal.typeface
+    }
+
+
+    // ---
+    // Loading
+    // ---
+
+    fun loadAll() {
+        for ((name, font) in fontLookup) {
+            font.load()
+        }
     }
 
 }

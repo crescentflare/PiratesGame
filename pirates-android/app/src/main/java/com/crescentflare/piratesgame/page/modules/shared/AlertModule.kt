@@ -3,7 +3,9 @@ package com.crescentflare.piratesgame.page.modules.shared
 import android.app.AlertDialog
 import android.content.Context
 import com.crescentflare.piratesgame.infrastructure.events.AppEvent
+import com.crescentflare.piratesgame.page.storage.Page
 import com.crescentflare.piratesgame.page.utility.ControllerModule
+import com.crescentflare.viewletcreator.binder.ViewletMapBinder
 import java.lang.ref.WeakReference
 
 /**
@@ -17,15 +19,24 @@ class AlertModule: ControllerModule {
 
     private val eventType = "alert"
     private var context: WeakReference<Context>? = null
+    private var binder: ViewletMapBinder? = null
 
 
     // ---
     // Initialization
     // ---
 
-    override fun create(context: Context): ControllerModule {
+    override fun onCreate(context: Context) {
         this.context = WeakReference(context)
-        return this
+    }
+
+
+    // ---
+    // Page updates
+    // ---
+
+    override fun onPageUpdated(page: Page, binder: ViewletMapBinder) {
+        this.binder = binder
     }
 
 

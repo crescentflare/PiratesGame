@@ -14,7 +14,8 @@
           "gradientColor": "#0000a0",
           "backgroundImage": "app://background_loading",
           "autoAnimation": true,
-          "on": true
+          "on": true,
+          "setOnEvent": "splashLoader://start"
         },
         {
           "viewlet": "linearContainer",
@@ -23,6 +24,7 @@
           "recycling": true,
           "items": [
             {
+              "refId": "loadingBar",
               "viewlet": "splashLoadingBar",
               "width": "stretchToParent",
               "margin": [ 8, 0, 8, 0 ],
@@ -31,6 +33,7 @@
               "progress": 0
             },
             {
+              "refId": "loadingText",
               "viewlet": "text",
               "width": "stretchToParent",
               "padding": [ 10, 4, 10, 10 ],

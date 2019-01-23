@@ -124,7 +124,7 @@ object ViewletUtil {
             for (item in items) {
                 if (childIndex < container.childCount) {
                     val child = container.getChildAt(childIndex)
-                    ViewletCreator.inflateOn(child, item, parent)
+                    ViewletCreator.inflateOn(child, item, parent, binder)
                     ViewletUtil.applyLayoutAttributes(child, item)
                     ViewletUtil.bindRef(child, item, binder)
                     childIndex++

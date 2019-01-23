@@ -31,6 +31,7 @@ class BaseApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         AppFonts.setContext(this)
+        AppFonts.normal.load() // Pre-load the normal font
         registerViewlets()
     }
 

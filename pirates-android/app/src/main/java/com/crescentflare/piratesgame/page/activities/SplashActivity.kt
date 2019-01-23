@@ -7,6 +7,7 @@ import com.crescentflare.piratesgame.components.utility.ViewletUtil
 import com.crescentflare.piratesgame.infrastructure.events.AppEvent
 import com.crescentflare.piratesgame.infrastructure.events.AppEventObserver
 import com.crescentflare.piratesgame.page.modules.shared.AlertModule
+import com.crescentflare.piratesgame.page.modules.splash.SplashLoaderModule
 import com.crescentflare.piratesgame.page.storage.Page
 import com.crescentflare.piratesgame.page.storage.PageLoader
 import com.crescentflare.piratesgame.page.storage.PageLoaderContinuousCompletion
@@ -19,7 +20,7 @@ class SplashActivity : AppCompatActivity(), AppEventObserver, PageLoaderContinuo
     // Members
     // ---
 
-    //private val pageLoader by lazy { PageLoader(this, "http://192.168.1.169:1313/pages/splash.json") }
+//    private val pageLoader by lazy { PageLoader(this, "http://192.168.1.175:1313/pages/splash.json") }
     private val pageLoader by lazy { PageLoader(this, "splash.json") }
     private val containerView by lazy { FrameContainerView(this) }
     private var modules = mutableListOf<ControllerModule>()
@@ -36,7 +37,11 @@ class SplashActivity : AppCompatActivity(), AppEventObserver, PageLoaderContinuo
         setContentView(containerView)
 
         // Add module
-        modules.add(AlertModule().create(this))
+        modules.add(AlertModule())
+        modules.add(SplashLoaderModule())
+        for (module in modules) {
+            module.onCreate(this)
+        }
     }
 
 
@@ -90,6 +95,9 @@ class SplashActivity : AppCompatActivity(), AppEventObserver, PageLoaderContinuo
             Pair("items", listOf(page.layout))
         )
         ViewletUtil.assertInflateOn(containerView, inflateLayout, binder)
+        for (module in modules) {
+            module.onPageUpdated(page, binder)
+        }
     }
 
 }
