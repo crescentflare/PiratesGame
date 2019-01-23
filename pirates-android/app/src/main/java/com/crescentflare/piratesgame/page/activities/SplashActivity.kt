@@ -1,7 +1,12 @@
 package com.crescentflare.piratesgame.page.activities
 
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.WindowManager
+import com.crescentflare.piratesgame.components.actionbars.TransparentActionBar
+import com.crescentflare.piratesgame.components.basicviews.GradientView
 import com.crescentflare.piratesgame.components.containers.FrameContainerView
 import com.crescentflare.piratesgame.components.utility.ViewletUtil
 import com.crescentflare.piratesgame.infrastructure.events.AppEvent
@@ -14,7 +19,7 @@ import com.crescentflare.piratesgame.page.storage.PageLoaderContinuousCompletion
 import com.crescentflare.piratesgame.page.utility.ControllerModule
 import com.crescentflare.viewletcreator.binder.ViewletMapBinder
 
-class SplashActivity : AppCompatActivity(), AppEventObserver, PageLoaderContinuousCompletion {
+class SplashActivity : ComponentActivity(), AppEventObserver, PageLoaderContinuousCompletion {
 
     // ---
     // Members
@@ -31,12 +36,21 @@ class SplashActivity : AppCompatActivity(), AppEventObserver, PageLoaderContinuo
     // ---
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Initialize view
+        // Set action bar
         super.onCreate(savedInstanceState)
-        containerView.eventObserver = this
-        setContentView(containerView)
+        val actionBar = TransparentActionBar(this)
+        actionBarView = actionBar
 
-        // Add module
+        // Set container
+        containerView.eventObserver = this
+        view = containerView
+
+        // Set fullscreen flags
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+        }
+
+        // Add modules
         modules.add(AlertModule())
         modules.add(SplashLoaderModule())
         for (module in modules) {
