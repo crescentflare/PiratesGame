@@ -26,7 +26,7 @@ class SplashLoaderModule: ControllerModule {
     // Members
     // ---
 
-    private val eventType = "splashLoader"
+    override val eventType = "splashLoader"
     private var context: WeakReference<Context>? = null
     private var binder: ViewletMapBinder? = null
     private var loadingTasks = mutableListOf<LoadingTask>()

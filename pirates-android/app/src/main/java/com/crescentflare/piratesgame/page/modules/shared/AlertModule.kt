@@ -17,7 +17,7 @@ class AlertModule: ControllerModule {
     // Members
     // ---
 
-    private val eventType = "alert"
+    override val eventType = "alert"
     private var context: WeakReference<Context>? = null
     private var binder: ViewletMapBinder? = null
 

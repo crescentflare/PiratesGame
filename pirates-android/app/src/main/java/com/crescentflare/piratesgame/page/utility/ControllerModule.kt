@@ -10,6 +10,8 @@ import com.crescentflare.viewletcreator.binder.ViewletMapBinder
  */
 interface ControllerModule {
 
+    val eventType: String
+
     fun onCreate(context: Context)
     fun onPageUpdated(page: Page, binder: ViewletMapBinder)
     fun catchEvent(event: AppEvent, sender: Any?): Boolean
