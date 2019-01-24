@@ -48,10 +48,6 @@
             },
             {
               "viewlet": "spacer",
-              "takeHeight": "bottomBar"
-            },
-            {
-              "viewlet": "spacer",
               "takeHeight": "bottomSafeArea"
             }
           ]

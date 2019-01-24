@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import com.crescentflare.piratesgame.R
 import android.util.TypedValue
 import com.crescentflare.piratesgame.components.utility.ViewletUtil
+import com.crescentflare.piratesgame.page.views.ComponentActivityView
 import com.crescentflare.viewletcreator.utility.ViewletMapUtil
 import com.crescentflare.viewletcreator.binder.ViewletBinder
 import com.crescentflare.viewletcreator.ViewletCreator
@@ -22,14 +23,10 @@ import com.crescentflare.unilayout.views.UniView
 class SpacerViewlet : UniView {
 
     // ---
-    // Statics
+    // Static: viewlet integration
     // ---
 
     companion object {
-
-        // ---
-        // Static: viewlet integration
-        // ---
 
         val viewlet: ViewletCreator.Viewlet = object : ViewletCreator.Viewlet {
 
@@ -54,40 +51,6 @@ class SpacerViewlet : UniView {
                 return view is SpacerViewlet
             }
 
-        }
-
-
-        // ---
-        // Static: helpers
-        // ---
-
-        fun getActionBarHeight(context: Context): Int {
-            val typedValue = TypedValue()
-            return if (context.theme.resolveAttribute(R.attr.actionBarSize, typedValue, true)) TypedValue.complexToDimensionPixelSize(typedValue.data, Resources.getSystem().displayMetrics) else 0
-        }
-
-        fun getNavigationBarHeight(context: Context): Int {
-            // Hiding of navigation bar and determining its size is not easily supported on versions older than Marshmellow, return 0
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                return 0
-            }
-
-            // Check if a bar is present (with a workaround for emulators because it doesn't use the configuration correctly)
-            val id = context.resources.getIdentifier("config_showNavigationBar", "bool", "android")
-            var hasNavigationBar = false
-            if (id > 0) {
-                hasNavigationBar = context.resources.getBoolean(id)
-                if (Build.HARDWARE.toLowerCase().equals("ranchu") || Build.MODEL.toLowerCase().contains("android sdk built for")) { // Force true for common emulators
-                    hasNavigationBar = true
-                }
-            }
-
-            // Return height if available
-            if (hasNavigationBar) {
-                val resourceId = context.resources.getIdentifier("navigation_bar_height", "dimen", "android")
-                return if (resourceId > 0) context.resources.getDimensionPixelSize(resourceId) else 0
-            }
-            return 0
         }
 
     }
@@ -137,10 +100,10 @@ class SpacerViewlet : UniView {
         val heightSpec = MeasureSpec.getMode(heightMeasureSpec)
 
         // Apply sizes taken from standard controls
-        if (takeHeight == TakeSize.TopBar) {
-            height += getActionBarHeight(context)
-        } else if (takeHeight == TakeSize.BottomBar) {
-            height += getNavigationBarHeight(context)
+        if (takeHeight == TakeSize.TopSafeArea) {
+            height += getComponentView()?.safeInsets?.top ?: 0
+        } else if (takeHeight == TakeSize.BottomSafeArea) {
+            height += getComponentView()?.safeInsets?.bottom ?: 0
         }
 
         // Apply limits and return result
@@ -159,14 +122,33 @@ class SpacerViewlet : UniView {
 
 
     // ---
+    // Helper
+    // ---
+
+    private fun getComponentView(): ComponentActivityView? {
+        var checkParent: View? = this
+        for (i in 1..32) { // Maximum of 32 iterations
+            if (checkParent == null) {
+                return null
+            }
+            if (checkParent is ComponentActivityView) {
+                return checkParent
+            }
+            checkParent = checkParent.parent as? View
+        }
+        return null
+    }
+
+
+    // ---
     // Take size enum
     // ---
 
     enum class TakeSize(val value: String) {
 
         None(""),
-        TopBar("topBar"),
-        BottomBar("bottomBar");
+        TopSafeArea("topSafeArea"),
+        BottomSafeArea("bottomSafeArea");
 
         companion object {
 
