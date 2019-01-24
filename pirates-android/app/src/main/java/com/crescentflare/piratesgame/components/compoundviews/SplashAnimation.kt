@@ -2,6 +2,7 @@ package com.crescentflare.piratesgame.components.compoundviews
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.annotation.TargetApi
 import android.content.Context
 import android.content.res.Resources
@@ -19,6 +20,7 @@ import com.crescentflare.piratesgame.components.utility.ViewletUtil
 import com.crescentflare.piratesgame.infrastructure.events.AppEvent
 import com.crescentflare.piratesgame.infrastructure.events.AppEventObserver
 import com.crescentflare.piratesgame.infrastructure.uri.ImageURI
+import com.crescentflare.unilayout.helpers.UniLayoutParams
 import com.crescentflare.unilayout.views.UniImageView
 import com.crescentflare.viewletcreator.ViewletCreator
 import com.crescentflare.viewletcreator.ViewletLoader
@@ -179,7 +181,15 @@ class SplashAnimation : FrameContainerView {
                 val verticalDistance = Resources.getSystem().displayMetrics.heightPixels / 5f
                 val animation = AnimatorSet()
                 animation.playTogether(
-                    ObjectAnimator.ofFloat(logoView, View.TRANSLATION_Y, if (on) 0f else -verticalDistance, if (on) -verticalDistance else 0f),
+                    ValueAnimator.ofFloat(if (on) 0.5f else 0.15f, if (on) 0.15f else 0.5f).apply {
+                        addUpdateListener {
+                            val value = it.animatedValue
+                            if (value is Float) {
+                                (logoView?.layoutParams as? UniLayoutParams)?.verticalGravity = value
+                                logoView?.requestLayout()
+                            }
+                        }
+                    },
                     ObjectAnimator.ofFloat(backgroundGradientView, View.ALPHA, if (on) 0f else 1f, if (on) 1f else 0f)
                 )
                 animation.duration = 500

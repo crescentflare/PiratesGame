@@ -45,7 +45,8 @@
       "width": "stretchToParent",
       "maxWidth": "$splashMaxWidth",
       "padding": [ "$splashMargin", "$splashMargin", "$splashMargin", "$splashMargin" ],
-      "gravity": "center"
+      "horizontalGravity": "center",
+      "verticalGravity": 0.5
     }
   ]
 }

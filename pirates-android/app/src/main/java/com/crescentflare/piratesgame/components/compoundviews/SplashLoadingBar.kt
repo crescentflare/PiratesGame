@@ -143,7 +143,7 @@ class SplashLoadingBar : FrameContainerView {
 
     fun setProgress(progress: Float, animated: Boolean) {
         // Safeguard against non-changing operations
-        if (progress == currentProgress) {
+        if (progress == currentProgress && animation == null) {
             return
         }
 

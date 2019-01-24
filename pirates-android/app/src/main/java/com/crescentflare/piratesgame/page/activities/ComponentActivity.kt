@@ -2,6 +2,7 @@ package com.crescentflare.piratesgame.page.activities
 
 import android.annotation.TargetApi
 import android.content.Context
+import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.Rect
 import android.os.Build
@@ -70,6 +71,15 @@ abstract class ComponentActivity : AppCompatActivity() {
     // ---
     // Lifecycle
     // ---
+
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val displayMetrics = Resources.getSystem().displayMetrics
+            val transparentBar = displayMetrics.widthPixels < displayMetrics.heightPixels
+            window.setFlags(if (transparentBar) WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS else 0, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+        }
+    }
 
     override fun onResume() {
         super.onResume()

@@ -32,6 +32,7 @@ class SplashLoaderModule: ControllerModule {
     private var loadingTasks = mutableListOf<LoadingTask>()
     private var busy = false
     private var preparing = false
+    private var done = false
 
 
     // ---
@@ -57,6 +58,9 @@ class SplashLoaderModule: ControllerModule {
         this.binder = binder
         if (busy) {
             showLoading(false)
+            if (done) {
+                (binder.findByReference("loadingBar") as? SplashLoadingBar)?.progress = 1f
+            }
         }
     }
 
@@ -94,6 +98,7 @@ class SplashLoaderModule: ControllerModule {
                     }
                     val eventObserver = context?.get() as? AppEventObserver
                     eventObserver?.observedEvent(AppEvent("alert://simple?title=Loading+complete&text=TODO:+implement+next+screen"), null)
+                    done = true
                 }
             }
         }
