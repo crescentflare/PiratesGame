@@ -5,6 +5,7 @@
     <dimen name="titleText">20sp</dimen>
     <dimen name="subTitleText">18sp</dimen>
 
-    <!-- Screen specific -->
-    <dimen name="splashLogoMargin">16dp</dimen>
+    <!-- Screen specific: splash screen -->
+    <dimen name="splashMargin">16dp</dimen>
+    <dimen name="splashMaxWidth">400dp</dimen>
 </resources>

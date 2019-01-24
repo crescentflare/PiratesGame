@@ -176,7 +176,7 @@ class SplashAnimation : FrameContainerView {
                 ImageViewlet.applyImageURI(backgroundImageView, backgroundImage)
             }, {
                 // Animate
-                val verticalDistance = Resources.getSystem().displayMetrics.heightPixels / 6f
+                val verticalDistance = Resources.getSystem().displayMetrics.heightPixels / 5f
                 val animation = AnimatorSet()
                 animation.playTogether(
                     ObjectAnimator.ofFloat(logoView, View.TRANSLATION_Y, if (on) 0f else -verticalDistance, if (on) -verticalDistance else 0f),

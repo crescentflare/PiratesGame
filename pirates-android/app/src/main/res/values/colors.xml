@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Default colors -->
-    <color name="colorPrimary">#07575b</color>
-    <color name="colorPrimaryDark">#003b46</color>
-    <color name="colorAccent">#66a5ad</color>
+    <!-- Color palette -->
+    <color name="primary">#07575b</color>
+    <color name="secondary">#ff7114</color>
 
     <!-- Text -->
     <color name="text">#000000</color>
     <color name="textInverted">#ffffff</color>
 
-    <!-- Generic colors -->
-    <color name="black">#000000</color>
+    <!-- Android app styling -->
+    <color name="colorPrimary">@color/primary</color>
+    <color name="colorPrimaryDark">#003b46</color>
+    <color name="colorAccent">@color/secondary</color>
+    <color name="fullscreenBackground">#000000</color>
 </resources>

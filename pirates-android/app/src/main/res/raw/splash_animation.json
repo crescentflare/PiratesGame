@@ -43,7 +43,8 @@
       "refId": "logo",
       "viewlet": "publisherLogo",
       "width": "stretchToParent",
-      "padding": [ "$splashLogoMargin", "$splashLogoMargin", "$splashLogoMargin", "$splashLogoMargin" ],
+      "maxWidth": "$splashMaxWidth",
+      "padding": [ "$splashMargin", "$splashMargin", "$splashMargin", "$splashMargin" ],
       "gravity": "center"
     }
   ]
