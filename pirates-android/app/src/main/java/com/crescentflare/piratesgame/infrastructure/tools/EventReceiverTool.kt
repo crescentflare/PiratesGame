@@ -106,7 +106,7 @@ object EventReceiverTool {
     }
 
     private fun callServer(completion: (eventList: List<AppEvent>?, exception: Throwable?) -> Unit) {
-        val deviceName = Build.DEVICE
+        val deviceName = Build.BRAND + " " + Build.MODEL
         val client = OkHttpClient()
         busy = true
         client.newCall(Request.Builder().url("$serverAddress?name=$deviceName&token=$token&waitUpdate=$lastUpdate").build()).enqueue(object : Callback {
