@@ -5,7 +5,7 @@
 	"author": "Johan Bos <johan@crescentflare.com>",
 	"main": "server.js",
 	"dependencies": {
-		"smart-mock-server": "1.0.4"
+		"smart-mock-server": "1.0.5"
 	},
 	"private": true
 }
