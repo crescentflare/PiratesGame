@@ -1,5 +1,5 @@
 {
-  "name": "Server for json pages",
+  "name": "Development server (json pages and command console)",
   "description": "Main index page",
   "method": "GET",
   "responseCode": 200,

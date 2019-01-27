@@ -1,0 +1,8 @@
+{
+  "category": "Development",
+  "name": "Command console",
+  "description": "Send events (in URI format) to connected clients",
+  "method": "GET",
+  "responseCode": 200,
+  "generates": "commandConsole"
+}
