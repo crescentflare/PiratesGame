@@ -9,6 +9,7 @@ import com.crescentflare.piratesgame.components.containers.FrameContainerView
 import com.crescentflare.piratesgame.components.utility.ViewletUtil
 import com.crescentflare.piratesgame.infrastructure.events.AppEvent
 import com.crescentflare.piratesgame.infrastructure.events.AppEventObserver
+import com.crescentflare.piratesgame.infrastructure.tools.EventReceiverTool
 import com.crescentflare.piratesgame.page.modules.shared.AlertModule
 import com.crescentflare.piratesgame.page.modules.splash.SplashLoaderModule
 import com.crescentflare.piratesgame.page.storage.Page
@@ -24,7 +25,7 @@ class SplashActivity : ComponentActivity(), AppEventObserver, PageLoaderContinuo
     // Members
     // ---
 
-//    private val pageLoader by lazy { PageLoader(this, "http://192.168.1.175:1313/pages/splash.json") }
+//    private val pageLoader by lazy { PageLoader(this, "http://192.168.1.12:1313/pages/splash.json") }
     private val pageLoader by lazy { PageLoader(this, "splash.json") }
     private val containerView by lazy { FrameContainerView(this) }
     private var modules = mutableListOf<ControllerModule>()
@@ -61,11 +62,13 @@ class SplashActivity : ComponentActivity(), AppEventObserver, PageLoaderContinuo
 
     override fun onResume() {
         super.onResume()
+        EventReceiverTool.addObserver(this)
         startContinuousPageLoad()
     }
 
     override fun onPause() {
         super.onPause()
+        EventReceiverTool.removeObserver(this)
         stopContinuousPageLoad()
     }
 
