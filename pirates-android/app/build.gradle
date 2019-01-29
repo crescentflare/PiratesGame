@@ -33,7 +33,10 @@ dependencies {
     implementation 'com.crescentflare.simplemarkdownparser:SimpleMarkdownParserLib:0.6.0'
 
     // Other libraries
-    implementation("com.squareup.okhttp3:okhttp:3.12.1")
+    implementation "com.squareup.okhttp3:okhttp:3.12.1"
+    implementation ('com.squareup.picasso:picasso:2.71828') {
+        transitive = false
+    }
     implementation 'com.google.code.gson:gson:2.8.5'
 
     // Test dependencies

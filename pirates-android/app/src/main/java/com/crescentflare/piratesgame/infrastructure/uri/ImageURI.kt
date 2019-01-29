@@ -2,6 +2,7 @@ package com.crescentflare.piratesgame.infrastructure.uri
 
 import android.content.Context
 import com.crescentflare.piratesgame.infrastructure.coreextensions.urlDecode
+import com.crescentflare.piratesgame.infrastructure.coreextensions.urlEncode
 import com.crescentflare.viewletcreator.utility.ViewletMapUtil
 
 /**
@@ -59,6 +60,20 @@ class ImageURI(string: String?) {
     // Extract values
     // ---
 
+    val fullURI: String
+        get() {
+            var uri = "$scheme://$fullPath"
+            if (parameters.size > 0) {
+                var firstParam = true
+                for ((key, value) in parameters) {
+                    uri += if (firstParam) "?" else "&"
+                    uri += key.urlEncode() + "=" + value.urlEncode()
+                    firstParam = false
+                }
+            }
+            return uri
+        }
+
     val fullPath: String
         get() = pathComponents.joinToString("/")
 
@@ -70,6 +85,9 @@ class ImageURI(string: String?) {
 
     val ninePatch: Int
         get() = ViewletMapUtil.optionalDimension(parameters.toMap(), "ninePatch", -1)
+
+    val onlinePath: String?
+        get() = if (scheme == "http" || scheme == "https") fullURI else null
 
 
     // ---

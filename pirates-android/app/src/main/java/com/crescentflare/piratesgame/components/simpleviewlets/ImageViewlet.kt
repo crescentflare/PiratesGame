@@ -16,6 +16,7 @@ import com.crescentflare.unilayout.views.UniImageView
 import com.crescentflare.viewletcreator.ViewletCreator
 import com.crescentflare.viewletcreator.binder.ViewletBinder
 import com.crescentflare.viewletcreator.utility.ViewletMapUtil
+import com.squareup.picasso.Picasso
 
 
 /**
@@ -63,21 +64,25 @@ object ImageViewlet {
     fun applyImageURI(imageView: UniImageView?, uri: ImageURI?): Boolean {
         if (imageView != null) {
             if (uri != null) {
-                val imageResource = uri.getInternalImageResource(imageView.context)
-                if (imageResource > 0) {
-                    if (uri.threePatch > 0) {
-                        imageView.setImageDrawable(prepareThreePatch(imageView.context, imageResource, uri.threePatch))
-                    } else if (uri.ninePatch > 0) {
-                        imageView.setImageDrawable(prepareNinePatch(imageView.context, imageResource, uri.ninePatch))
-                    } else {
-                        imageView.setImageResource(imageResource)
+                uri.onlinePath?.let {
+                    Picasso.get().load(it).into(imageView)
+                } ?: run {
+                    val imageResource = uri.getInternalImageResource(imageView.context)
+                    if (imageResource > 0) {
+                        if (uri.threePatch > 0) {
+                            imageView.setImageDrawable(prepareThreePatch(imageView.context, imageResource, uri.threePatch))
+                        } else if (uri.ninePatch > 0) {
+                            imageView.setImageDrawable(prepareNinePatch(imageView.context, imageResource, uri.ninePatch))
+                        } else {
+                            imageView.setImageResource(imageResource)
+                        }
+                        if (uri.tintColor != 0) {
+                            imageView.colorFilter = PorterDuffColorFilter(uri.tintColor, PorterDuff.Mode.SRC_IN)
+                        } else {
+                            imageView.colorFilter = null
+                        }
+                        return true
                     }
-                    if (uri.tintColor != 0) {
-                        imageView.colorFilter = PorterDuffColorFilter(uri.tintColor, PorterDuff.Mode.SRC_IN)
-                    } else {
-                        imageView.colorFilter = null
-                    }
-                    return true
                 }
             }
             imageView.colorFilter = null
