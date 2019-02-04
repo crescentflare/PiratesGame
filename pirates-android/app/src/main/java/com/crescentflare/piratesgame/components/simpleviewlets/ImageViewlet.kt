@@ -37,7 +37,7 @@ object ImageViewlet {
         override fun update(view: View, attributes: Map<String, Any>, parent: ViewGroup?, binder: ViewletBinder?): Boolean {
             if (view is UniImageView) {
                 // Set image
-                applyImageSource(view, ImageSource(ViewletMapUtil.optionalString(attributes, "source", null)))
+                applyImageSource(view, ImageSource.fromObject(attributes["source"]))
 
                 // Scale factor
                 val scaleType = ScaleType.fromString(ViewletMapUtil.optionalString(attributes, "scaleType", ""))

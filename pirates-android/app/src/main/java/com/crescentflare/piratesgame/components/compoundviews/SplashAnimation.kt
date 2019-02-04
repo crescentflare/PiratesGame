@@ -61,7 +61,7 @@ class SplashAnimation : FrameContainerView {
                 if (view is SplashAnimation) {
                     // Apply background
                     view.gradientColor = ViewletMapUtil.optionalColor(attributes, "gradientColor", 0)
-                    view.backgroundImage = ImageSource(ViewletMapUtil.optionalString(attributes, "backgroundImage", null))
+                    view.backgroundImage = ImageSource.fromObject(attributes["backgroundImage"])
 
                     // Apply state
                     view.autoAnimation = ViewletMapUtil.optionalBoolean(attributes, "autoAnimation", false)

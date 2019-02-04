@@ -92,7 +92,7 @@ class AppEvent {
     }
 
     private fun initParse(map: Map<String, Any>) {
-        rawType = map["type"] as? String ?: "unknown"
+        rawType = (map["path"] ?: map["name"]) as? String ?: "unknown"
         standardType = AppEventType.fromString(rawType)
         val path = map["path"]
         if (path is String) {
