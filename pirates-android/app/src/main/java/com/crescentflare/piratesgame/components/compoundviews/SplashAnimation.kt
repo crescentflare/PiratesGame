@@ -19,7 +19,7 @@ import com.crescentflare.piratesgame.components.simpleviewlets.ImageViewlet
 import com.crescentflare.piratesgame.components.utility.ViewletUtil
 import com.crescentflare.piratesgame.infrastructure.events.AppEvent
 import com.crescentflare.piratesgame.infrastructure.events.AppEventObserver
-import com.crescentflare.piratesgame.infrastructure.uri.ImageURI
+import com.crescentflare.piratesgame.components.utility.ImageSource
 import com.crescentflare.unilayout.helpers.UniLayoutParams
 import com.crescentflare.unilayout.views.UniImageView
 import com.crescentflare.viewletcreator.ViewletCreator
@@ -61,7 +61,7 @@ class SplashAnimation : FrameContainerView {
                 if (view is SplashAnimation) {
                     // Apply background
                     view.gradientColor = ViewletMapUtil.optionalColor(attributes, "gradientColor", 0)
-                    view.backgroundImage = ImageURI(ViewletMapUtil.optionalString(attributes, "backgroundImage", null))
+                    view.backgroundImage = ImageSource(ViewletMapUtil.optionalString(attributes, "backgroundImage", null))
 
                     // Apply state
                     view.autoAnimation = ViewletMapUtil.optionalBoolean(attributes, "autoAnimation", false)
@@ -150,11 +150,11 @@ class SplashAnimation : FrameContainerView {
             backgroundGradientView?.endColor = gradientColor
         }
 
-    var backgroundImage: ImageURI? = null
+    var backgroundImage: ImageSource? = null
         set(backgroundImage) {
             field = backgroundImage
             if (backgroundImageView?.drawable != null || currentOn) {
-                ImageViewlet.applyImageURI(backgroundImageView, backgroundImage)
+                ImageViewlet.applyImageSource(backgroundImageView, backgroundImage)
             }
         }
 
@@ -175,7 +175,7 @@ class SplashAnimation : FrameContainerView {
         // Change state with optional animation
         if (animated) {
             logoView?.setOn(on, true, {
-                ImageViewlet.applyImageURI(backgroundImageView, backgroundImage)
+                ImageViewlet.applyImageSource(backgroundImageView, backgroundImage)
             }, {
                 // Animate
                 val verticalDistance = Resources.getSystem().displayMetrics.heightPixels / 5f
@@ -209,7 +209,7 @@ class SplashAnimation : FrameContainerView {
             currentOn = on
             logoView?.setOn(on, false)
             if (on) {
-                ImageViewlet.applyImageURI(backgroundImageView, backgroundImage)
+                ImageViewlet.applyImageSource(backgroundImageView, backgroundImage)
             }
             backgroundGradientView?.alpha = if (on) 1.0f else 0.0f
             if (setOnEvent != null && on) {

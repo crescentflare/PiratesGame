@@ -11,7 +11,7 @@ import android.widget.ImageView
 import com.crescentflare.piratesgame.components.utility.CustomNinePatchDrawable
 import com.crescentflare.piratesgame.components.utility.CustomThreePatchDrawable
 import com.crescentflare.piratesgame.components.utility.ViewletUtil
-import com.crescentflare.piratesgame.infrastructure.uri.ImageURI
+import com.crescentflare.piratesgame.components.utility.ImageSource
 import com.crescentflare.unilayout.views.UniImageView
 import com.crescentflare.viewletcreator.ViewletCreator
 import com.crescentflare.viewletcreator.binder.ViewletBinder
@@ -37,7 +37,7 @@ object ImageViewlet {
         override fun update(view: View, attributes: Map<String, Any>, parent: ViewGroup?, binder: ViewletBinder?): Boolean {
             if (view is UniImageView) {
                 // Set image
-                applyImageURI(view, ImageURI(ViewletMapUtil.optionalString(attributes, "uri", null)))
+                applyImageSource(view, ImageSource(ViewletMapUtil.optionalString(attributes, "source", null)))
 
                 // Scale factor
                 val scaleType = ScaleType.fromString(ViewletMapUtil.optionalString(attributes, "scaleType", ""))
@@ -61,23 +61,23 @@ object ImageViewlet {
     // Helpers
     // ---
 
-    fun applyImageURI(imageView: UniImageView?, uri: ImageURI?): Boolean {
+    fun applyImageSource(imageView: UniImageView?, source: ImageSource?): Boolean {
         if (imageView != null) {
-            if (uri != null) {
-                uri.onlinePath?.let {
+            if (source != null) {
+                source.onlinePath?.let {
                     Picasso.get().load(it).into(imageView)
                 } ?: run {
-                    val imageResource = uri.getInternalImageResource(imageView.context)
+                    val imageResource = source.getInternalImageResource(imageView.context)
                     if (imageResource > 0) {
-                        if (uri.threePatch > 0) {
-                            imageView.setImageDrawable(prepareThreePatch(imageView.context, imageResource, uri.threePatch))
-                        } else if (uri.ninePatch > 0) {
-                            imageView.setImageDrawable(prepareNinePatch(imageView.context, imageResource, uri.ninePatch))
+                        if (source.threePatch > 0) {
+                            imageView.setImageDrawable(prepareThreePatch(imageView.context, imageResource, source.threePatch))
+                        } else if (source.ninePatch > 0) {
+                            imageView.setImageDrawable(prepareNinePatch(imageView.context, imageResource, source.ninePatch))
                         } else {
                             imageView.setImageResource(imageResource)
                         }
-                        if (uri.tintColor != 0) {
-                            imageView.colorFilter = PorterDuffColorFilter(uri.tintColor, PorterDuff.Mode.SRC_IN)
+                        if (source.tintColor != 0) {
+                            imageView.colorFilter = PorterDuffColorFilter(source.tintColor, PorterDuff.Mode.SRC_IN)
                         } else {
                             imageView.colorFilter = null
                         }

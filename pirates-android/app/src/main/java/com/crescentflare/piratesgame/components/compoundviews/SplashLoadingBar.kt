@@ -1,27 +1,17 @@
 package com.crescentflare.piratesgame.components.compoundviews
 
 import android.animation.Animator
-import android.animation.AnimatorSet
-import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.annotation.TargetApi
 import android.content.Context
-import android.content.res.Resources
 import android.os.Build
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import com.crescentflare.piratesgame.R
-import com.crescentflare.piratesgame.components.basicviews.GradientView
-import com.crescentflare.piratesgame.components.complexviews.PublisherLogo
 import com.crescentflare.piratesgame.components.containers.FrameContainerView
-import com.crescentflare.piratesgame.components.simpleviewlets.ImageViewlet
 import com.crescentflare.piratesgame.components.utility.ViewletUtil
-import com.crescentflare.piratesgame.infrastructure.events.AppEvent
-import com.crescentflare.piratesgame.infrastructure.events.AppEventObserver
-import com.crescentflare.piratesgame.infrastructure.uri.ImageURI
 import com.crescentflare.unilayout.helpers.UniLayoutParams
 import com.crescentflare.unilayout.views.UniImageView
 import com.crescentflare.viewletcreator.ViewletCreator

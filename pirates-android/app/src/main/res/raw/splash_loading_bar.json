@@ -15,13 +15,13 @@
       "height": 8,
       "margin": [ 8, 0, 8, 0 ],
       "verticalGravity": "center",
-      "uri": "app://shape_splash_loading_bar?threePatch=16",
+      "source": "app://shape_splash_loading_bar?threePatch=16",
       "scaleType": "stretch"
     },
     {
       "viewlet": "image",
       "width": "stretchToParent",
-      "uri": "app://shape_splash_loading_bar_overdraw?threePatch=16",
+      "source": "app://shape_splash_loading_bar_overdraw?threePatch=16",
       "scaleType": "stretch"
     }
   ]
