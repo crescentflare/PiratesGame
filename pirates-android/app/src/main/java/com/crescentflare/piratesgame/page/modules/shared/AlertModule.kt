@@ -2,6 +2,7 @@ package com.crescentflare.piratesgame.page.modules.shared
 
 import android.app.AlertDialog
 import android.content.Context
+import android.support.v7.app.AppCompatActivity
 import com.crescentflare.piratesgame.infrastructure.events.AppEvent
 import com.crescentflare.piratesgame.page.storage.Page
 import com.crescentflare.piratesgame.page.utility.ControllerModule
@@ -47,7 +48,7 @@ class AlertModule: ControllerModule {
     override fun catchEvent(event: AppEvent, sender: Any?): Boolean {
         if (event.rawType == eventType) {
             val context = this.context?.get()
-            if (context != null) {
+            if (context != null && (context as? AppCompatActivity)?.isFinishing == false) {
                 val builder = AlertDialog.Builder(context)
                     .setTitle(event.parameters["title"] ?: "Alert")
                     .setMessage(event.parameters["text"] ?: "No text specified")
