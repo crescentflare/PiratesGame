@@ -3,6 +3,8 @@ package com.crescentflare.piratesgame.components.styling
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Typeface
+import android.support.v4.content.res.ResourcesCompat
+import com.crescentflare.piratesgame.R
 
 import java.util.HashMap
 
@@ -17,18 +19,18 @@ object AppFonts {
     // Fonts
     // ---
 
-    val normal = Font(null, Typeface.NORMAL)
-    val italics = Font(null, Typeface.ITALIC)
-    val bold = Font(null, Typeface.BOLD)
-    val boldItalics = Font(null, Typeface.BOLD_ITALIC)
-    val titleBold = Font("Primitive.ttf")
+    val normal = Font(0, Typeface.NORMAL)
+    val italics = Font(0, Typeface.ITALIC)
+    val bold = Font(0, Typeface.BOLD)
+    val boldItalics = Font(0, Typeface.BOLD_ITALIC)
+    val titleBold = Font(R.font.primitive)
 
 
     // ---
     // Font lookup
     // ---
 
-    val fontLookup = mapOf<String, Font>(
+    val fontLookup = mapOf(
         Pair("normal", normal),
         Pair("italics", italics),
         Pair("bold", bold),
@@ -55,7 +57,7 @@ object AppFonts {
     // Font helper class
     // ---
 
-    class Font constructor(private val filename: String?, private val style: Int = Typeface.NORMAL) {
+    class Font constructor(private val resource: Int, private val style: Int = Typeface.NORMAL) {
 
         val typeface: Typeface
             get() {
@@ -66,8 +68,9 @@ object AppFonts {
                 }
 
                 // Load typeface when needed
-                if (filename != null && context != null) {
-                    val typeface = Typeface.createFromAsset(context?.assets, "fonts/" + filename)
+                val loadContext = context
+                if (resource != 0 && loadContext != null) {
+                    val typeface = ResourcesCompat.getFont(loadContext, resource)
                     if (typeface != null) {
                         loadedTypeface = typeface
                         return typeface
@@ -81,10 +84,6 @@ object AppFonts {
             }
 
         private var loadedTypeface: Typeface? = null
-
-        fun load() {
-            val dummy = typeface
-        }
 
     }
 
@@ -101,17 +100,6 @@ object AppFonts {
             }
         }
         return normal.typeface
-    }
-
-
-    // ---
-    // Loading
-    // ---
-
-    fun loadAll() {
-        for ((name, font) in fontLookup) {
-            font.load()
-        }
     }
 
 }

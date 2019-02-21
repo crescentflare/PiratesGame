@@ -45,7 +45,7 @@ class SplashLoaderModule: ControllerModule {
 
         // Add loading tasks
         loadingTasks.add(LoadingTask {
-            AppFonts.loadAll()
+            // Template for a loading task
         })
     }
 
