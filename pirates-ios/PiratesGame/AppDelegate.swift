@@ -1,46 +1,108 @@
 //
 //  AppDelegate.swift
-//  Pirates Game
-//
-//  Created by Johan Bos on 08/03/2019.
-//  Copyright © 2019 crescentflare. All rights reserved.
+//  Base application: catches global application events
 //
 
 import UIKit
+import ViewletCreator
+import DynamicAppConfig
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    // --
+    // MARK: Window member needed for the global application
+    // --
+    
     var window: UIWindow?
 
 
+    // --
+    // MARK: Lifecycle
+    // --
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        // Enable app config utility for non-release builds
+        #if RELEASE
+        #else
+            AppConfigStorage.shared.activate(manager: CustomAppConfigManager.sharedManager)
+            AppConfigStorage.shared.addDataObserver(self, selector: #selector(updateConfigurationValues), name: AppConfigStorage.configurationChanged)
+            updateConfigurationValues()
+        #endif
+
+        // Component registration
+        registerViewlets()
+        
+        // Launch view controller
+        window = CustomWindow(frame: UIScreen.main.bounds)
+        window?.backgroundColor = UIColor.black
+        window?.rootViewController = SplashViewController()
+        window?.makeKeyAndVisible()
         return true
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
-        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+    
+
+    // --
+    // MARK: App config integration
+    // --
+
+    @objc func updateConfigurationValues() {
+        // No implementation needed (for now)
     }
 
 
+    // --
+    // MARK: Viewlet registration
+    // --
+
+    func registerViewlets() {
+        // Lookups
+        ViewletConvUtil.colorLookup = AppColors.AppColorLookup()
+        ViewletConvUtil.dimensionLookup = AppDimensions.AppDimensionLookup()
+        
+        // Basic views
+        ViewletCreator.register(name: "gradient", viewlet: GradientView.viewlet())
+        
+        // Containers
+        ViewletCreator.register(name: "scrollContainer", viewlet: ScrollContainerView.viewlet())
+        ViewletCreator.register(name: "frameContainer", viewlet: FrameContainerView.viewlet())
+        ViewletCreator.register(name: "linearContainer", viewlet: LinearContainerView.viewlet())
+        
+        // Navigation bars
+        ViewletCreator.register(name: "transparentNavigationBar", viewlet: TransparentNavigationBar.viewlet())
+
+        // Simple viewlets
+        ViewletCreator.register(name: "image", viewlet: ImageViewlet.viewlet())
+        ViewletCreator.register(name: "spacer", viewlet: SpacerViewlet.viewlet())
+        ViewletCreator.register(name: "spinner", viewlet: SpinnerViewlet.viewlet())
+        ViewletCreator.register(name: "text", viewlet: TextViewlet.viewlet())
+        ViewletCreator.register(name: "view", viewlet: ViewletUtil.basicViewViewlet())
+    }
+
 }
 
+class CustomWindow: UIWindow {
+    
+    override func sendEvent(_ event: UIEvent) {
+        super.sendEvent(event)
+        if AppConfigStorage.shared.isActivated() && event.subtype == .motionShake {
+            AppConfigManageViewController.launch()
+        }
+    }
+    
+}
