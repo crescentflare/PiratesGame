@@ -43,6 +43,7 @@
 		042DBBFC22328EB4008831FE /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042DBBFB22328EB4008831FE /* SplashViewController.swift */; };
 		042DBC0122328EB6008831FE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 042DBC0022328EB6008831FE /* Assets.xcassets */; };
 		042DBC0422328EB6008831FE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 042DBC0222328EB6008831FE /* LaunchScreen.storyboard */; };
+		049B63442232A8F700AFB13B /* Pages in Resources */ = {isa = PBXBuildFile; fileRef = 049B63432232A8F700AFB13B /* Pages */; };
 		6F94BD396123AAB128D3E348 /* Pods_PiratesGame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4452BEDF3C337F85343B6AC4 /* Pods_PiratesGame.framework */; };
 /* End PBXBuildFile section */
 
@@ -86,6 +87,7 @@
 		042DBC0022328EB6008831FE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		042DBC0322328EB6008831FE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		042DBC0522328EB6008831FE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		049B63432232A8F700AFB13B /* Pages */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Pages; sourceTree = "<group>"; };
 		4452BEDF3C337F85343B6AC4 /* Pods_PiratesGame.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PiratesGame.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5EA8F4D7E84768DD64D8AEFD /* Pods-PiratesGame.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PiratesGame.release.xcconfig"; path = "Pods/Target Support Files/Pods-PiratesGame/Pods-PiratesGame.release.xcconfig"; sourceTree = "<group>"; };
 		8C90D63019B06504E85C7A4E /* Pods-PiratesGame.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PiratesGame.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PiratesGame/Pods-PiratesGame.debug.xcconfig"; sourceTree = "<group>"; };
@@ -289,6 +291,7 @@
 		042DBBED22328EB4008831FE = {
 			isa = PBXGroup;
 			children = (
+				049B63432232A8F700AFB13B /* Pages */,
 				042DBBF822328EB4008831FE /* PiratesGame */,
 				042DBBF722328EB4008831FE /* Products */,
 				DFAEC001F9F3E032DCCAD098 /* Pods */,
@@ -395,6 +398,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				049B63442232A8F700AFB13B /* Pages in Resources */,
 				042DBC0422328EB6008831FE /* LaunchScreen.storyboard in Resources */,
 				042DBC0122328EB6008831FE /* Assets.xcassets in Resources */,
 			);
