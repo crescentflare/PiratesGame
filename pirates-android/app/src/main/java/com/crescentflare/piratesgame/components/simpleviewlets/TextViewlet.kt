@@ -23,9 +23,9 @@ import com.crescentflare.viewletcreator.utility.ViewletMapUtil
  */
 object TextViewlet {
 
-    // ---
+    // --
     // Viewlet instance
-    // ---
+    // --
 
     val viewlet: ViewletCreator.Viewlet = object : ViewletCreator.Viewlet {
 
@@ -80,9 +80,9 @@ object TextViewlet {
     }
 
 
-    // ---
+    // --
     // Default view creation
-    // ---
+    // --
 
     fun newTextView(context: Context): UniTextView {
         val textView = UniTextView(context)
@@ -93,9 +93,9 @@ object TextViewlet {
     }
 
 
-    // ---
+    // --
     // Text alignment enum
-    // ---
+    // --
 
     enum class TextAlignment(val value: String) {
 

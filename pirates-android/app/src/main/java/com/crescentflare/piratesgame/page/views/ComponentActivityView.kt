@@ -10,16 +10,16 @@ import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import com.crescentflare.piratesgame.R
-import com.crescentflare.piratesgame.page.utility.NavigationBarComponent
+import com.crescentflare.piratesgame.components.utility.NavigationBarComponent
 
 /**
  * Page view: a view belonging to the component activity, provides layout for a content view and navigation bar components with optional translucency
  */
 class ComponentActivityView: ViewGroup {
 
-    // ---
+    // --
     // Members
-    // ---
+    // --
 
     var contentView: View? = null
         set(contentView) {
@@ -55,9 +55,9 @@ class ComponentActivityView: ViewGroup {
     private var solidBottomBar = false
 
 
-    // ---
+    // --
     // Initialization
-    // ---
+    // --
 
     @JvmOverloads
     constructor(
@@ -79,9 +79,9 @@ class ComponentActivityView: ViewGroup {
     }
 
 
-    // ---
+    // --
     // Handle insets
-    // ---
+    // --
 
     val safeInsets: Rect
         get() = Rect(0, if (!solidTopBar) transparentStatusBarHeight + actionBarHeight else 0, 0, if (!solidBottomBar) transparentNavigationBarHeight else 0)
@@ -93,9 +93,9 @@ class ComponentActivityView: ViewGroup {
         get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Resources.getSystem().displayMetrics.widthPixels < Resources.getSystem().displayMetrics.heightPixels) rootWindowInsets.stableInsetBottom else 0
 
 
-    // ---
+    // --
     // Custom layout
-    // ---
+    // --
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val width = MeasureSpec.getSize(widthMeasureSpec)
@@ -127,9 +127,9 @@ class ComponentActivityView: ViewGroup {
     }
 
 
-    // ---
+    // --
     // Helper
-    // ---
+    // --
 
     private fun getActionBarHeight(): Int {
         val typedValue = TypedValue()

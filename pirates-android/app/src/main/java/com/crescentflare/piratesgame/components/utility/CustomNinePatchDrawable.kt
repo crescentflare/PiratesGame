@@ -8,18 +8,18 @@ import android.graphics.drawable.Drawable
  */
 class CustomNinePatchDrawable(private val bitmap: Bitmap, private val horizontalInset: Int, private val verticalInset: Int): Drawable() {
 
-    // ---
+    // --
     // Members
-    // ---
+    // --
 
     private val paint = Paint(Paint.FILTER_BITMAP_FLAG or Paint.DITHER_FLAG or Paint.ANTI_ALIAS_FLAG)
     private val bitmapWidth: Int
     private val bitmapHeight: Int
 
 
-    // ---
+    // --
     // Initialization
-    // ---
+    // --
 
     init {
         bitmapWidth = bitmap.width
@@ -27,9 +27,9 @@ class CustomNinePatchDrawable(private val bitmap: Bitmap, private val horizontal
     }
 
 
-    // ---
+    // --
     // Properties
-    // ---
+    // --
 
     override fun setAlpha(alpha: Int) {
         paint.alpha = alpha
@@ -54,9 +54,9 @@ class CustomNinePatchDrawable(private val bitmap: Bitmap, private val horizontal
     }
 
 
-    // ---
+    // --
     // Drawing
-    // ---
+    // --
 
     override fun draw(canvas: Canvas) {
         // Do nothing for invalid insets

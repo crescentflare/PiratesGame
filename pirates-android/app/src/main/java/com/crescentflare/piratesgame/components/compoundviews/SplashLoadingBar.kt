@@ -26,29 +26,29 @@ import com.crescentflare.viewletcreator.utility.ViewletMapUtil
  */
 class SplashLoadingBar : FrameContainerView {
 
-    // ---
+    // --
     // Statics
-    // ---
+    // --
 
     companion object {
 
-        // ---
+        // --
         // Static: reference to layout resource
-        // ---
+        // --
 
         const val layoutResource = R.raw.splash_loading_bar
 
 
-        // ---
+        // --
         // Static: Animation duration
-        // ---
+        // --
 
         const val animationDuration: Long = 250
 
 
-        // ---
+        // --
         // Static: viewlet integration
-        // ---
+        // --
 
         val viewlet: ViewletCreator.Viewlet = object : ViewletCreator.Viewlet {
 
@@ -78,25 +78,25 @@ class SplashLoadingBar : FrameContainerView {
     }
 
 
-    // ---
+    // --
     // Bound views
-    // ---
+    // --
 
     @ViewletRef("bar")
     private var barView: UniImageView? = null
 
 
-    // ---
+    // --
     // Members
-    // ---
+    // --
 
     private var currentProgress = 0f
     private var animation: ValueAnimator? = null
 
 
-    // ---
+    // --
     // Initialization
-    // ---
+    // --
 
     @JvmOverloads
     constructor(
@@ -119,9 +119,9 @@ class SplashLoadingBar : FrameContainerView {
     }
 
 
-    // ---
+    // --
     // Configurable values
-    // ---
+    // --
 
     var autoAnimation = false
 
@@ -184,9 +184,9 @@ class SplashLoadingBar : FrameContainerView {
         }
     }
 
-    // ---
+    // --
     // Custom layout
-    // ---
+    // --
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         super.onLayout(changed, left, top, right, bottom)

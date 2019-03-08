@@ -5,7 +5,7 @@ import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import com.crescentflare.piratesgame.infrastructure.events.AppEvent
 import com.crescentflare.piratesgame.page.storage.Page
-import com.crescentflare.piratesgame.page.utility.ControllerModule
+import com.crescentflare.piratesgame.page.modules.ControllerModule
 import com.crescentflare.viewletcreator.binder.ViewletMapBinder
 import java.lang.ref.WeakReference
 
@@ -14,36 +14,36 @@ import java.lang.ref.WeakReference
  */
 class AlertModule: ControllerModule {
 
-    // ---
+    // --
     // Members
-    // ---
+    // --
 
     override val eventType = "alert"
     private var context: WeakReference<Context>? = null
     private var binder: ViewletMapBinder? = null
 
 
-    // ---
+    // --
     // Initialization
-    // ---
+    // --
 
     override fun onCreate(context: Context) {
         this.context = WeakReference(context)
     }
 
 
-    // ---
+    // --
     // Page updates
-    // ---
+    // --
 
     override fun onPageUpdated(page: Page, binder: ViewletMapBinder) {
         this.binder = binder
     }
 
 
-    // ---
+    // --
     // Event handling
-    // ---
+    // --
 
     override fun catchEvent(event: AppEvent, sender: Any?): Boolean {
         if (event.rawType == eventType) {

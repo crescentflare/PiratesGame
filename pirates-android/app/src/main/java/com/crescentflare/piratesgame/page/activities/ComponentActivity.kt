@@ -1,30 +1,30 @@
 package com.crescentflare.piratesgame.page.activities
 
-import android.annotation.TargetApi
-import android.content.Context
 import android.content.res.Configuration
 import android.content.res.Resources
-import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
-import android.util.AttributeSet
-import android.util.TypedValue
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
+import com.crescentflare.dynamicappconfig.activity.ManageAppConfigActivity
+import com.crescentflare.dynamicappconfig.manager.AppConfigStorage
 import com.crescentflare.piratesgame.R
-import com.crescentflare.piratesgame.page.utility.NavigationBarComponent
+import com.crescentflare.piratesgame.components.utility.NavigationBarComponent
+import com.crescentflare.piratesgame.infrastructure.events.AppEvent
+import com.crescentflare.piratesgame.infrastructure.events.AppEventObserver
 import com.crescentflare.piratesgame.page.views.ComponentActivityView
 
 /**
  * Page activity: the base class providing an easy way to set up navigation bar components
  */
-abstract class ComponentActivity : AppCompatActivity() {
+abstract class ComponentActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
 
-    // ---
+    // --
     // Members
-    // ---
+    // --
 
     var view: View?
         get() = activityView.contentView
@@ -37,6 +37,12 @@ abstract class ComponentActivity : AppCompatActivity() {
         set(actionBarView) {
             activityView.actionBarView = actionBarView
             updateStatusBar()
+            if (actionBarView != null && AppConfigStorage.instance.isInitialized) {
+                actionBarView.setOnLongClickListener {
+                    ManageAppConfigActivity.startWithResult(this, 0)
+                    true
+                }
+            }
         }
 
     var navigationBarView: View?
@@ -47,17 +53,26 @@ abstract class ComponentActivity : AppCompatActivity() {
             }
         }
 
+    private val swipeRefreshEvents = mutableListOf<AppEvent>()
+    private val swipeRefreshView by lazy { SwipeRefreshLayout(this) }
     private val activityView by lazy { ComponentActivityView(this) }
 
 
-    // ---
+    // --
     // Initialization
-    // ---
+    // --
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Prepare content view
         super.onCreate(savedInstanceState)
-        setContentView(activityView)
+        swipeRefreshView.addView(activityView)
+        setContentView(swipeRefreshView)
+        swipeRefreshView.isEnabled = false
+        swipeRefreshView.setOnRefreshListener(this)
+        swipeRefreshView.setColorSchemeColors(
+            ContextCompat.getColor(this, R.color.primary),
+            ContextCompat.getColor(this, R.color.secondary)
+        )
 
         // Set fullscreen flags, status and navigation bars are handled in the activity instead
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -68,9 +83,9 @@ abstract class ComponentActivity : AppCompatActivity() {
     }
 
 
-    // ---
+    // --
     // Lifecycle
-    // ---
+    // --
 
     override fun onConfigurationChanged(newConfig: Configuration?) {
         super.onConfigurationChanged(newConfig)
@@ -87,9 +102,38 @@ abstract class ComponentActivity : AppCompatActivity() {
     }
 
 
-    // ---
+    // --
+    // Handle swipe to refresh
+    // --
+
+    protected fun addSwipeRefreshEvent(appEvent: AppEvent) {
+        if (!swipeRefreshEvents.contains(appEvent)) {
+            swipeRefreshEvents.add(appEvent)
+        }
+        swipeRefreshView.isEnabled = swipeRefreshEvents.size > 0
+    }
+
+    protected fun removeSwipeRefreshEvent(appEvent: AppEvent) {
+        swipeRefreshEvents.remove(appEvent)
+        swipeRefreshView.isEnabled = swipeRefreshEvents.size > 0
+    }
+
+    override fun onRefresh() {
+        if (this is AppEventObserver) {
+            for (event in swipeRefreshEvents) {
+                this.observedEvent(event, swipeRefreshView)
+            }
+        }
+    }
+
+    protected fun stopRefreshing() {
+        swipeRefreshView.isRefreshing = false
+    }
+
+
+    // --
     // Handle status bar
-    // ---
+    // --
 
     private fun updateStatusBar() {
         val lightStatusIcons = (actionBarView as? NavigationBarComponent)?.lightContent ?: true

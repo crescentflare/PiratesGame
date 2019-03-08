@@ -4,32 +4,37 @@ import com.crescentflare.piratesgame.infrastructure.coreextensions.md5
 import com.crescentflare.viewletcreator.utility.ViewletMapUtil
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import java.lang.Exception
 
 /**
  * Page storage: a single page item
  */
 class Page {
 
-    // ---
+    // --
     // Members
-    // ---
+    // --
 
     var loadedData = emptyMap<String, Any>()
     val hash: String
 
 
-    // ---
+    // --
     // Initialization
-    // ---
+    // --
 
     constructor(jsonString: String) {
         var resultHash = "unknown"
         val type = object : TypeToken<Map<String, Any>>() {
         }.type
-        val result = Gson().fromJson<Map<String, Any>>(jsonString, type)
-        if (result != null) {
-            loadedData = result
-            resultHash = jsonString.md5()
+        try {
+            val result = Gson().fromJson<Map<String, Any>>(jsonString, type)
+            if (result != null) {
+                loadedData = result
+                resultHash = jsonString.md5()
+            }
+        } catch (ignored: Exception) {
+            // No implementation
         }
         hash = resultHash
     }
@@ -40,9 +45,9 @@ class Page {
     }
 
 
-    // ---
+    // --
     // Extract data
-    // ---
+    // --
 
     val layout: Map<String, Any>?
         get() {

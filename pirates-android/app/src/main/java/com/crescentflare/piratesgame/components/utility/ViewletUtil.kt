@@ -5,9 +5,9 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ScrollView
-
 import com.crescentflare.piratesgame.BuildConfig
 import com.crescentflare.piratesgame.infrastructure.coreextensions.localized
+
 import com.crescentflare.unilayout.helpers.UniLayoutParams
 import com.crescentflare.unilayout.views.UniView
 import com.crescentflare.viewletcreator.ViewletCreator
@@ -21,13 +21,13 @@ import org.junit.Assert
 import java.util.Arrays
 
 /**
- * Shared utilities for viewlet integration, also contains the viewlet for a basic UniView
+ * Component utility: shared utilities for viewlet integration, also contains the viewlet for a basic UniView
  */
 object ViewletUtil {
 
-    // ---
+    // --
     // Basic view viewlet
-    // ---
+    // --
 
     val basicViewViewlet: ViewletCreator.Viewlet = object : ViewletCreator.Viewlet {
 
@@ -47,9 +47,9 @@ object ViewletUtil {
     }
 
 
-    // ---
+    // --
     // Inflate with assertion
-    // ---
+    // --
 
     fun assertInflateOn(view: View, attributes: Map<String, Any>, binder: ViewletBinder) {
         assertInflateOn(view, attributes, null, binder)
@@ -97,9 +97,9 @@ object ViewletUtil {
     }
 
 
-    // ---
+    // --
     // Subview creation
-    // ---
+    // --
 
     fun createSubviews(container: ViewGroup, parent: ViewGroup, attributes: Map<String, Any>?, subviewItems: Any?, binder: ViewletBinder?) {
         // Check if children are the same before and after the update, then they can be updated instead of re-created
@@ -191,11 +191,11 @@ object ViewletUtil {
     }
 
 
-    // ---
+    // --
     // Easy reference binding
-    // ---
+    // --
 
-    private fun bindRef(view: View?, attributes: Map<String, Any>, binder: ViewletBinder?) {
+    fun bindRef(view: View?, attributes: Map<String, Any>, binder: ViewletBinder?) {
         if (binder != null && view != null) {
             val refId = ViewletMapUtil.optionalString(attributes, "refId", null)
             if (refId != null) {
@@ -205,18 +205,18 @@ object ViewletUtil {
     }
 
 
-    // ---
+    // --
     // Easy localization with fallback
-    // ---
+    // --
 
     fun localizedString(context: Context, localizedKey: String?, fallbackString: String?): String? {
         return localizedKey?.localized(context) ?: fallbackString
     }
 
 
-    // ---
+    // --
     // Waiting for view helpers
-    // ---
+    // --
 
     fun waitViewLayout(view: View?, completion: () -> Unit, timeout: () -> Unit, maxIterations: Int = 8) {
         // If no iterations are left, time out
@@ -237,9 +237,9 @@ object ViewletUtil {
     }
 
 
-    // ---
+    // --
     // Shared generic view handling
-    // ---
+    // --
 
     fun applyGenericViewAttributes(view: View, attributes: Map<String, Any>) {
         // Visibility
@@ -274,11 +274,11 @@ object ViewletUtil {
     }
 
 
-    // ---
+    // --
     // Shared layout parameters handling
-    // ---
+    // --
 
-    private fun applyLayoutAttributes(view: View, attributes: Map<String, Any>) {
+    fun applyLayoutAttributes(view: View, attributes: Map<String, Any>) {
         // Margin
         val layoutParams = if (view.layoutParams is UniLayoutParams) {
             view.layoutParams as UniLayoutParams
@@ -324,11 +324,11 @@ object ViewletUtil {
     }
 
 
-    // ---
+    // --
     // Viewlet property helpers
-    // ---
+    // --
 
-    private fun optionalHorizontalGravity(attributes: Map<String, Any>, defaultValue: Float): Float {
+    fun optionalHorizontalGravity(attributes: Map<String, Any>, defaultValue: Float): Float {
         // Extract horizontal gravity from shared horizontal/vertical string
         var gravityString: String? = null
         if (attributes["gravity"] is String) {
@@ -361,7 +361,7 @@ object ViewletUtil {
         return ViewletMapUtil.optionalFloat(attributes, "horizontalGravity", defaultValue)
     }
 
-    private fun optionalVerticalGravity(attributes: Map<String, Any>, defaultValue: Float): Float {
+    fun optionalVerticalGravity(attributes: Map<String, Any>, defaultValue: Float): Float {
         // Extract horizontal gravity from shared horizontal/vertical string
         var gravityString: String? = null
         if (attributes["gravity"] is String) {

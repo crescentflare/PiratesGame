@@ -15,9 +15,9 @@ import java.util.HashMap
 @SuppressLint("StaticFieldLeak")
 object AppFonts {
 
-    // ---
+    // --
     // Fonts
-    // ---
+    // --
 
     val normal = Font(0, Typeface.NORMAL)
     val italics = Font(0, Typeface.ITALIC)
@@ -26,9 +26,9 @@ object AppFonts {
     val titleBold = Font(R.font.primitive)
 
 
-    // ---
+    // --
     // Font lookup
-    // ---
+    // --
 
     val fontLookup = mapOf(
         Pair("normal", normal),
@@ -42,9 +42,9 @@ object AppFonts {
     )
 
 
-    // ---
+    // --
     // Set application context for loading typefaces
-    // ---
+    // --
 
     private var context: Context? = null
 
@@ -53,9 +53,9 @@ object AppFonts {
     }
 
 
-    // ---
+    // --
     // Font helper class
-    // ---
+    // --
 
     class Font constructor(private val resource: Int, private val style: Int = Typeface.NORMAL) {
 
@@ -88,9 +88,9 @@ object AppFonts {
     }
 
 
-    // ---
+    // --
     // Get a typeface
-    // ---
+    // --
 
     fun getTypeface(fontName: String?): Typeface {
         if (fontName != null) {

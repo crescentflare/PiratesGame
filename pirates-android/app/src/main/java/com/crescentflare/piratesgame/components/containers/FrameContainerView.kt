@@ -22,9 +22,9 @@ import java.lang.ref.WeakReference
  */
 open class FrameContainerView : UniFrameContainer, AppEventObserver, AppEventLabeledSender {
 
-    // ---
+    // --
     // Static: viewlet integration
-    // ---
+    // --
 
     companion object {
 
@@ -63,16 +63,16 @@ open class FrameContainerView : UniFrameContainer, AppEventObserver, AppEventLab
     }
 
 
-    // ---
+    // --
     // Members
-    // ---
+    // --
 
     private var eventObserverReference : WeakReference<AppEventObserver>? = null
 
 
-    // ---
+    // --
     // Initialization
-    // ---
+    // --
 
     @JvmOverloads
     constructor(
@@ -94,10 +94,9 @@ open class FrameContainerView : UniFrameContainer, AppEventObserver, AppEventLab
     }
 
 
-
-    // ---
+    // --
     // Configurable values
-    // ---
+    // --
 
     var eventObserver: AppEventObserver?
         get() = eventObserverReference?.get()
@@ -119,16 +118,16 @@ open class FrameContainerView : UniFrameContainer, AppEventObserver, AppEventLab
                 setOnClickListener {
                     val currentTapEvent = this@FrameContainerView.tapEvent
                     if (currentTapEvent != null) {
-                        observedEvent(currentTapEvent, senderLabel)
+                        observedEvent(currentTapEvent, this@FrameContainerView)
                     }
                 }
             }
         }
 
 
-    // ---
+    // --
     // Interaction
-    // ---
+    // --
 
     override val senderLabel: String?
         get() = contentDescription?.toString()

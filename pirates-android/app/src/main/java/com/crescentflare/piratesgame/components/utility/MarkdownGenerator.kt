@@ -8,29 +8,29 @@ import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.text.style.RelativeSizeSpan
-
 import com.crescentflare.piratesgame.R
 import com.crescentflare.piratesgame.components.styling.AppFonts
+
 import com.crescentflare.simplemarkdownparser.core.MarkdownTag
 import com.crescentflare.simplemarkdownparser.helper.AlignedListSpan
 import com.crescentflare.simplemarkdownparser.helper.DefaultMarkdownSpanGenerator
 
 /**
- * A utility to apply styles during markdown parsing
+ * Component utility: apply styles during markdown parsing
  */
 class MarkdownGenerator @JvmOverloads constructor(private val applicationContext: Context, noColorization: Boolean = false, noBulletIndentation: Boolean = false) : DefaultMarkdownSpanGenerator() {
 
-    // ---
+    // --
     // Members
-    // ---
+    // --
 
     private var noColorization = false
     private var noBulletIndentation = false
 
 
-    // ---
+    // --
     // Initialization
-    // ---
+    // --
 
     init {
         this.noColorization = noColorization
@@ -38,9 +38,9 @@ class MarkdownGenerator @JvmOverloads constructor(private val applicationContext
     }
 
 
-    // ---
+    // --
     // Implementation
-    // ---
+    // --
 
     override fun applySpan(builder: SpannableStringBuilder, type: MarkdownTag.Type, weight: Int, start: Int, end: Int, extra: String) {
         when (type) {
@@ -98,9 +98,9 @@ class MarkdownGenerator @JvmOverloads constructor(private val applicationContext
     }
 
 
-    // ---
+    // --
     // Helper
-    // ---
+    // --
 
     private fun typefaceForWeight(weight: Int): Typeface? {
         when (weight) {

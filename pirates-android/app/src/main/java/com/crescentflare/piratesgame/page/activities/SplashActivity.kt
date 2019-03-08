@@ -1,39 +1,39 @@
 package com.crescentflare.piratesgame.page.activities
 
-import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
-import android.view.WindowManager
 import com.crescentflare.piratesgame.components.navigationbars.TransparentNavigationBar
 import com.crescentflare.piratesgame.components.containers.FrameContainerView
 import com.crescentflare.piratesgame.components.utility.ViewletUtil
+import com.crescentflare.piratesgame.infrastructure.appconfig.CustomAppConfigManager
 import com.crescentflare.piratesgame.infrastructure.events.AppEvent
 import com.crescentflare.piratesgame.infrastructure.events.AppEventObserver
+import com.crescentflare.piratesgame.infrastructure.events.AppEventType
 import com.crescentflare.piratesgame.infrastructure.tools.EventReceiverTool
 import com.crescentflare.piratesgame.page.modules.shared.AlertModule
 import com.crescentflare.piratesgame.page.modules.splash.SplashLoaderModule
 import com.crescentflare.piratesgame.page.storage.Page
 import com.crescentflare.piratesgame.page.storage.PageLoader
 import com.crescentflare.piratesgame.page.storage.PageLoaderContinuousCompletion
-import com.crescentflare.piratesgame.page.utility.ControllerModule
-import com.crescentflare.piratesgame.page.utility.NavigationBarComponent
+import com.crescentflare.piratesgame.page.modules.ControllerModule
+import com.crescentflare.piratesgame.page.storage.PageCache
 import com.crescentflare.viewletcreator.binder.ViewletMapBinder
 
 class SplashActivity : ComponentActivity(), AppEventObserver, PageLoaderContinuousCompletion {
 
-    // ---
+    // --
     // Members
-    // ---
+    // --
 
-//    private val pageLoader by lazy { PageLoader(this, "http://192.168.1.12:1313/pages/splash.json") }
-    private val pageLoader by lazy { PageLoader(this, "splash.json") }
+    private val pageJson = "splash.json"
+    private var pageLoader: PageLoader? = null
+    private var hotReloadPageUrl = ""
     private val containerView by lazy { FrameContainerView(this) }
     private var modules = mutableListOf<ControllerModule>()
 
 
-    // ---
+    // --
     // Initialization
-    // ---
+    // --
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Set action bar
@@ -56,12 +56,27 @@ class SplashActivity : ComponentActivity(), AppEventObserver, PageLoaderContinuo
     }
 
 
-    // ---
+    // --
     // Lifecycle
-    // ---
+    // --
 
     override fun onResume() {
         super.onResume()
+        val wasHotReloadPageUrl = hotReloadPageUrl
+        if (CustomAppConfigManager.currentConfig().devServerUrl.isNotEmpty() && CustomAppConfigManager.currentConfig().enablePageHotReload) {
+            hotReloadPageUrl = CustomAppConfigManager.currentConfig().devServerUrl
+            if (!hotReloadPageUrl.startsWith("http")) {
+                hotReloadPageUrl = "http://$hotReloadPageUrl"
+            }
+            hotReloadPageUrl = "$hotReloadPageUrl/pages/$pageJson"
+        } else {
+            hotReloadPageUrl = ""
+        }
+        if (wasHotReloadPageUrl != hotReloadPageUrl || pageLoader == null) {
+            pageLoader = PageLoader(this, if (hotReloadPageUrl.isNotEmpty()) hotReloadPageUrl else pageJson)
+            PageCache.removeEntry(wasHotReloadPageUrl)
+            PageCache.removeEntry(pageJson)
+        }
         EventReceiverTool.addObserver(this)
         startContinuousPageLoad()
     }
@@ -73,11 +88,23 @@ class SplashActivity : ComponentActivity(), AppEventObserver, PageLoaderContinuo
     }
 
 
-    // ---
+    // --
     // Interaction
-    // ---
+    // --
 
     override fun observedEvent(event: AppEvent, sender: Any?) {
+        // Handle pull to refresh event registration
+        if (event.standardType == AppEventType.RegisterPullToRefresh) {
+            if (sender is AppEvent) {
+                if (event.fullPath == "add") {
+                    addSwipeRefreshEvent(sender)
+                } else if (event.fullPath == "remove") {
+                    removeSwipeRefreshEvent(sender)
+                }
+            }
+        }
+
+        // Handle modules
         for (module in modules) {
             if (module.catchEvent(event, sender)) {
                 break
@@ -91,11 +118,11 @@ class SplashActivity : ComponentActivity(), AppEventObserver, PageLoaderContinuo
     // --
 
     private fun startContinuousPageLoad() {
-        pageLoader.startLoadingContinuously(this)
+        pageLoader?.startLoadingContinuously(this)
     }
 
     private fun stopContinuousPageLoad() {
-        pageLoader.stopLoadingContinuously()
+        pageLoader?.stopLoadingContinuously()
     }
 
     override fun didUpdatePage(page: Page) {

@@ -11,9 +11,9 @@ import java.lang.ref.WeakReference
  */
 class PageLoader(context: Context, location: String) {
 
-    // ---
+    // --
     // Members
-    // ---
+    // --
 
     private val context: Context
     private val location: String
@@ -23,9 +23,9 @@ class PageLoader(context: Context, location: String) {
     private var waiting = false
 
 
-    // ---
+    // --
     // Initialization
-    // ---
+    // --
 
     init {
         this.context = context
@@ -34,9 +34,9 @@ class PageLoader(context: Context, location: String) {
     }
 
 
-    // ---
+    // --
     // Loading
-    // ---
+    // --
 
     fun load(completion: (page: Page?, exception: Throwable?) -> Unit) {
         val cachedPage = PageCache.getEntry(location)
@@ -117,9 +117,9 @@ class PageLoader(context: Context, location: String) {
     }
 
 
-    // ---
+    // --
     // Continuous loading
-    // ---
+    // --
 
     fun startLoadingContinuously(completion: PageLoaderContinuousCompletion) {
         continuousCompletion = WeakReference(completion)

@@ -8,9 +8,9 @@ import com.crescentflare.viewletcreator.utility.ViewletMapUtil
  */
 class AppEvent {
 
-    // ---
+    // --
     // Static: factory method
-    // ---
+    // --
 
     companion object {
 
@@ -29,9 +29,9 @@ class AppEvent {
     }
 
 
-    // ---
+    // --
     // Members
-    // ---
+    // --
 
     var standardType = AppEventType.Unknown
     var rawType = "unknown"
@@ -39,9 +39,9 @@ class AppEvent {
     var pathComponents = emptyList<String>()
 
 
-    // ---
+    // --
     // Initialization
-    // ---
+    // --
 
     constructor(value: Any?) {
         if (value is String) {
@@ -109,9 +109,9 @@ class AppEvent {
     }
 
 
-    // ---
+    // --
     // Extract values
-    // ---
+    // --
 
     val fullPath: String
         get() = pathComponents.joinToString("/")

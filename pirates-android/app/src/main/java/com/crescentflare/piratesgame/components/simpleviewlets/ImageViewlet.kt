@@ -10,8 +10,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.crescentflare.piratesgame.components.utility.CustomNinePatchDrawable
 import com.crescentflare.piratesgame.components.utility.CustomThreePatchDrawable
-import com.crescentflare.piratesgame.components.utility.ViewletUtil
 import com.crescentflare.piratesgame.components.utility.ImageSource
+import com.crescentflare.piratesgame.components.utility.ViewletUtil
 import com.crescentflare.unilayout.views.UniImageView
 import com.crescentflare.viewletcreator.ViewletCreator
 import com.crescentflare.viewletcreator.binder.ViewletBinder
@@ -24,9 +24,9 @@ import com.squareup.picasso.Picasso
  */
 object ImageViewlet {
 
-    // ---
+    // --
     // Viewlet instance
-    // ---
+    // --
 
     val viewlet: ViewletCreator.Viewlet = object : ViewletCreator.Viewlet {
 
@@ -57,9 +57,9 @@ object ImageViewlet {
     }
 
 
-    // ---
+    // --
     // Helpers
-    // ---
+    // --
 
     fun applyImageSource(imageView: UniImageView?, source: ImageSource?): Boolean {
         if (imageView != null) {
@@ -67,14 +67,14 @@ object ImageViewlet {
                 source.onlinePath?.let {
                     Picasso.get().load(it).into(imageView)
                 } ?: run {
-                    val imageResource = source.getInternalImageResource(imageView.context)
-                    if (imageResource > 0) {
+                    val drawable = source.getDrawable(imageView.context)
+                    if (drawable != null) {
                         if (source.threePatch > 0) {
-                            imageView.setImageDrawable(prepareThreePatch(imageView.context, imageResource, source.threePatch))
+                            imageView.setImageDrawable(prepareThreePatch(drawable, source.threePatch))
                         } else if (source.ninePatch > 0) {
-                            imageView.setImageDrawable(prepareNinePatch(imageView.context, imageResource, source.ninePatch))
+                            imageView.setImageDrawable(prepareNinePatch(drawable, source.ninePatch))
                         } else {
-                            imageView.setImageResource(imageResource)
+                            imageView.setImageDrawable(drawable)
                         }
                         if (source.tintColor != 0) {
                             imageView.colorFilter = PorterDuffColorFilter(source.tintColor, PorterDuff.Mode.SRC_IN)
@@ -91,10 +91,9 @@ object ImageViewlet {
         return false
     }
 
-    private fun prepareThreePatch(context: Context, resourceId: Int, edgeInset: Int): Drawable? {
-        val resourceDrawable = ContextCompat.getDrawable(context, resourceId)
-        if (resourceDrawable is BitmapDrawable) {
-            val bitmap = resourceDrawable.bitmap
+    private fun prepareThreePatch(drawable: Drawable, edgeInset: Int): Drawable? {
+        if (drawable is BitmapDrawable) {
+            val bitmap = drawable.bitmap
             if (bitmap != null) {
                 return CustomThreePatchDrawable(bitmap, edgeInset)
             }
@@ -102,10 +101,9 @@ object ImageViewlet {
         return null
     }
 
-    private fun prepareNinePatch(context: Context, resourceId: Int, edgesInset: Int): Drawable? {
-        val resourceDrawable = ContextCompat.getDrawable(context, resourceId)
-        if (resourceDrawable is BitmapDrawable) {
-            val bitmap = resourceDrawable.bitmap
+    private fun prepareNinePatch(drawable: Drawable, edgesInset: Int): Drawable? {
+        if (drawable is BitmapDrawable) {
+            val bitmap = drawable.bitmap
             if (bitmap != null) {
                 return CustomNinePatchDrawable(bitmap, edgesInset, edgesInset)
             }
@@ -114,9 +112,9 @@ object ImageViewlet {
     }
 
 
-    // ---
+    // --
     // Scale type enum
-    // ---
+    // --
 
     enum class ScaleType(val value: String) {
 

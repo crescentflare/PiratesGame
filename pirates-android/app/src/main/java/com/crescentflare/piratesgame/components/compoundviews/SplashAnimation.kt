@@ -34,22 +34,22 @@ import com.crescentflare.viewletcreator.utility.ViewletMapUtil
  */
 class SplashAnimation : FrameContainerView {
 
-    // ---
+    // --
     // Statics
-    // ---
+    // --
 
     companion object {
 
-        // ---
+        // --
         // Static: reference to layout resource
-        // ---
+        // --
 
         const val layoutResource = R.raw.splash_animation
 
 
-        // ---
+        // --
         // Static: viewlet integration
-        // ---
+        // --
 
         val viewlet: ViewletCreator.Viewlet = object : ViewletCreator.Viewlet {
 
@@ -91,9 +91,9 @@ class SplashAnimation : FrameContainerView {
     }
 
 
-    // ---
+    // --
     // Bound views
-    // ---
+    // --
 
     @ViewletRef("logo")
     private var logoView: PublisherLogo? = null
@@ -105,16 +105,16 @@ class SplashAnimation : FrameContainerView {
     private var backgroundImageView: UniImageView? = null
 
 
-    // ---
+    // --
     // Members
-    // ---
+    // --
 
     private var currentOn = false
 
 
-    // ---
+    // --
     // Initialization
-    // ---
+    // --
 
     @JvmOverloads
     constructor(
@@ -138,9 +138,9 @@ class SplashAnimation : FrameContainerView {
     }
 
 
-    // ---
+    // --
     // Configurable values
-    // ---
+    // --
 
     var setOnEvent: AppEvent? = null
 
@@ -178,7 +178,6 @@ class SplashAnimation : FrameContainerView {
                 ImageViewlet.applyImageSource(backgroundImageView, backgroundImage)
             }, {
                 // Animate
-                val verticalDistance = Resources.getSystem().displayMetrics.heightPixels / 5f
                 val animation = AnimatorSet()
                 animation.playTogether(
                     ValueAnimator.ofFloat(if (on) 0.5f else 0.15f, if (on) 0.15f else 0.5f).apply {

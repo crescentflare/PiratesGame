@@ -2,17 +2,14 @@ package com.crescentflare.piratesgame.page.modules.splash
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.app.AlertDialog
 import android.content.Context
-import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import com.crescentflare.piratesgame.components.compoundviews.SplashLoadingBar
-import com.crescentflare.piratesgame.components.styling.AppFonts
 import com.crescentflare.piratesgame.infrastructure.events.AppEvent
 import com.crescentflare.piratesgame.infrastructure.events.AppEventObserver
 import com.crescentflare.piratesgame.page.storage.Page
-import com.crescentflare.piratesgame.page.utility.ControllerModule
+import com.crescentflare.piratesgame.page.modules.ControllerModule
 import com.crescentflare.viewletcreator.binder.ViewletMapBinder
 import kotlinx.coroutines.*
 import java.lang.ref.WeakReference
@@ -22,9 +19,9 @@ import java.lang.ref.WeakReference
  */
 class SplashLoaderModule: ControllerModule {
 
-    // ---
+    // --
     // Members
-    // ---
+    // --
 
     override val eventType = "splashLoader"
     private var context: WeakReference<Context>? = null
@@ -35,9 +32,9 @@ class SplashLoaderModule: ControllerModule {
     private var done = false
 
 
-    // ---
+    // --
     // Initialization
-    // ---
+    // --
 
     override fun onCreate(context: Context) {
         // Keep weak reference to context
@@ -50,9 +47,9 @@ class SplashLoaderModule: ControllerModule {
     }
 
 
-    // ---
+    // --
     // Page updates
-    // ---
+    // --
 
     override fun onPageUpdated(page: Page, binder: ViewletMapBinder) {
         this.binder = binder
@@ -65,9 +62,9 @@ class SplashLoaderModule: ControllerModule {
     }
 
 
-    // ---
+    // --
     // Event handling
-    // ---
+    // --
 
     override fun catchEvent(event: AppEvent, sender: Any?): Boolean {
         if (event.rawType == eventType) {
@@ -81,9 +78,9 @@ class SplashLoaderModule: ControllerModule {
     }
 
 
-    // ---
+    // --
     // Loading
-    // ---
+    // --
 
     private fun startLoading() {
         GlobalScope.launch(Dispatchers.Main) {
@@ -144,9 +141,9 @@ class SplashLoaderModule: ControllerModule {
     }
 
 
-    // ---
+    // --
     // Loading task
-    // ---
+    // --
 
     private class LoadingTask(private val delay: Long = 0, private val loader: () -> Unit) {
 

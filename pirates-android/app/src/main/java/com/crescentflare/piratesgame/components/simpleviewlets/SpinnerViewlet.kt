@@ -5,9 +5,9 @@ import android.graphics.PorterDuff
 import android.support.v4.content.ContextCompat
 import android.view.View
 import android.view.ViewGroup
-
 import com.crescentflare.piratesgame.R
 import com.crescentflare.piratesgame.components.utility.ViewletUtil
+
 import com.crescentflare.unilayout.views.UniSpinnerView
 import com.crescentflare.viewletcreator.ViewletCreator
 import com.crescentflare.viewletcreator.binder.ViewletBinder
@@ -18,9 +18,9 @@ import com.crescentflare.viewletcreator.utility.ViewletMapUtil
  */
 object SpinnerViewlet {
 
-    // ---
+    // --
     // Viewlet instance
-    // ---
+    // --
 
     val viewlet: ViewletCreator.Viewlet = object : ViewletCreator.Viewlet {
 
@@ -52,9 +52,9 @@ object SpinnerViewlet {
     }
 
 
-    // ---
+    // --
     // Scale type enum
-    // ---
+    // --
 
     enum class ColorStyle(val value: String) {
 

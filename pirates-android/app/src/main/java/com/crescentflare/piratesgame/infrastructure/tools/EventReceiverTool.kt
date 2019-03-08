@@ -1,6 +1,7 @@
 package com.crescentflare.piratesgame.infrastructure.tools
 
 import android.os.Build
+import com.crescentflare.piratesgame.infrastructure.appconfig.CustomAppConfigManager
 import com.crescentflare.piratesgame.infrastructure.events.AppEvent
 import com.crescentflare.piratesgame.infrastructure.events.AppEventObserver
 import com.crescentflare.viewletcreator.utility.ViewletMapUtil
@@ -12,6 +13,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import okhttp3.*
 import java.io.IOException
+import java.lang.Exception
 import java.lang.ref.WeakReference
 
 /**
@@ -19,12 +21,10 @@ import java.lang.ref.WeakReference
  */
 object EventReceiverTool {
 
-    // ---
+    // --
     // Members
-    // ---
+    // --
 
-    // private var serverAddress = "http://192.168.1.12:1313/commandconsole"
-    private var serverAddress = "" // Disabled
     private var observers = mutableListOf<WeakReference<AppEventObserver>>()
     private val events = mutableListOf<AppEvent>()
     private var token = ""
@@ -33,9 +33,9 @@ object EventReceiverTool {
     private var waiting = false
 
 
-    // ---
+    // --
     // Handle observers
-    // ---
+    // --
 
     fun addObserver(addObserver: AppEventObserver) {
         for (observer in observers) {
@@ -71,13 +71,13 @@ object EventReceiverTool {
     }
 
 
-    // ---
+    // --
     // Server polling
-    // ---
+    // --
 
     private fun pollIfNeeded() {
         cleanDanglingObservers()
-        if (!busy && observers.size > 0 && serverAddress.isNotEmpty()) {
+        if (!busy && observers.size > 0 && CustomAppConfigManager.currentConfig().devServerUrl.isNotEmpty() && CustomAppConfigManager.currentConfig().enableEventReceiver) {
             callServer { eventList, _ ->
                 var waitingTime = 2000
                 if (eventList != null) {
@@ -108,8 +108,12 @@ object EventReceiverTool {
     private fun callServer(completion: (eventList: List<AppEvent>?, exception: Throwable?) -> Unit) {
         val deviceName = Build.BRAND + " " + Build.MODEL
         val client = OkHttpClient()
+        var serverAddress = CustomAppConfigManager.currentConfig().devServerUrl
+        if (!serverAddress.startsWith("http")) {
+            serverAddress = "http://$serverAddress"
+        }
         busy = true
-        client.newCall(Request.Builder().url("$serverAddress?name=$deviceName&token=$token&waitUpdate=$lastUpdate").build()).enqueue(object : Callback {
+        client.newCall(Request.Builder().url("$serverAddress/commandconsole?name=$deviceName&token=$token&waitUpdate=$lastUpdate").build()).enqueue(object : Callback {
             override fun onFailure(call: Call, exception: IOException) {
                 GlobalScope.launch(Dispatchers.Main) {
                     busy = false
@@ -123,26 +127,30 @@ object EventReceiverTool {
                 if (jsonString != null) {
                     val type = object : TypeToken<Map<String, Any>>() {
                     }.type
-                    val result = Gson().fromJson<Map<String, Any>>(jsonString, type)
                     var newToken: String? = null
                     var newLastUpdate: String? = null
                     val eventList = mutableListOf<AppEvent>()
-                    if (result != null) {
-                        val commands: MutableList<Any> = ViewletMapUtil.optionalObjectList(result, "commands")
-                        for (command in commands) {
-                            val commandInfo = ViewletMapUtil.asStringObjectMap(command)
-                            if (commandInfo != null) {
-                                val received = ViewletMapUtil.optionalBoolean(commandInfo, "received", false)
-                                if (!received) {
-                                    val event = AppEvent.fromObject(commandInfo["command"])
-                                    if (event != null) {
-                                        eventList.add(event)
+                    try {
+                        val result = Gson().fromJson<Map<String, Any>>(jsonString, type)
+                        if (result != null) {
+                            val commands: MutableList<Any> = ViewletMapUtil.optionalObjectList(result, "commands")
+                            for (command in commands) {
+                                val commandInfo = ViewletMapUtil.asStringObjectMap(command)
+                                if (commandInfo != null) {
+                                    val received = ViewletMapUtil.optionalBoolean(commandInfo, "received", false)
+                                    if (!received) {
+                                        val event = AppEvent.fromObject(commandInfo["command"])
+                                        if (event != null) {
+                                            eventList.add(event)
+                                        }
                                     }
                                 }
                             }
+                            newToken = result["token"]?.toString()
+                            newLastUpdate = (result["lastUpdate"] as? Double)?.toLong().toString()
                         }
-                        newToken = result["token"]?.toString()
-                        newLastUpdate = (result["lastUpdate"] as? Double)?.toLong().toString()
+                    } catch (ignored: Exception) {
+                        // No implementation
                     }
                     GlobalScope.launch(Dispatchers.Main) {
                         busy = false

@@ -25,9 +25,9 @@ import com.crescentflare.viewletcreator.binder.ViewletBinder
  */
 class PublisherLogo : ViewGroup {
 
-    // ---
+    // --
     // Static: viewlet integration
-    // ---
+    // --
 
     companion object {
 
@@ -55,9 +55,9 @@ class PublisherLogo : ViewGroup {
     }
 
 
-    // ---
+    // --
     // Members
-    // ---
+    // --
 
     private val baseLogo by lazy { ImageView(context) }
     private val logoEffect by lazy { ImageView(context) }
@@ -67,9 +67,9 @@ class PublisherLogo : ViewGroup {
     private var currentOn = false
 
 
-    // ---
+    // --
     // Initialization
-    // ---
+    // --
 
     @JvmOverloads
     constructor(
@@ -107,9 +107,9 @@ class PublisherLogo : ViewGroup {
     }
 
 
-    // ---
+    // --
     // Configurable values
-    // ---
+    // --
 
     var autoAnimation = false
 
@@ -181,9 +181,9 @@ class PublisherLogo : ViewGroup {
     }
 
 
-    // ---
+    // --
     // Custom layout
-    // ---
+    // --
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         // Determine the aspect ratio

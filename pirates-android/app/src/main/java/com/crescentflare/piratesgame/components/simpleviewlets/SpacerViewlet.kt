@@ -2,19 +2,16 @@ package com.crescentflare.piratesgame.components.simpleviewlets
 
 import android.annotation.TargetApi
 import android.content.Context
-import android.content.res.Resources
 import android.os.Build
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
-import com.crescentflare.piratesgame.R
-import android.util.TypedValue
 import com.crescentflare.piratesgame.components.utility.ViewletUtil
 import com.crescentflare.piratesgame.page.views.ComponentActivityView
-import com.crescentflare.viewletcreator.utility.ViewletMapUtil
-import com.crescentflare.viewletcreator.binder.ViewletBinder
-import com.crescentflare.viewletcreator.ViewletCreator
 import com.crescentflare.unilayout.views.UniView
+import com.crescentflare.viewletcreator.ViewletCreator
+import com.crescentflare.viewletcreator.binder.ViewletBinder
+import com.crescentflare.viewletcreator.utility.ViewletMapUtil
 
 
 /**
@@ -22,9 +19,9 @@ import com.crescentflare.unilayout.views.UniView
  */
 class SpacerViewlet : UniView {
 
-    // ---
+    // --
     // Static: viewlet integration
-    // ---
+    // --
 
     companion object {
 
@@ -56,17 +53,17 @@ class SpacerViewlet : UniView {
     }
 
 
-    // ---
+    // --
     // Members
-    // ---
+    // --
 
     var takeWidth = TakeSize.None
     var takeHeight = TakeSize.None
 
 
-    // ---
+    // --
     // Initialization
-    // ---
+    // --
 
     @JvmOverloads
     constructor(
@@ -88,9 +85,9 @@ class SpacerViewlet : UniView {
     }
 
 
-    // ---
+    // --
     // Custom layout
-    // ---
+    // --
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         // Basic size
@@ -121,9 +118,9 @@ class SpacerViewlet : UniView {
     }
 
 
-    // ---
+    // --
     // Helper
-    // ---
+    // --
 
     private fun getComponentView(): ComponentActivityView? {
         var checkParent: View? = this
@@ -140,9 +137,9 @@ class SpacerViewlet : UniView {
     }
 
 
-    // ---
+    // --
     // Take size enum
-    // ---
+    // --
 
     enum class TakeSize(val value: String) {
 

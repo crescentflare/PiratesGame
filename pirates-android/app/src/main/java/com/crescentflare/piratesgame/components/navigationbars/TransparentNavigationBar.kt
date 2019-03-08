@@ -6,8 +6,8 @@ import android.os.Build
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
+import com.crescentflare.piratesgame.components.utility.NavigationBarComponent
 import com.crescentflare.piratesgame.components.utility.ViewletUtil
-import com.crescentflare.piratesgame.page.utility.NavigationBarComponent
 import com.crescentflare.viewletcreator.binder.ViewletBinder
 import com.crescentflare.viewletcreator.ViewletCreator
 import com.crescentflare.unilayout.views.UniView
@@ -19,9 +19,9 @@ import com.crescentflare.viewletcreator.utility.ViewletMapUtil
  */
 class TransparentNavigationBar : UniView, NavigationBarComponent {
 
-    // ---
+    // --
     // Static: viewlet integration
-    // ---
+    // --
 
     companion object {
 
@@ -52,16 +52,16 @@ class TransparentNavigationBar : UniView, NavigationBarComponent {
     }
 
 
-    // ---
+    // --
     // Members
-    // ---
+    // --
 
     override val translucent = true
 
 
-    // ---
+    // --
     // Initialization
-    // ---
+    // --
 
     @JvmOverloads
     constructor(
@@ -83,9 +83,9 @@ class TransparentNavigationBar : UniView, NavigationBarComponent {
     }
 
 
-    // ---
+    // --
     // Configurable values
-    // ---
+    // --
 
     override var lightContent = false
 

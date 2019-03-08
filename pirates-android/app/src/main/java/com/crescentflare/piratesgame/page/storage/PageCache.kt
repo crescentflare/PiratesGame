@@ -5,16 +5,16 @@ package com.crescentflare.piratesgame.page.storage
  */
 object PageCache {
 
-    // ---
+    // --
     // Members
-    // ---
+    // --
 
     private var entries = mutableMapOf<String, Page>()
 
 
-    // ---
+    // --
     // Cache access
-    // ---
+    // --
 
     fun hasEntry(cacheKey: String): Boolean {
         return entries[cacheKey] != null
@@ -26,6 +26,10 @@ object PageCache {
 
     fun storeEntry(cacheKey: String, page: Page) {
         entries[cacheKey] = page
+    }
+
+    fun removeEntry(cacheKey: String) {
+        entries.remove(cacheKey)
     }
 
     fun clear() {

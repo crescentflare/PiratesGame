@@ -18,9 +18,9 @@ import com.crescentflare.viewletcreator.utility.ViewletMapUtil
  */
 class GradientView : UniView {
 
-    // ---
+    // --
     // Static: viewlet integration
-    // ---
+    // --
 
     companion object {
 
@@ -53,16 +53,16 @@ class GradientView : UniView {
     }
 
 
-    // ---
+    // --
     // Members
-    // ---
+    // --
 
     private val gradientDrawable = GradientDrawable()
 
 
-    // ---
+    // --
     // Initialization
-    // ---
+    // --
 
     @JvmOverloads
     constructor(
@@ -84,9 +84,9 @@ class GradientView : UniView {
     }
 
 
-    // ---
+    // --
     // Configurable values
-    // ---
+    // --
 
     var startColor: Int = 0
         set(startColor) {
@@ -107,9 +107,9 @@ class GradientView : UniView {
         }
 
 
-    // ---
+    // --
     // State update
-    // ---
+    // --
 
     private fun updateState() {
         gradientDrawable.colors = intArrayOf(startColor, endColor)

@@ -8,18 +8,18 @@ import android.graphics.drawable.Drawable
  */
 class CustomThreePatchDrawable(private val bitmap: Bitmap, private val edgeInset: Int): Drawable() {
 
-    // ---
+    // --
     // Members
-    // ---
+    // --
 
     private val paint = Paint(Paint.FILTER_BITMAP_FLAG or Paint.DITHER_FLAG or Paint.ANTI_ALIAS_FLAG)
     private val bitmapWidth: Int
     private val bitmapHeight: Int
 
 
-    // ---
+    // --
     // Initialization
-    // ---
+    // --
 
     init {
         bitmapWidth = bitmap.width
@@ -27,9 +27,9 @@ class CustomThreePatchDrawable(private val bitmap: Bitmap, private val edgeInset
     }
 
 
-    // ---
+    // --
     // Properties
-    // ---
+    // --
 
     override fun setAlpha(alpha: Int) {
         paint.alpha = alpha
@@ -54,9 +54,9 @@ class CustomThreePatchDrawable(private val bitmap: Bitmap, private val edgeInset
     }
 
 
-    // ---
+    // --
     // Drawing
-    // ---
+    // --
 
     override fun draw(canvas: Canvas) {
         // Do nothing for invalid insets

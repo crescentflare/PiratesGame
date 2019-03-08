@@ -12,9 +12,9 @@ import android.text.style.TypefaceSpan
  */
 class CustomTypefaceSpan(private val newType: Typeface) : TypefaceSpan("") {
 
-    // ---
+    // --
     // Custom implementation
-    // ---
+    // --
 
     override fun updateDrawState(paint: TextPaint) {
         applyCustomTypeFace(paint, newType)
@@ -25,9 +25,9 @@ class CustomTypefaceSpan(private val newType: Typeface) : TypefaceSpan("") {
     }
 
 
-    // ---
+    // --
     // Parcelable creator
-    // ---
+    // --
 
     companion object {
 
