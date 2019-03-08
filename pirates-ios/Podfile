@@ -1,0 +1,25 @@
+use_frameworks!
+inhibit_all_warnings!
+
+platform :ios, '9.0'
+
+# Public Pods
+def app_pods
+  pod 'DynamicAppConfig', '~> 1.3.0'
+  pod 'BitletSynchronizer', '~> 0.3.6'
+  pod 'Alamofire', '~> 4.8.1'
+
+  pod 'UniLayout', '~> 0.4.3'
+  pod 'ViewletCreator', '~> 0.4.4'
+
+  pod 'SimpleMarkdownParser', '~> 0.6.1'
+
+  pod 'AlamofireObjectMapper', '~> 5.2.0'
+  pod 'lottie-ios', '~> 2.5.0'
+
+  pod 'SDWebImage', '~> 4.0'
+end
+
+target :PiratesGame do
+  app_pods
+end
