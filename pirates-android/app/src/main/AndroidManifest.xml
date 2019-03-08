@@ -12,6 +12,7 @@
         android:icon="@mipmap/icon_app"
         android:roundIcon="@mipmap/icon_app_round"
         android:theme="@style/AppTheme.NoActionBar">
+
         <activity
             android:name=".page.activities.SplashActivity"
             android:label="@string/global_app"
@@ -22,6 +23,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <activity android:name="com.crescentflare.dynamicappconfig.activity.ManageAppConfigActivity"/>
+        <activity android:name="com.crescentflare.dynamicappconfig.activity.EditAppConfigActivity"/>
+        <activity android:name="com.crescentflare.dynamicappconfig.activity.AppConfigStringChoiceActivity"/>
     </application>
 
 </manifest>
