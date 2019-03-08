@@ -78,6 +78,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Basic views
         ViewletCreator.register(name: "gradient", viewlet: GradientView.viewlet())
         
+        // Compound views
+        ViewletCreator.register(name: "splashAnimation", viewlet: SplashAnimation.viewlet())
+        
+        // Complex views
+        ViewletCreator.register(name: "publisherLogo", viewlet: PublisherLogo.viewlet())
+        
         // Containers
         ViewletCreator.register(name: "scrollContainer", viewlet: ScrollContainerView.viewlet())
         ViewletCreator.register(name: "frameContainer", viewlet: FrameContainerView.viewlet())

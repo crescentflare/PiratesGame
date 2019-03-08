@@ -45,6 +45,9 @@
 		042DBC0122328EB6008831FE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 042DBC0022328EB6008831FE /* Assets.xcassets */; };
 		042DBC0422328EB6008831FE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 042DBC0222328EB6008831FE /* LaunchScreen.storyboard */; };
 		049B63442232A8F700AFB13B /* Pages in Resources */ = {isa = PBXBuildFile; fileRef = 049B63432232A8F700AFB13B /* Pages */; };
+		049B634D2232BADC00AFB13B /* SplashAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049B634A2232BADC00AFB13B /* SplashAnimation.swift */; };
+		049B634E2232BADC00AFB13B /* PublisherLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049B634C2232BADC00AFB13B /* PublisherLogo.swift */; };
+		049B63512232BBFD00AFB13B /* SplashAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = 049B63502232BBFC00AFB13B /* SplashAnimation.json */; };
 		6F94BD396123AAB128D3E348 /* Pods_PiratesGame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4452BEDF3C337F85343B6AC4 /* Pods_PiratesGame.framework */; };
 /* End PBXBuildFile section */
 
@@ -90,6 +93,9 @@
 		042DBC0322328EB6008831FE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		042DBC0522328EB6008831FE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		049B63432232A8F700AFB13B /* Pages */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Pages; sourceTree = "<group>"; };
+		049B634A2232BADC00AFB13B /* SplashAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashAnimation.swift; sourceTree = "<group>"; };
+		049B634C2232BADC00AFB13B /* PublisherLogo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublisherLogo.swift; sourceTree = "<group>"; };
+		049B63502232BBFC00AFB13B /* SplashAnimation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SplashAnimation.json; sourceTree = "<group>"; };
 		4452BEDF3C337F85343B6AC4 /* Pods_PiratesGame.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PiratesGame.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5EA8F4D7E84768DD64D8AEFD /* Pods-PiratesGame.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PiratesGame.release.xcconfig"; path = "Pods/Target Support Files/Pods-PiratesGame/Pods-PiratesGame.release.xcconfig"; sourceTree = "<group>"; };
 		8C90D63019B06504E85C7A4E /* Pods-PiratesGame.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PiratesGame.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PiratesGame/Pods-PiratesGame.debug.xcconfig"; sourceTree = "<group>"; };
@@ -128,7 +134,10 @@
 			isa = PBXGroup;
 			children = (
 				041558CC2232A200001158FA /* BasicViews */,
+				049B634B2232BADC00AFB13B /* ComplexViews */,
+				049B63492232BADC00AFB13B /* CompoundViews */,
 				041558C62232A200001158FA /* Containers */,
+				049B634F2232BBFC00AFB13B /* Layout */,
 				041558CA2232A200001158FA /* NavigationBars */,
 				041558CE2232A200001158FA /* SimpleViewlets */,
 				041558D32232A200001158FA /* Styling */,
@@ -324,6 +333,30 @@
 			path = PiratesGame;
 			sourceTree = "<group>";
 		};
+		049B63492232BADC00AFB13B /* CompoundViews */ = {
+			isa = PBXGroup;
+			children = (
+				049B634A2232BADC00AFB13B /* SplashAnimation.swift */,
+			);
+			path = CompoundViews;
+			sourceTree = "<group>";
+		};
+		049B634B2232BADC00AFB13B /* ComplexViews */ = {
+			isa = PBXGroup;
+			children = (
+				049B634C2232BADC00AFB13B /* PublisherLogo.swift */,
+			);
+			path = ComplexViews;
+			sourceTree = "<group>";
+		};
+		049B634F2232BBFC00AFB13B /* Layout */ = {
+			isa = PBXGroup;
+			children = (
+				049B63502232BBFC00AFB13B /* SplashAnimation.json */,
+			);
+			path = Layout;
+			sourceTree = "<group>";
+		};
 		8C8EF92CFFEA91BD3684FBA4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -404,6 +437,7 @@
 				049B63442232A8F700AFB13B /* Pages in Resources */,
 				042DBC0422328EB6008831FE /* LaunchScreen.storyboard in Resources */,
 				042DBC0122328EB6008831FE /* Assets.xcassets in Resources */,
+				049B63512232BBFD00AFB13B /* SplashAnimation.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -472,6 +506,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				041559142232A510001158FA /* ControllerModule.swift in Sources */,
+				049B634E2232BADC00AFB13B /* PublisherLogo.swift in Sources */,
 				042DBBFC22328EB4008831FE /* SplashViewController.swift in Sources */,
 				041558E82232A200001158FA /* ImageSource.swift in Sources */,
 				041559022232A42C001158FA /* AppEventLabeledSender.swift in Sources */,
@@ -506,6 +541,7 @@
 				041559122232A510001158FA /* Page.swift in Sources */,
 				041558EA2232A200001158FA /* ViewletUtil.swift in Sources */,
 				041559132232A510001158FA /* PageLoader.swift in Sources */,
+				049B634D2232BADC00AFB13B /* SplashAnimation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

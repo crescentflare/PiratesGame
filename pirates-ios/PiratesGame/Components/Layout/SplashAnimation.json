@@ -1,0 +1,52 @@
+{
+  "viewlet": "frameContainer",
+  "width": "stretchToParent",
+  "height": "stretchToParent",
+  "items": [
+    {
+      "viewlet": "linearContainer",
+      "width": "stretchToParent",
+      "gravity": "bottom",
+      "items": [
+        {
+          "viewlet": "frameContainer",
+          "width": "stretchToParent",
+          "height": 256,
+          "marginBottom": 64,
+          "items": [
+            {
+              "refId": "backgroundGradient",
+              "viewlet": "gradient",
+              "width": "stretchToParent",
+              "height": "stretchToParent"
+            },
+            {
+              "refId": "backgroundImage",
+              "viewlet": "image",
+              "width": "stretchToParent",
+              "height": "stretchToParent",
+              "marginTop": 40,
+              "gravity": "bottom",
+              "scaleType": "scaleCrop"
+            }
+          ]
+        },
+        {
+          "viewlet": "spacer",
+          "takeHeight": "bottomBar"
+        },
+        {
+          "viewlet": "spacer",
+          "takeHeight": "bottomSafeArea"
+        }
+      ]
+    },
+    {
+      "refId": "logo",
+      "viewlet": "publisherLogo",
+      "width": "stretchToParent",
+      "padding": [ "$splashLogoMargin", "$splashLogoMargin", "$splashLogoMargin", "$splashLogoMargin" ],
+      "gravity": "center"
+    }
+  ]
+}
