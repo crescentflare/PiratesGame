@@ -13,7 +13,7 @@ class AlertModule: ControllerModule {
     // --
     
     let eventType = "alert"
-    private var viewController: UIViewController?
+    private weak var viewController: UIViewController?
 
     
     // --
@@ -24,18 +24,23 @@ class AlertModule: ControllerModule {
         // No implementation
     }
 
-    
-    // --
-    // MARK: Event handling
-    // --
-    
     func didCreate(viewController: UIViewController) {
         self.viewController = viewController
     }
     
+
+    // --
+    // MARK: Page updates
+    // --
+
     func didUpdatePage(page: Page, binder: ViewletDictBinder) {
         // No implementation
     }
+
+
+    // --
+    // MARK: Event handling
+    // --
 
     func catchEvent(_ event: AppEvent, sender: Any?) -> Bool {
         if event.rawType == eventType {

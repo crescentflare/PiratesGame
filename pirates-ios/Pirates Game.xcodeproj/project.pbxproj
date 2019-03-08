@@ -48,6 +48,11 @@
 		049B634D2232BADC00AFB13B /* SplashAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049B634A2232BADC00AFB13B /* SplashAnimation.swift */; };
 		049B634E2232BADC00AFB13B /* PublisherLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049B634C2232BADC00AFB13B /* PublisherLogo.swift */; };
 		049B63512232BBFD00AFB13B /* SplashAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = 049B63502232BBFC00AFB13B /* SplashAnimation.json */; };
+		049B63542232C05400AFB13B /* SplashLoaderModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049B63532232C05400AFB13B /* SplashLoaderModule.swift */; };
+		049B63562232E9CB00AFB13B /* SplashLoadingBar.json in Resources */ = {isa = PBXBuildFile; fileRef = 049B63552232E9CB00AFB13B /* SplashLoadingBar.json */; };
+		049B63582232EA1200AFB13B /* SplashLoadingBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049B63572232EA1200AFB13B /* SplashLoadingBar.swift */; };
+		049B635B2232F31E00AFB13B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 049B63592232F31E00AFB13B /* Localizable.strings */; };
+		049B635F2232FB7C00AFB13B /* primitive.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 041558C42232A0BF001158FA /* primitive.ttf */; };
 		6F94BD396123AAB128D3E348 /* Pods_PiratesGame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4452BEDF3C337F85343B6AC4 /* Pods_PiratesGame.framework */; };
 /* End PBXBuildFile section */
 
@@ -96,6 +101,10 @@
 		049B634A2232BADC00AFB13B /* SplashAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashAnimation.swift; sourceTree = "<group>"; };
 		049B634C2232BADC00AFB13B /* PublisherLogo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublisherLogo.swift; sourceTree = "<group>"; };
 		049B63502232BBFC00AFB13B /* SplashAnimation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SplashAnimation.json; sourceTree = "<group>"; };
+		049B63532232C05400AFB13B /* SplashLoaderModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashLoaderModule.swift; sourceTree = "<group>"; };
+		049B63552232E9CB00AFB13B /* SplashLoadingBar.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SplashLoadingBar.json; sourceTree = "<group>"; };
+		049B63572232EA1200AFB13B /* SplashLoadingBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashLoadingBar.swift; sourceTree = "<group>"; };
+		049B635A2232F31E00AFB13B /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4452BEDF3C337F85343B6AC4 /* Pods_PiratesGame.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PiratesGame.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5EA8F4D7E84768DD64D8AEFD /* Pods-PiratesGame.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PiratesGame.release.xcconfig"; path = "Pods/Target Support Files/Pods-PiratesGame/Pods-PiratesGame.release.xcconfig"; sourceTree = "<group>"; };
 		8C90D63019B06504E85C7A4E /* Pods-PiratesGame.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PiratesGame.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PiratesGame/Pods-PiratesGame.debug.xcconfig"; sourceTree = "<group>"; };
@@ -287,6 +296,7 @@
 			isa = PBXGroup;
 			children = (
 				0415590F2232A510001158FA /* Shared */,
+				049B63522232C05400AFB13B /* Splash */,
 				0415590E2232A510001158FA /* ControllerModule.swift */,
 			);
 			path = Modules;
@@ -328,6 +338,7 @@
 				041558C22232A067001158FA /* Resources */,
 				042DBBF922328EB4008831FE /* AppDelegate.swift */,
 				042DBC0222328EB6008831FE /* LaunchScreen.storyboard */,
+				049B63592232F31E00AFB13B /* Localizable.strings */,
 				042DBC0522328EB6008831FE /* Info.plist */,
 			);
 			path = PiratesGame;
@@ -337,6 +348,7 @@
 			isa = PBXGroup;
 			children = (
 				049B634A2232BADC00AFB13B /* SplashAnimation.swift */,
+				049B63572232EA1200AFB13B /* SplashLoadingBar.swift */,
 			);
 			path = CompoundViews;
 			sourceTree = "<group>";
@@ -353,8 +365,17 @@
 			isa = PBXGroup;
 			children = (
 				049B63502232BBFC00AFB13B /* SplashAnimation.json */,
+				049B63552232E9CB00AFB13B /* SplashLoadingBar.json */,
 			);
 			path = Layout;
+			sourceTree = "<group>";
+		};
+		049B63522232C05400AFB13B /* Splash */ = {
+			isa = PBXGroup;
+			children = (
+				049B63532232C05400AFB13B /* SplashLoaderModule.swift */,
+			);
+			path = Splash;
 			sourceTree = "<group>";
 		};
 		8C8EF92CFFEA91BD3684FBA4 /* Frameworks */ = {
@@ -435,8 +456,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				049B63442232A8F700AFB13B /* Pages in Resources */,
+				049B635B2232F31E00AFB13B /* Localizable.strings in Resources */,
 				042DBC0422328EB6008831FE /* LaunchScreen.storyboard in Resources */,
 				042DBC0122328EB6008831FE /* Assets.xcassets in Resources */,
+				049B63562232E9CB00AFB13B /* SplashLoadingBar.json in Resources */,
+				049B635F2232FB7C00AFB13B /* primitive.ttf in Resources */,
 				049B63512232BBFD00AFB13B /* SplashAnimation.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -508,6 +532,7 @@
 				041559142232A510001158FA /* ControllerModule.swift in Sources */,
 				049B634E2232BADC00AFB13B /* PublisherLogo.swift in Sources */,
 				042DBBFC22328EB4008831FE /* SplashViewController.swift in Sources */,
+				049B63582232EA1200AFB13B /* SplashLoadingBar.swift in Sources */,
 				041558E82232A200001158FA /* ImageSource.swift in Sources */,
 				041559022232A42C001158FA /* AppEventLabeledSender.swift in Sources */,
 				041558E12232A200001158FA /* TextViewlet.swift in Sources */,
@@ -528,6 +553,7 @@
 				041559002232A42C001158FA /* AppEvent.swift in Sources */,
 				041558FE2232A42C001158FA /* String+Localization.swift in Sources */,
 				041558FD2232A42C001158FA /* Data+MD5.swift in Sources */,
+				049B63542232C05400AFB13B /* SplashLoaderModule.swift in Sources */,
 				041558E92232A200001158FA /* MarkdownGenerator.swift in Sources */,
 				041558E52232A200001158FA /* AppColors.swift in Sources */,
 				041559062232A42C001158FA /* CustomAppConfigManager.swift in Sources */,
@@ -554,6 +580,14 @@
 				042DBC0322328EB6008831FE /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		049B63592232F31E00AFB13B /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				049B635A2232F31E00AFB13B /* Base */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

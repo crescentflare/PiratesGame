@@ -17,12 +17,18 @@ class SplashAnimation: FrameContainerView {
 
 
     // --
-    // MARK: Members
+    // MARK: Bound views
     // --
     
     private var logoView: PublisherLogo?
     private var backgroundGradientView: GradientView?
     private var backgroundImageView: UniImageView?
+
+
+    // --
+    // MARK: Members
+    // --
+
     private var currentOn = false
 
     

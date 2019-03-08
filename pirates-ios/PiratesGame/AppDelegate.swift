@@ -80,7 +80,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Compound views
         ViewletCreator.register(name: "splashAnimation", viewlet: SplashAnimation.viewlet())
-        
+        ViewletCreator.register(name: "splashLoadingBar", viewlet: SplashLoadingBar.viewlet())
+
         // Complex views
         ViewletCreator.register(name: "publisherLogo", viewlet: PublisherLogo.viewlet())
         

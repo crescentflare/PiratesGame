@@ -36,6 +36,7 @@ class SplashViewController: ComponentViewController, AppEventObserver, PageLoade
         
         // Add module
         modules.append(AlertModule())
+        modules.append(SplashLoaderModule())
         for module in modules {
             module.didCreate(viewController: self)
         }
@@ -107,6 +108,9 @@ class SplashViewController: ComponentViewController, AppEventObserver, PageLoade
             "items": [page.layout]
         ]
         ViewletUtil.assertInflateOn(view: containerView, attributes: inflateLayout, binder: binder)
+        for module in modules {
+            module.didUpdatePage(page: page, binder: binder)
+        }
     }
     
 }

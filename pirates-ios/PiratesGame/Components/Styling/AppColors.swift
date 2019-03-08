@@ -41,7 +41,7 @@ class AppColors {
     // --
 
     class var text: UIColor { get { return colorFromInt(0xff000000) } }
-    class var textInverted: UIColor { get { return colorFromInt(0xff000000) } }
+    class var textInverted: UIColor { get { return colorFromInt(0xffffffff) } }
 
     
     // --
