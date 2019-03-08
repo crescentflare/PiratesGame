@@ -39,6 +39,7 @@
 		041559132232A510001158FA /* PageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0415590C2232A510001158FA /* PageLoader.swift */; };
 		041559142232A510001158FA /* ControllerModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0415590E2232A510001158FA /* ControllerModule.swift */; };
 		041559152232A510001158FA /* AlertModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041559102232A510001158FA /* AlertModule.swift */; };
+		041559172232AA0F001158FA /* ComponentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041559162232AA0F001158FA /* ComponentViewController.swift */; };
 		042DBBFA22328EB4008831FE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042DBBF922328EB4008831FE /* AppDelegate.swift */; };
 		042DBBFC22328EB4008831FE /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042DBBFB22328EB4008831FE /* SplashViewController.swift */; };
 		042DBC0122328EB6008831FE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 042DBC0022328EB6008831FE /* Assets.xcassets */; };
@@ -81,6 +82,7 @@
 		0415590C2232A510001158FA /* PageLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageLoader.swift; sourceTree = "<group>"; };
 		0415590E2232A510001158FA /* ControllerModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControllerModule.swift; sourceTree = "<group>"; };
 		041559102232A510001158FA /* AlertModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertModule.swift; sourceTree = "<group>"; };
+		041559162232AA0F001158FA /* ComponentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentViewController.swift; sourceTree = "<group>"; };
 		042DBBF622328EB4008831FE /* PiratesGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PiratesGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		042DBBF922328EB4008831FE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		042DBBFB22328EB4008831FE /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
@@ -256,6 +258,7 @@
 		041559082232A4C7001158FA /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				041559162232AA0F001158FA /* ComponentViewController.swift */,
 				042DBBFB22328EB4008831FE /* SplashViewController.swift */,
 			);
 			path = ViewControllers;
@@ -499,6 +502,7 @@
 				041559152232A510001158FA /* AlertModule.swift in Sources */,
 				041558FC2232A42C001158FA /* String+MD5.swift in Sources */,
 				041558E22232A200001158FA /* SpacerViewlet.swift in Sources */,
+				041559172232AA0F001158FA /* ComponentViewController.swift in Sources */,
 				041559122232A510001158FA /* Page.swift in Sources */,
 				041558EA2232A200001158FA /* ViewletUtil.swift in Sources */,
 				041559132232A510001158FA /* PageLoader.swift in Sources */,
