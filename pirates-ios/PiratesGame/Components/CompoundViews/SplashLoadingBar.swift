@@ -124,7 +124,8 @@ class SplashLoadingBar: FrameContainerView {
                 self.currentProgress = min(progress, 1)
                 self.isAnimating = true
                 UIView.animate(withDuration: SplashLoadingBar.animationDuration, delay: 0, options: UIView.AnimationOptions.curveEaseOut, animations: {
-                    self.layoutBar()
+                    self.setNeedsLayout()
+                    self.layoutIfNeeded()
                 }, completion: { (finished) -> Void in
                     self.isAnimating = false
                 })
@@ -133,7 +134,8 @@ class SplashLoadingBar: FrameContainerView {
             })
         } else {
             currentProgress = min(progress, 1)
-            layoutBar()
+            setNeedsLayout()
+            layoutIfNeeded()
         }
     }
 
@@ -143,17 +145,12 @@ class SplashLoadingBar: FrameContainerView {
     // --
     
     override func layoutSubviews() {
-        super.layoutSubviews()
-        layoutBar()
-    }
-    
-    private func layoutBar() {
         if let barView = barView {
             let layoutProperties = barView.layoutProperties
-            let y = (bounds.height - layoutProperties.height - padding.top - padding.bottom) / 2 + padding.top
             let maxWidth = bounds.width - padding.left - padding.right - layoutProperties.margin.left - layoutProperties.margin.right
-            UniLayout.setFrame(view: barView, frame: CGRect(x: padding.left + layoutProperties.margin.left, y: y, width: CGFloat(progress) * maxWidth, height: layoutProperties.height))
+            barView.layoutProperties.width = CGFloat(progress) * maxWidth
         }
+        super.layoutSubviews()
     }
-
+    
 }
