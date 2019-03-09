@@ -17,4 +17,4 @@ The libraries and framework of the app allow it to load, parse and show every sc
 
 ### Sending and receiving events
 
-The app defines events in a common structure which can be linked to component interactions. For example, a button component can send an event to the view controller or activity when it's tapped. They are defined as a json object, or as an URI string. The development server contains a tool to enter events in URI format (through the command console) to a client. A client can connect and receive events through the event receiver tool which is part of the app. Enable it in the debug menu.
+The app defines events in a common structure which can be linked to component interactions. For example, a button component can send an event to the view controller or activity when it's tapped. They are defined as a json object, or as an URI string. The development server contains a tool to enter events in URI format (through the command console) to be sent to a client. A client can connect and receive events through the event receiver tool which is part of the app. Enable it in the debug menu.
