@@ -15,7 +15,7 @@ import kotlinx.coroutines.*
 import java.lang.ref.WeakReference
 
 /**
- * Shared module: catches alert events to show popup dialogs
+ * Splash module: handles loading and updating the loading bar component
  */
 class SplashLoaderModule: ControllerModule {
 

@@ -115,7 +115,6 @@ class SplashLoadingBar : FrameContainerView {
 
     init {
         ViewletUtil.assertInflateOn(this, ViewletLoader.loadAttributes(context, layoutResource),null, ViewletAnnotationBinder(this))
-        barView?.setBackgroundResource(R.drawable.shape_splash_loading_bar)
     }
 
 
@@ -183,6 +182,7 @@ class SplashLoadingBar : FrameContainerView {
             layoutBar()
         }
     }
+
 
     // --
     // Custom layout
