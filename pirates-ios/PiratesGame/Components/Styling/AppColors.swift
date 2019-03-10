@@ -17,10 +17,19 @@ class AppColors {
         func getColor(refId: String) -> UIColor? {
             let colorTable: [String: UIColor] = [
                 "primary": primary,
+                "primaryHighlight": primaryHighlight,
                 "secondary": secondary,
+                "secondaryHighlight": secondaryHighlight,
+                "inverted": inverted,
+                "invertedHighlight": invertedHighlight,
+                "disabled": disabled,
+                "disabledHighlight": disabledHighlight,
+                "disabledInverted": disabledInverted,
+                "disabledInvertedHighlight": disabledInvertedHighlight,
 
                 "text": text,
-                "textInverted": textInverted
+                "textInverted": textInverted,
+                "textDisabled": textDisabled
             ]
             return colorTable[refId]
         }
@@ -33,15 +42,24 @@ class AppColors {
     // --
     
     class var primary: UIColor { get { return colorFromInt(0xff07575b) } }
-    class var secondary: UIColor { get { return colorFromInt(0xffff7114) } }
+    class var primaryHighlight: UIColor { get { return colorFromInt(0xff00747a) } }
+    class var secondary: UIColor { get { return colorFromInt(0xffbf8207) } }
+    class var secondaryHighlight: UIColor { get { return colorFromInt(0xffd9a500) } }
+    class var inverted: UIColor { get { return colorFromInt(0xd8ffffff) }}
+    class var invertedHighlight: UIColor { get { return colorFromInt(0xffffffff) }}
+    class var disabled: UIColor { get { return colorFromInt(0xffd0d0d0) } }
+    class var disabledHighlight: UIColor { get { return colorFromInt(0xffe8e8e8) } }
+    class var disabledInverted: UIColor { get { return colorFromInt(0x80ffffff) }}
+    class var disabledInvertedHighlight: UIColor { get { return colorFromInt(0x98ffffff) }}
 
     
     // --
     // MARK: Text
     // --
 
-    class var text: UIColor { get { return colorFromInt(0xff000000) } }
+    class var text: UIColor { get { return colorFromInt(0xff1a1a1a) } }
     class var textInverted: UIColor { get { return colorFromInt(0xffffffff) } }
+    class var textDisabled: UIColor { get { return colorFromInt(0xff9a9a9a) } }
 
     
     // --

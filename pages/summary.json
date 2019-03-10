@@ -11,6 +11,7 @@
           "viewlet": "scrollContainer",
           "width": "stretchToParent",
           "height": "stretchToParent",
+          "fillContent": true,
           "item": {
             "viewlet": "linearContainer",
             "width": "stretchToParent",
@@ -20,6 +21,13 @@
                 "viewlet": "text",
                 "width": "stretchToParent",
                 "text": "TODO: this screen will contain a summary of the player's state"
+              },
+              {
+                "viewlet": "button",
+                "width": "stretchToParent",
+                "marginSpacing": 16,
+                "text": "Test button",
+                "tapEvent": "alert://simple?title=Button&text=TODO:+Implement+button+interaction"
               },
               {
                 "viewlet": "spacer",

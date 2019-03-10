@@ -21,8 +21,8 @@ enum ImageSourceType: String {
 enum ImageSourceGenerateType: String {
     
     case unknown = "unknown"
-    case solid = "solid"
-    case oval = "oval"
+    case filledRect = "filledRect"
+    case filledOval = "filledOval"
     
 }
 
@@ -163,7 +163,7 @@ class ImageSource {
     // MARK: Image generators
     // --
     
-    class func generateSolid(color: UIColor, size: CGSize? = nil, horizontalGravity: CGFloat = 0.5, verticalGravity: CGFloat = 0.5, forceImageSize: CGSize? = nil, onImage: UIImage? = nil) -> UIImage? {
+    class func generateFilledRect(color: UIColor, size: CGSize? = nil, horizontalGravity: CGFloat = 0.5, verticalGravity: CGFloat = 0.5, forceImageSize: CGSize? = nil, onImage: UIImage? = nil) -> UIImage? {
         // Return early for invalid sizes
         let wantSize = size ?? onImage?.size ?? CGSize.zero
         if wantSize.width <= 0 || wantSize.height <= 0 {
@@ -185,6 +185,13 @@ class ImageSource {
             onImage.draw(at: CGPoint.zero)
         }
 
+        // Cut out shape first when drawing with opacity on an existing image (shrinking the draw area is intentional)
+        if color.cgColor.alpha != 1 && onImage != nil {
+            context?.setBlendMode(.clear)
+            context?.fill(CGRect(x: (contextSize.width - wantSize.width) * horizontalGravity + 0.5, y: (contextSize.height - wantSize.height) * verticalGravity + 0.5, width: wantSize.width - 1, height: wantSize.height - 1))
+            context?.setBlendMode(.normal)
+        }
+        
         // Draw
         context?.setFillColor(color.cgColor)
         context?.fill(CGRect(x: (contextSize.width - wantSize.width) * horizontalGravity, y: (contextSize.height - wantSize.height) * verticalGravity, width: wantSize.width, height: wantSize.height))
@@ -195,7 +202,7 @@ class ImageSource {
         return result
     }
 
-    class func generateOval(color: UIColor, size: CGSize? = nil, horizontalGravity: CGFloat = 0.5, verticalGravity: CGFloat = 0.5, forceImageSize: CGSize? = nil, onImage: UIImage? = nil) -> UIImage? {
+    class func generateFilledOval(color: UIColor, size: CGSize? = nil, horizontalGravity: CGFloat = 0.5, verticalGravity: CGFloat = 0.5, forceImageSize: CGSize? = nil, onImage: UIImage? = nil) -> UIImage? {
         // Return early for invalid sizes
         let wantSize = size ?? onImage?.size ?? CGSize.zero
         if wantSize.width <= 0 || wantSize.height <= 0 {
@@ -217,6 +224,13 @@ class ImageSource {
             onImage.draw(at: CGPoint.zero)
         }
         
+        // Cut out shape first when drawing with opacity on an existing image (shrinking the draw area is intentional)
+        if color.cgColor.alpha != 1 && onImage != nil {
+            context?.setBlendMode(.clear)
+            context?.fillEllipse(in: CGRect(x: (contextSize.width - wantSize.width) * horizontalGravity + 0.5, y: (contextSize.height - wantSize.height) * verticalGravity + 0.5, width: wantSize.width - 1, height: wantSize.height - 1))
+            context?.setBlendMode(.normal)
+        }
+
         // Draw
         context?.setFillColor(color.cgColor)
         context?.fillEllipse(in: CGRect(x: (contextSize.width - wantSize.width) * horizontalGravity, y: (contextSize.height - wantSize.height) * verticalGravity, width: wantSize.width, height: wantSize.height))
@@ -272,10 +286,10 @@ class ImageSource {
                 forceSize = nil
             }
             switch generateType {
-            case .solid:
-                return ImageSource.generateSolid(color: color, size: size, horizontalGravity: horizontalGravity, verticalGravity: verticalGravity, forceImageSize: forceSize, onImage: onImage)
-            case .oval:
-                return ImageSource.generateOval(color: color, size: size, horizontalGravity: horizontalGravity, verticalGravity: verticalGravity, forceImageSize: forceSize, onImage: onImage)
+            case .filledRect:
+                return ImageSource.generateFilledRect(color: color, size: size, horizontalGravity: horizontalGravity, verticalGravity: verticalGravity, forceImageSize: forceSize, onImage: onImage)
+            case .filledOval:
+                return ImageSource.generateFilledOval(color: color, size: size, horizontalGravity: horizontalGravity, verticalGravity: verticalGravity, forceImageSize: forceSize, onImage: onImage)
             default:
                 break
             }

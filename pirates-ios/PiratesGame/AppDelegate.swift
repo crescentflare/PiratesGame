@@ -76,6 +76,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ViewletConvUtil.dimensionLookup = AppDimensions.AppDimensionLookup()
         
         // Basic views
+        ViewletCreator.register(name: "button", viewlet: ButtonView.viewlet())
+        ViewletCreator.registerStyle(viewletName: "button", styleName: "default", styleAttributes: ButtonView.defaultStyle)
         ViewletCreator.register(name: "gradient", viewlet: GradientView.viewlet())
         
         // Compound views
