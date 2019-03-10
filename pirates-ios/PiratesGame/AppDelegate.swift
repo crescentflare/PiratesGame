@@ -36,7 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Launch view controller
         window = CustomWindow(frame: UIScreen.main.bounds)
         window?.backgroundColor = UIColor.black
-        window?.rootViewController = SplashViewController()
+        window?.rootViewController = UINavigationController(rootViewController: SplashViewController())
         window?.makeKeyAndVisible()
         return true
     }

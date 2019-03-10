@@ -1,18 +1,18 @@
 //
-//  SplashViewController.swift
-//  View controller: the splash screen, loading assets
+//  SummaryViewController.swift
+//  View controller: the main screen showing the summary of the player state
 //
 
 import UIKit
 import ViewletCreator
 
-class SplashViewController: ComponentViewController, AppEventObserver, PageLoaderContinuousCompletion {
+class SummaryViewController: ComponentViewController, AppEventObserver, PageLoaderContinuousCompletion {
 
     // --
     // MARK: Outlets
     // --
     
-    private let pageJson = "splash.json"
+    private let pageJson = "summary.json"
     private var pageLoader: PageLoader?
     private var hotReloadPageUrl = ""
     private let containerView = FrameContainerView()
@@ -26,7 +26,7 @@ class SplashViewController: ComponentViewController, AppEventObserver, PageLoade
     override func viewDidLoad() {
         // Set navigation bar
         super.viewDidLoad()
-        let navigationBar = TransparentNavigationBar()
+        let navigationBar = SolidNavigationBar()
         navigationBar.isLightContent = true
         navigationBarView = navigationBar
         
@@ -37,7 +37,6 @@ class SplashViewController: ComponentViewController, AppEventObserver, PageLoade
         // Add module
         modules.append(AlertModule())
         modules.append(NavigationModule())
-        modules.append(SplashLoaderModule())
         for module in modules {
             module.didCreate(viewController: self)
         }

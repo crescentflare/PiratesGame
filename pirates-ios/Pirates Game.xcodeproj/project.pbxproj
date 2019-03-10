@@ -44,6 +44,9 @@
 		042DBBFC22328EB4008831FE /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042DBBFB22328EB4008831FE /* SplashViewController.swift */; };
 		042DBC0122328EB6008831FE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 042DBC0022328EB6008831FE /* Assets.xcassets */; };
 		042DBC0422328EB6008831FE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 042DBC0222328EB6008831FE /* LaunchScreen.storyboard */; };
+		043DF1702235392700F686B1 /* SummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043DF16F2235392700F686B1 /* SummaryViewController.swift */; };
+		043DF17222353AED00F686B1 /* NavigationModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043DF17122353AED00F686B1 /* NavigationModule.swift */; };
+		043DF17422353EE300F686B1 /* SolidNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043DF17322353EE300F686B1 /* SolidNavigationBar.swift */; };
 		049B63442232A8F700AFB13B /* Pages in Resources */ = {isa = PBXBuildFile; fileRef = 049B63432232A8F700AFB13B /* Pages */; };
 		049B634D2232BADC00AFB13B /* SplashAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049B634A2232BADC00AFB13B /* SplashAnimation.swift */; };
 		049B634E2232BADC00AFB13B /* PublisherLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049B634C2232BADC00AFB13B /* PublisherLogo.swift */; };
@@ -97,6 +100,9 @@
 		042DBC0022328EB6008831FE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		042DBC0322328EB6008831FE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		042DBC0522328EB6008831FE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		043DF16F2235392700F686B1 /* SummaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummaryViewController.swift; sourceTree = "<group>"; };
+		043DF17122353AED00F686B1 /* NavigationModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationModule.swift; sourceTree = "<group>"; };
+		043DF17322353EE300F686B1 /* SolidNavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SolidNavigationBar.swift; sourceTree = "<group>"; };
 		049B63432232A8F700AFB13B /* Pages */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Pages; sourceTree = "<group>"; };
 		049B634A2232BADC00AFB13B /* SplashAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashAnimation.swift; sourceTree = "<group>"; };
 		049B634C2232BADC00AFB13B /* PublisherLogo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublisherLogo.swift; sourceTree = "<group>"; };
@@ -168,6 +174,7 @@
 		041558CA2232A200001158FA /* NavigationBars */ = {
 			isa = PBXGroup;
 			children = (
+				043DF17322353EE300F686B1 /* SolidNavigationBar.swift */,
 				041558CB2232A200001158FA /* TransparentNavigationBar.swift */,
 			);
 			path = NavigationBars;
@@ -278,6 +285,7 @@
 			children = (
 				041559162232AA0F001158FA /* ComponentViewController.swift */,
 				042DBBFB22328EB4008831FE /* SplashViewController.swift */,
+				043DF16F2235392700F686B1 /* SummaryViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -306,6 +314,7 @@
 			isa = PBXGroup;
 			children = (
 				041559102232A510001158FA /* AlertModule.swift */,
+				043DF17122353AED00F686B1 /* NavigationModule.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -536,6 +545,7 @@
 				041558E82232A200001158FA /* ImageSource.swift in Sources */,
 				041559022232A42C001158FA /* AppEventLabeledSender.swift in Sources */,
 				041558E12232A200001158FA /* TextViewlet.swift in Sources */,
+				043DF17422353EE300F686B1 /* SolidNavigationBar.swift in Sources */,
 				041559052232A42C001158FA /* CustomAppConfigModel.swift in Sources */,
 				041558E72232A200001158FA /* AppFonts.swift in Sources */,
 				041558DE2232A200001158FA /* FrameContainerView.swift in Sources */,
@@ -548,6 +558,7 @@
 				041558DD2232A200001158FA /* LinearContainerView.swift in Sources */,
 				041558E02232A200001158FA /* GradientView.swift in Sources */,
 				041558FF2232A42C001158FA /* String+URLCoding.swift in Sources */,
+				043DF1702235392700F686B1 /* SummaryViewController.swift in Sources */,
 				041558E62232A200001158FA /* AppDimensions.swift in Sources */,
 				042DBBFA22328EB4008831FE /* AppDelegate.swift in Sources */,
 				041559002232A42C001158FA /* AppEvent.swift in Sources */,
@@ -558,6 +569,7 @@
 				041558E52232A200001158FA /* AppColors.swift in Sources */,
 				041559062232A42C001158FA /* CustomAppConfigManager.swift in Sources */,
 				041559012232A42C001158FA /* AppEventType.swift in Sources */,
+				043DF17222353AED00F686B1 /* NavigationModule.swift in Sources */,
 				041558DC2232A200001158FA /* ScrollContainerView.swift in Sources */,
 				041558EB2232A200001158FA /* NavigationBarComponent.swift in Sources */,
 				041559152232A510001158FA /* AlertModule.swift in Sources */,

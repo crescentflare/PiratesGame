@@ -109,7 +109,7 @@ class SplashLoaderModule: ControllerModule {
                 }
                 DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: {
                     let eventObserver = self.viewController as? AppEventObserver
-                    eventObserver?.observedEvent(AppEvent(string: "alert://simple?title=Loading+complete&text=TODO:+implement+next+screen"), sender: nil)
+                    eventObserver?.observedEvent(AppEvent(string: "navigate://summary?type=replace"), sender: nil)
                     self.done = true
                 })
             }

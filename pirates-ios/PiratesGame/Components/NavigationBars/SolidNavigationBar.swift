@@ -1,13 +1,13 @@
 //
-//  TransparentNavigationBar.swift
-//  Navigation bar: an invisible bar, used if no navigation bar is specified
+//  SolidNavigationBar.swift
+//  Navigation bar: a simple navigation bar, the default for apps
 //
 
 import UIKit
 import UniLayout
 import ViewletCreator
 
-class TransparentNavigationBar: UniView, NavigationBarComponent {
+class SolidNavigationBar: UniView, NavigationBarComponent {
 
     // --
     // MARK: Members
@@ -15,7 +15,7 @@ class TransparentNavigationBar: UniView, NavigationBarComponent {
     
     var isTranslucent: Bool {
         get {
-            return true
+            return false
         }
     }
     
@@ -31,11 +31,11 @@ class TransparentNavigationBar: UniView, NavigationBarComponent {
     private class ViewletClass: Viewlet {
         
         func create() -> UIView {
-            return TransparentNavigationBar()
+            return SolidNavigationBar()
         }
         
         func update(view: UIView, attributes: [String : Any], parent: UIView?, binder: ViewletBinder?) -> Bool {
-            if let navigationBar = view as? TransparentNavigationBar {
+            if let navigationBar = view as? SolidNavigationBar {
                 // Bar properties
                 navigationBar.isLightContent = ViewletConvUtil.asBool(value: attributes["lightContent"]) ?? false
 
@@ -47,7 +47,7 @@ class TransparentNavigationBar: UniView, NavigationBarComponent {
         }
         
         func canRecycle(view: UIView, attributes: [String : Any]) -> Bool {
-            return view is TransparentNavigationBar
+            return view is SolidNavigationBar
         }
         
     }
@@ -75,6 +75,10 @@ class TransparentNavigationBar: UniView, NavigationBarComponent {
     // MARK: Configurable values
     // --
 
-    var isLightContent: Bool = false
+    var isLightContent: Bool = false {
+        didSet {
+            backgroundColor = isLightContent ? AppColors.primary : UIColor.white
+        }
+    }
 
 }
