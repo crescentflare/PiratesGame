@@ -2,10 +2,13 @@ package com.crescentflare.piratesgame.components.navigationbars
 
 import android.annotation.TargetApi
 import android.content.Context
+import android.graphics.Color
 import android.os.Build
+import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
+import com.crescentflare.piratesgame.R
 import com.crescentflare.piratesgame.components.utility.NavigationBarComponent
 import com.crescentflare.piratesgame.components.utility.ViewletUtil
 import com.crescentflare.viewletcreator.binder.ViewletBinder
@@ -15,9 +18,9 @@ import com.crescentflare.viewletcreator.utility.ViewletMapUtil
 
 
 /**
- * Navigation bar: an invisible bar, used if no navigation bar is specified
+ * Navigation bar: a simple navigation bar, the default for apps
  */
-class TransparentNavigationBar : UniView, NavigationBarComponent {
+class SolidNavigationBar : UniView, NavigationBarComponent {
 
     // --
     // Static: viewlet integration
@@ -28,11 +31,11 @@ class TransparentNavigationBar : UniView, NavigationBarComponent {
         val viewlet: ViewletCreator.Viewlet = object : ViewletCreator.Viewlet {
 
             override fun create(context: Context): View {
-                return TransparentNavigationBar(context)
+                return SolidNavigationBar(context)
             }
 
             override fun update(view: View, attributes: Map<String, Any>, parent: ViewGroup?, binder: ViewletBinder?): Boolean {
-                if (view is TransparentNavigationBar) {
+                if (view is SolidNavigationBar) {
                     // Bar properties
                     view.lightContent = ViewletMapUtil.optionalBoolean(attributes, "lightContent", false)
 
@@ -44,7 +47,7 @@ class TransparentNavigationBar : UniView, NavigationBarComponent {
             }
 
             override fun canRecycle(view: View, attributes: Map<String, Any>): Boolean {
-                return view is TransparentNavigationBar
+                return view is SolidNavigationBar
             }
 
         }
@@ -56,7 +59,7 @@ class TransparentNavigationBar : UniView, NavigationBarComponent {
     // Members
     // --
 
-    override val translucent = true
+    override val translucent = false
 
 
     // --
@@ -88,5 +91,9 @@ class TransparentNavigationBar : UniView, NavigationBarComponent {
     // --
 
     override var lightContent = false
+        set(lightContent) {
+            field = lightContent
+            setBackgroundColor(ContextCompat.getColor(context, if (lightContent) R.color.primary else Color.WHITE))
+        }
 
 }

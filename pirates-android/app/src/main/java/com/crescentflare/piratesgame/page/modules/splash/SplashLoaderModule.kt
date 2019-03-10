@@ -94,7 +94,7 @@ class SplashLoaderModule: ControllerModule {
                         delay(SplashLoadingBar.animationDuration)
                     }
                     val eventObserver = context?.get() as? AppEventObserver
-                    eventObserver?.observedEvent(AppEvent("alert://simple?title=Loading+complete&text=TODO:+implement+next+screen"), null)
+                    eventObserver?.observedEvent(AppEvent("navigate://summary?type=replace"), null)
                     done = true
                 }
             }

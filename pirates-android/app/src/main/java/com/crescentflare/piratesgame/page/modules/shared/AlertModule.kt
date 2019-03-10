@@ -20,7 +20,6 @@ class AlertModule: ControllerModule {
 
     override val eventType = "alert"
     private var context: WeakReference<Context>? = null
-    private var binder: ViewletMapBinder? = null
 
 
     // --
@@ -37,7 +36,7 @@ class AlertModule: ControllerModule {
     // --
 
     override fun onPageUpdated(page: Page, binder: ViewletMapBinder) {
-        this.binder = binder
+        // No implementation
     }
 
 

@@ -3,6 +3,7 @@ package com.crescentflare.piratesgame.page.activities
 import android.os.Bundle
 import com.crescentflare.piratesgame.components.navigationbars.TransparentNavigationBar
 import com.crescentflare.piratesgame.components.containers.FrameContainerView
+import com.crescentflare.piratesgame.components.navigationbars.SolidNavigationBar
 import com.crescentflare.piratesgame.components.utility.ViewletUtil
 import com.crescentflare.piratesgame.infrastructure.appconfig.CustomAppConfigManager
 import com.crescentflare.piratesgame.infrastructure.events.AppEvent
@@ -20,15 +21,15 @@ import com.crescentflare.piratesgame.page.storage.PageCache
 import com.crescentflare.viewletcreator.binder.ViewletMapBinder
 
 /**
- * Activity: the splash screen, loading assets
+ * Activity: the main screen showing the summary of the player state
  */
-class SplashActivity : ComponentActivity(), AppEventObserver, PageLoaderContinuousCompletion {
+class SummaryActivity : ComponentActivity(), AppEventObserver, PageLoaderContinuousCompletion {
 
     // --
     // Members
     // --
 
-    private val pageJson = "splash.json"
+    private val pageJson = "summary.json"
     private var pageLoader: PageLoader? = null
     private var hotReloadPageUrl = ""
     private val containerView by lazy { FrameContainerView(this) }
@@ -42,10 +43,12 @@ class SplashActivity : ComponentActivity(), AppEventObserver, PageLoaderContinuo
     override fun onCreate(savedInstanceState: Bundle?) {
         // Set action bar
         super.onCreate(savedInstanceState)
-        val actionBar = TransparentNavigationBar(this)
+        val actionBar = SolidNavigationBar(this)
+        val navigationBar = SolidNavigationBar(this)
         actionBar.lightContent = true
         actionBarView = actionBar
-        navigationBarView = TransparentNavigationBar(this)
+        navigationBar.lightContent = true
+        navigationBarView = navigationBar
 
         // Set container
         containerView.eventObserver = this
@@ -54,7 +57,6 @@ class SplashActivity : ComponentActivity(), AppEventObserver, PageLoaderContinuo
         // Add modules
         modules.add(AlertModule())
         modules.add(NavigationModule())
-        modules.add(SplashLoaderModule())
         for (module in modules) {
             module.onCreate(this)
         }
