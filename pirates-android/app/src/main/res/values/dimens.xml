@@ -4,6 +4,12 @@
     <dimen name="text">16sp</dimen>
     <dimen name="titleText">20sp</dimen>
     <dimen name="subTitleText">18sp</dimen>
+    <dimen name="buttonText">16sp</dimen>
+
+    <!-- Component padding and spacing -->
+    <dimen name="buttonHorizontalPadding">8dp</dimen>
+    <dimen name="buttonVerticalPadding">4dp</dimen>
+    <dimen name="buttonHeight">40dp</dimen>
 
     <!-- Screen specific: splash screen -->
     <dimen name="splashMargin">16dp</dimen>

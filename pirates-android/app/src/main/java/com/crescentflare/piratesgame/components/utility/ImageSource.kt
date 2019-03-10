@@ -44,7 +44,7 @@ class ImageSource {
         // Static: image generators
         // --
 
-        fun generateSolid(context: Context, color: Int, width: Int? = null, height: Int? = null, horizontalGravity: Float = 0.5f, verticalGravity: Float = 0.5f, forceImageWidth: Int? = null, forceImageHeight: Int? = null, onDrawable: Drawable? = null): Drawable? {
+        fun generateFilledRect(context: Context, color: Int, width: Int? = null, height: Int? = null, horizontalGravity: Float = 0.5f, verticalGravity: Float = 0.5f, forceImageWidth: Int? = null, forceImageHeight: Int? = null, onDrawable: Drawable? = null): Drawable? {
             // Return early for invalid sizes
             val wantWidth = width ?: onDrawable?.intrinsicWidth ?: 0
             val wantHeight = height ?: onDrawable?.intrinsicHeight ?: 0
@@ -79,10 +79,21 @@ class ImageSource {
 
             // Open canvas and draw
             if (bitmap != null) {
+                // Prepare canvas
                 val canvas = Canvas(bitmap)
-                val paint = Paint()
+                val paint = Paint(Paint.FILTER_BITMAP_FLAG or Paint.DITHER_FLAG or Paint.ANTI_ALIAS_FLAG)
                 val x = (bitmapWidth - wantWidth) * horizontalGravity
                 val y = (bitmapHeight - wantHeight) * verticalGravity
+
+                // Cut out shape first when drawing with opacity on an existing image (shrinking the draw area is intentional)
+                if (onDrawable is BitmapDrawable && (color.toLong() and 0xff000000) != 0xff000000) {
+                    paint.color = Color.TRANSPARENT
+                    paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
+                    canvas.drawRect(RectF(x + 0.5f, y + 0.5f, x + wantWidth - 1, y + wantHeight - 1), paint)
+                    paint.xfermode = null
+                }
+
+                // Draw shape
                 paint.color = color
                 canvas.drawRect(x, y, x + wantWidth, y + wantHeight, paint)
             }
@@ -91,7 +102,7 @@ class ImageSource {
             return BitmapDrawable(context.resources, bitmap)
         }
 
-        fun generateOval(context: Context, color: Int, width: Int? = null, height: Int? = null, horizontalGravity: Float = 0.5f, verticalGravity: Float = 0.5f, forceImageWidth: Int? = null, forceImageHeight: Int? = null, onDrawable: Drawable? = null): Drawable? {
+        fun generateFilledOval(context: Context, color: Int, width: Int? = null, height: Int? = null, horizontalGravity: Float = 0.5f, verticalGravity: Float = 0.5f, forceImageWidth: Int? = null, forceImageHeight: Int? = null, onDrawable: Drawable? = null): Drawable? {
             // Return early for invalid sizes
             val wantWidth = width ?: onDrawable?.intrinsicWidth ?: 0
             val wantHeight = height ?: onDrawable?.intrinsicHeight ?: 0
@@ -126,10 +137,21 @@ class ImageSource {
 
             // Open canvas and draw
             if (bitmap != null) {
+                // Prepare canvas
                 val canvas = Canvas(bitmap)
-                val paint = Paint()
+                val paint = Paint(Paint.FILTER_BITMAP_FLAG or Paint.DITHER_FLAG or Paint.ANTI_ALIAS_FLAG)
                 val x = (bitmapWidth - wantWidth) * horizontalGravity
                 val y = (bitmapHeight - wantHeight) * verticalGravity
+
+                // Cut out shape first when drawing with opacity on an existing image (shrinking the draw area is intentional)
+                if (onDrawable is BitmapDrawable && (color.toLong() and 0xff000000) != 0xff000000) {
+                    paint.color = Color.TRANSPARENT
+                    paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
+                    canvas.drawOval(RectF(x + 0.5f, y + 0.5f, x + wantWidth - 1, y + wantHeight - 1), paint)
+                    paint.xfermode = null
+                }
+
+                // Draw shape
                 paint.color = color
                 canvas.drawOval(RectF(x, y, x + wantWidth, y + wantHeight), paint)
             }
@@ -314,8 +336,8 @@ class ImageSource {
                 forceHeight = null
             }
             return when (generateType) {
-                GenerateType.Solid -> generateSolid(context, color, width, height, horizontalGravity, verticalGravity, forceWidth, forceHeight, onDrawable)
-                GenerateType.Oval -> generateOval(context, color, width, height, horizontalGravity, verticalGravity, forceWidth, forceHeight, onDrawable)
+                GenerateType.FilledRect -> generateFilledRect(context, color, width, height, horizontalGravity, verticalGravity, forceWidth, forceHeight, onDrawable)
+                GenerateType.FilledOval -> generateFilledOval(context, color, width, height, horizontalGravity, verticalGravity, forceWidth, forceHeight, onDrawable)
                 else -> null
             }
         }
@@ -354,8 +376,8 @@ class ImageSource {
     enum class GenerateType(val value: String) {
 
         Unknown("unknown"),
-        Solid("solid"),
-        Oval("oval");
+        FilledRect("filledRect"),
+        FilledOval("filledOval");
 
         companion object {
 

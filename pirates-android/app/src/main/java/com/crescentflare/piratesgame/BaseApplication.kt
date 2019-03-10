@@ -2,6 +2,7 @@ package com.crescentflare.piratesgame
 
 import android.app.Application
 import com.crescentflare.dynamicappconfig.manager.AppConfigStorage
+import com.crescentflare.piratesgame.components.basicviews.ButtonView
 import com.crescentflare.piratesgame.components.basicviews.GradientView
 import com.crescentflare.piratesgame.components.complexviews.PublisherLogo
 import com.crescentflare.piratesgame.components.compoundviews.SplashAnimation
@@ -67,6 +68,8 @@ class BaseApplication : Application(), AppConfigStorage.ChangedConfigListener {
         ViewletMapUtil.setDimensionLookup(ViewletResourceDimensionLookup(this))
 
         // Basic views
+        ViewletCreator.registerViewlet("button", ButtonView.viewlet)
+        ViewletCreator.registerStyle("button", "default", ButtonView.defaultStyle())
         ViewletCreator.registerViewlet("gradient", GradientView.viewlet)
 
         // Compound views

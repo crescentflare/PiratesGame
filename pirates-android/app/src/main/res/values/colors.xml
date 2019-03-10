@@ -2,11 +2,20 @@
 <resources>
     <!-- Color palette -->
     <color name="primary">#07575b</color>
-    <color name="secondary">#ff7114</color>
+    <color name="primaryHighlight">#00747a</color>
+    <color name="secondary">#bf8207</color>
+    <color name="secondaryHighlight">#d9a500</color>
+    <color name="inverted">#d8ffffff</color>
+    <color name="invertedHighlight">#ffffff</color>
+    <color name="disabled">#d0d0d0</color>
+    <color name="disabledHighlight">#e8e8e8</color>
+    <color name="disabledInverted">#80ffffff</color>
+    <color name="disabledInvertedHighlight">#98ffffff</color>
 
     <!-- Text -->
-    <color name="text">#000000</color>
+    <color name="text">#1a1a1a</color>
     <color name="textInverted">#ffffff</color>
+    <color name="textDisabled">#9a9a9a</color>
 
     <!-- Android app styling -->
     <color name="colorPrimary">@color/primary</color>
