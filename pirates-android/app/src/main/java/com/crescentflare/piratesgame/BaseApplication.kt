@@ -9,6 +9,7 @@ import com.crescentflare.piratesgame.components.compoundviews.SplashLoadingBar
 import com.crescentflare.piratesgame.components.containers.FrameContainerView
 import com.crescentflare.piratesgame.components.containers.LinearContainerView
 import com.crescentflare.piratesgame.components.containers.ScrollContainerView
+import com.crescentflare.piratesgame.components.navigationbars.SolidNavigationBar
 import com.crescentflare.piratesgame.components.navigationbars.TransparentNavigationBar
 import com.crescentflare.piratesgame.components.simpleviewlets.ImageViewlet
 import com.crescentflare.viewletcreator.ViewletCreator
@@ -82,6 +83,7 @@ class BaseApplication : Application(), AppConfigStorage.ChangedConfigListener {
 
         // Navigation bars
         ViewletCreator.registerViewlet("transparentNavigationBar", TransparentNavigationBar.viewlet)
+        ViewletCreator.registerViewlet("solidNavigationBar", SolidNavigationBar.viewlet)
 
         // Simple viewlets
         ViewletCreator.registerViewlet("image", ImageViewlet.viewlet)

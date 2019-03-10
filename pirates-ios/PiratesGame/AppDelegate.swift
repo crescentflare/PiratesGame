@@ -92,6 +92,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Navigation bars
         ViewletCreator.register(name: "transparentNavigationBar", viewlet: TransparentNavigationBar.viewlet())
+        ViewletCreator.register(name: "solidNavigationBar", viewlet: SolidNavigationBar.viewlet())
 
         // Simple viewlets
         ViewletCreator.register(name: "image", viewlet: ImageViewlet.viewlet())
