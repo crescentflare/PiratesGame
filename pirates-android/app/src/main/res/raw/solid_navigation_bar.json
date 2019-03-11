@@ -2,12 +2,12 @@
   "viewlet": "frameContainer",
   "items": [
     {
+      "refId": "subContainer",
       "viewlet": "linearContainer",
       "orientation": "horizontal",
       "width": "stretchToParent",
       "height": "stretchToParent",
       "padding": [ 16, 0, 16, 0 ],
-      "backgroundColor": "$primary",
       "items": [
         {
           "refId": "title",

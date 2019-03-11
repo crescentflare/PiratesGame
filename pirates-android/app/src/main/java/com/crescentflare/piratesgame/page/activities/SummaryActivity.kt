@@ -48,11 +48,10 @@ class SummaryActivity : ComponentActivity(), AppEventObserver, PageLoaderContinu
         super.onCreate(savedInstanceState)
         val actionBar = SolidNavigationBar(this)
         val navigationBar = SolidNavigationBar(this)
-        actionBar.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimaryDark))
-        actionBar.lightContent = true
+        actionBar.setBackgroundColor(ContextCompat.getColor(this, R.color.primary))
         actionBar.title = title.toString()
         actionBarView = actionBar
-        navigationBar.lightContent = true
+        navigationBar.setBackgroundColor(ContextCompat.getColor(this, R.color.primary))
         navigationBarView = navigationBar
 
         // Set container
