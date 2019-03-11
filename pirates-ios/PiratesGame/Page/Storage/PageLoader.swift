@@ -107,6 +107,9 @@ class PageLoader {
     
     func startLoadingContinuously(completion: PageLoaderContinuousCompletion) {
         continuousCompletion = completion
+        if !loadInternal, let page = PageCache.shared.getEntry(cacheKey: location) {
+            continuousCompletion?.didUpdatePage(page: page)
+        }
         tryNextContinuousLoad()
     }
     
