@@ -3,4 +3,8 @@
 //  Defines localizable strings for the app
 //
 
+// Global app strings
+"GLOBAL_APP_NAME" = "Pirate Game";
+
+// Screen specific: splash screen
 "SPLASH_LOADING_TEXT" = "Loading game...";

@@ -119,6 +119,7 @@ fileprivate class ComponentViewControllerView: UIView {
         var reducedHeight: CGFloat = 0
         if let navigationBarView = navigationBarView {
             let barHeight = topBarHeight()
+            navigationBarView.statusBarInset = min(UIApplication.shared.statusBarFrame.width, UIApplication.shared.statusBarFrame.height)
             UniLayout.setFrame(view: navigationBarView, frame: CGRect(x: 0, y: 0, width: bounds.width, height: barHeight))
             reducedHeight = navigationBarView.isTranslucent ? 0 : barHeight
         }

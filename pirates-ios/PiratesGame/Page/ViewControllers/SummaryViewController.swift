@@ -27,7 +27,8 @@ class SummaryViewController: ComponentViewController, AppEventObserver, PageLoad
         // Set navigation bar
         super.viewDidLoad()
         let navigationBar = SolidNavigationBar()
-        navigationBar.isLightContent = true
+        navigationBar.backgroundColor = AppColors.primary
+        navigationBar.title = "GLOBAL_APP_NAME".localized()
         navigationBarView = navigationBar
         
         // Set container

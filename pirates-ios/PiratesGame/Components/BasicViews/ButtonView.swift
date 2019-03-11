@@ -35,7 +35,7 @@ class ButtonView: UniButtonView, AppEventLabeledSender {
             if let button = view as? ButtonView {
                 // Apply text
                 if let localizedText = ViewletConvUtil.asString(value: attributes["localizedText"]) {
-                    button.setTitle(NSLocalizedString(localizedText, comment: ""), for: .normal)
+                    button.setTitle(localizedText.localized(), for: .normal)
                 } else {
                     button.setTitle(ViewletConvUtil.asString(value: attributes["text"]), for: .normal)
                 }

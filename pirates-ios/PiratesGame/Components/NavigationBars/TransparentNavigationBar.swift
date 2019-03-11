@@ -76,5 +76,7 @@ class TransparentNavigationBar: UniView, NavigationBarComponent {
     // --
 
     var isLightContent: Bool = false
+    
+    var statusBarInset: CGFloat = 0
 
 }

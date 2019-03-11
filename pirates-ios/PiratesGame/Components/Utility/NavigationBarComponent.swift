@@ -10,5 +10,6 @@ protocol NavigationBarComponent: class {
     
     var isLightContent: Bool { get }
     var isTranslucent: Bool { get }
+    var statusBarInset: CGFloat { get set }
     
 }
