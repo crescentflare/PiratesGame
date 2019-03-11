@@ -123,7 +123,7 @@ class ComponentActivityView: ViewGroup {
         val bottomContentInset = if (solidBottomBar) bottomBarHeight else 0
         actionBarView?.layout(0, 0, right - left, totalTopBarHeight)
         navigationBarView?.layout(0, bottom - top - bottomBarHeight, right - left, bottom - top)
-        contentView?.layout(0, topContentInset, right - left, bottom - top - topContentInset - bottomContentInset)
+        contentView?.layout(0, topContentInset, right - left, bottom - top - bottomContentInset)
     }
 
 
