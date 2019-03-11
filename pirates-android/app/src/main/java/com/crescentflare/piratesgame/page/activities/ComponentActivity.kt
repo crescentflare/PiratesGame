@@ -142,7 +142,7 @@ abstract class ComponentActivity : AppCompatActivity(), SwipeRefreshLayout.OnRef
             if (!lightStatusIcons) {
                 decor.systemUiVisibility = decor.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
             } else {
-                decor.systemUiVisibility = decor.systemUiVisibility xor View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                decor.systemUiVisibility -= decor.systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
             }
         }
     }
