@@ -85,8 +85,24 @@ class ImageSource {
                 val x = (bitmapWidth - wantWidth) * horizontalGravity
                 val y = (bitmapHeight - wantHeight) * verticalGravity
 
-                // Cut out shape first when drawing with opacity on an existing image (shrinking the draw area is intentional)
+                // Cut out shape first when drawing with opacity on an existing image
                 if (onDrawable is BitmapDrawable && (color.toLong() and 0xff000000) != 0xff000000) {
+                    // Determine the rectangle, shrink shape if it's not on a pixel boundary to improve edge blending
+                    val cutRect = RectF(x + 0.5f, y + 0.5f, x + wantWidth - 1, y + wantHeight - 1)
+                    if (Math.abs(cutRect.left - Math.floor(cutRect.left.toDouble())) > 0.001f) {
+                        cutRect.left += 0.5f
+                    }
+                    if (Math.abs(cutRect.top - Math.floor(cutRect.top.toDouble())) > 0.001f) {
+                        cutRect.top += 0.5f
+                    }
+                    if (Math.abs(cutRect.right - Math.floor(cutRect.right.toDouble())) > 0.001f) {
+                        cutRect.right += 0.5f
+                    }
+                    if (Math.abs(cutRect.bottom - Math.floor(cutRect.bottom.toDouble())) > 0.001f) {
+                        cutRect.bottom += 0.5f
+                    }
+
+                    // Clear shape
                     paint.color = Color.TRANSPARENT
                     paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
                     canvas.drawRect(RectF(x + 0.5f, y + 0.5f, x + wantWidth - 1, y + wantHeight - 1), paint)
@@ -143,11 +159,11 @@ class ImageSource {
                 val x = (bitmapWidth - wantWidth) * horizontalGravity
                 val y = (bitmapHeight - wantHeight) * verticalGravity
 
-                // Cut out shape first when drawing with opacity on an existing image (shrinking the draw area is intentional)
+                // Cut out shape first when drawing with opacity on an existing image (shrinking the draw area is intentional due to edge blending)
                 if (onDrawable is BitmapDrawable && (color.toLong() and 0xff000000) != 0xff000000) {
                     paint.color = Color.TRANSPARENT
                     paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
-                    canvas.drawOval(RectF(x + 0.5f, y + 0.5f, x + wantWidth - 1, y + wantHeight - 1), paint)
+                    canvas.drawOval(RectF(x + 0.5f, y + 0.5f, x + wantWidth - 0.5f, y + wantHeight - 0.5f), paint)
                     paint.xfermode = null
                 }
 

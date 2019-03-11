@@ -185,10 +185,28 @@ class ImageSource {
             onImage.draw(at: CGPoint.zero)
         }
 
-        // Cut out shape first when drawing with opacity on an existing image (shrinking the draw area is intentional)
+        // Cut out shape first when drawing with opacity on an existing image (shrinking the draw area is intentional due to edge blending)
         if color.cgColor.alpha != 1 && onImage != nil {
+            // Determine the rectangle, shrink shape if it's not on a pixel boundary to improve edge blending
+            var cutRect = CGRect(x: (contextSize.width - wantSize.width) * horizontalGravity + 0.5, y: (contextSize.height - wantSize.height) * verticalGravity + 0.5, width: wantSize.width - 1, height: wantSize.height - 1)
+            if abs(cutRect.origin.x - floor(cutRect.origin.x)) > 0.001 {
+                cutRect.origin.x += 0.5
+                cutRect.size.width -= 0.5
+            }
+            if abs(cutRect.origin.y - floor(cutRect.origin.y)) > 0.001 {
+                cutRect.origin.y += 0.5
+                cutRect.size.height -= 0.5
+            }
+            if abs(cutRect.origin.x + cutRect.size.width - floor(cutRect.origin.x + cutRect.size.width)) > 0.001 {
+                cutRect.size.width -= 0.5
+            }
+            if abs(cutRect.origin.y + cutRect.size.height - floor(cutRect.origin.y + cutRect.size.height)) > 0.001 {
+                cutRect.size.height -= 0.5
+            }
+
+            // Clear shape
             context?.setBlendMode(.clear)
-            context?.fill(CGRect(x: (contextSize.width - wantSize.width) * horizontalGravity + 0.5, y: (contextSize.height - wantSize.height) * verticalGravity + 0.5, width: wantSize.width - 1, height: wantSize.height - 1))
+            context?.fill(cutRect)
             context?.setBlendMode(.normal)
         }
         
@@ -224,7 +242,7 @@ class ImageSource {
             onImage.draw(at: CGPoint.zero)
         }
         
-        // Cut out shape first when drawing with opacity on an existing image (shrinking the draw area is intentional)
+        // Cut out shape first when drawing with opacity on an existing image (shrinking the draw area is intentional due to edge blending)
         if color.cgColor.alpha != 1 && onImage != nil {
             context?.setBlendMode(.clear)
             context?.fillEllipse(in: CGRect(x: (contextSize.width - wantSize.width) * horizontalGravity + 0.5, y: (contextSize.height - wantSize.height) * verticalGravity + 0.5, width: wantSize.width - 1, height: wantSize.height - 1))
