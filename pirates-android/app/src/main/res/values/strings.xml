@@ -1,6 +1,7 @@
 <resources>
     <!-- Global app strings -->
-    <string name="global_app">Pirates</string>
+    <string name="global_app_icon_name">Pirates</string>
+    <string name="global_app_name">Pirate Game</string>
 
     <!-- Screen specific: splash screen -->
     <string name="splash_loading_text">Loading game...</string>

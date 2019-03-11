@@ -107,6 +107,7 @@ class ComponentActivityView: ViewGroup {
             val bottomBarHeight = transparentNavigationBarHeight
             val topContentInset = if (solidTopBar) totalTopBarHeight else 0
             val bottomContentInset = if (solidBottomBar) bottomBarHeight else 0
+            (actionBarView as? NavigationBarComponent)?.statusBarInset = transparentStatusBarHeight
             actionBarView?.measure(MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(totalTopBarHeight, MeasureSpec.EXACTLY))
             navigationBarView?.measure(MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(bottomBarHeight, MeasureSpec.EXACTLY))
             contentView?.measure(MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(height - topContentInset - bottomContentInset, MeasureSpec.EXACTLY))
@@ -121,6 +122,7 @@ class ComponentActivityView: ViewGroup {
         val bottomBarHeight = transparentNavigationBarHeight
         val topContentInset = if (solidTopBar) totalTopBarHeight else 0
         val bottomContentInset = if (solidBottomBar) bottomBarHeight else 0
+        (actionBarView as? NavigationBarComponent)?.statusBarInset = transparentStatusBarHeight
         actionBarView?.layout(0, 0, right - left, totalTopBarHeight)
         navigationBarView?.layout(0, bottom - top - bottomBarHeight, right - left, bottom - top)
         contentView?.layout(0, topContentInset, right - left, bottom - top - bottomContentInset)

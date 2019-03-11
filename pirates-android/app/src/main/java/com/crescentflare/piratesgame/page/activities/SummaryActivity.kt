@@ -1,11 +1,14 @@
 package com.crescentflare.piratesgame.page.activities
 
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
+import com.crescentflare.piratesgame.R
 import com.crescentflare.piratesgame.components.navigationbars.TransparentNavigationBar
 import com.crescentflare.piratesgame.components.containers.FrameContainerView
 import com.crescentflare.piratesgame.components.navigationbars.SolidNavigationBar
 import com.crescentflare.piratesgame.components.utility.ViewletUtil
 import com.crescentflare.piratesgame.infrastructure.appconfig.CustomAppConfigManager
+import com.crescentflare.piratesgame.infrastructure.coreextensions.localized
 import com.crescentflare.piratesgame.infrastructure.events.AppEvent
 import com.crescentflare.piratesgame.infrastructure.events.AppEventObserver
 import com.crescentflare.piratesgame.infrastructure.events.AppEventType
@@ -45,7 +48,9 @@ class SummaryActivity : ComponentActivity(), AppEventObserver, PageLoaderContinu
         super.onCreate(savedInstanceState)
         val actionBar = SolidNavigationBar(this)
         val navigationBar = SolidNavigationBar(this)
+        actionBar.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimaryDark))
         actionBar.lightContent = true
+        actionBar.title = title.toString()
         actionBarView = actionBar
         navigationBar.lightContent = true
         navigationBarView = navigationBar

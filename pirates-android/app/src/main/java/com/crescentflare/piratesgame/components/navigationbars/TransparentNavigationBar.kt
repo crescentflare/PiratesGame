@@ -88,5 +88,6 @@ class TransparentNavigationBar : UniView, NavigationBarComponent {
     // --
 
     override var lightContent = false
+    override var statusBarInset: Int = 0
 
 }

@@ -8,5 +8,6 @@ interface NavigationBarComponent {
 
     val lightContent: Boolean
     val translucent: Boolean
+    var statusBarInset: Int
 
 }

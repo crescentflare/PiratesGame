@@ -9,24 +9,40 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import com.crescentflare.piratesgame.R
+import com.crescentflare.piratesgame.components.containers.FrameContainerView
 import com.crescentflare.piratesgame.components.utility.NavigationBarComponent
 import com.crescentflare.piratesgame.components.utility.ViewletUtil
+import com.crescentflare.unilayout.views.UniTextView
 import com.crescentflare.viewletcreator.binder.ViewletBinder
 import com.crescentflare.viewletcreator.ViewletCreator
 import com.crescentflare.unilayout.views.UniView
+import com.crescentflare.viewletcreator.ViewletLoader
+import com.crescentflare.viewletcreator.binder.ViewletAnnotationBinder
+import com.crescentflare.viewletcreator.binder.ViewletRef
 import com.crescentflare.viewletcreator.utility.ViewletMapUtil
 
 
 /**
  * Navigation bar: a simple navigation bar, the default for apps
  */
-class SolidNavigationBar : UniView, NavigationBarComponent {
+class SolidNavigationBar : FrameContainerView, NavigationBarComponent {
 
     // --
-    // Static: viewlet integration
+    // Statics
     // --
 
     companion object {
+
+        // --
+        // Static: reference to layout resource
+        // --
+
+        const val layoutResource = R.raw.solid_navigation_bar
+
+
+        // --
+        // Static: viewlet integration
+        // --
 
         val viewlet: ViewletCreator.Viewlet = object : ViewletCreator.Viewlet {
 
@@ -38,6 +54,9 @@ class SolidNavigationBar : UniView, NavigationBarComponent {
                 if (view is SolidNavigationBar) {
                     // Bar properties
                     view.lightContent = ViewletMapUtil.optionalBoolean(attributes, "lightContent", false)
+
+                    // Apply text
+                    view.title = ViewletMapUtil.optionalString(attributes, "title", null)
 
                     // Generic view properties
                     ViewletUtil.applyGenericViewAttributes(view, attributes)
@@ -53,6 +72,14 @@ class SolidNavigationBar : UniView, NavigationBarComponent {
         }
 
     }
+
+
+    // --
+    // Bound views
+    // --
+
+    @ViewletRef("title")
+    private var titleView: UniTextView? = null
 
 
     // --
@@ -82,7 +109,7 @@ class SolidNavigationBar : UniView, NavigationBarComponent {
             : super(context, attrs, defStyleAttr, defStyleRes)
 
     init {
-        // No implementation
+        ViewletUtil.assertInflateOn(this, ViewletLoader.loadAttributes(context, layoutResource),null, ViewletAnnotationBinder(this))
     }
 
 
@@ -94,6 +121,18 @@ class SolidNavigationBar : UniView, NavigationBarComponent {
         set(lightContent) {
             field = lightContent
             setBackgroundColor(ContextCompat.getColor(context, if (lightContent) R.color.primary else Color.WHITE))
+        }
+
+    override var statusBarInset: Int = 0
+        set(statusBarInset) {
+            field = statusBarInset
+            setPadding(paddingLeft, statusBarInset, paddingRight, paddingBottom)
+        }
+
+    var title: String?
+        get() = titleView?.text?.toString()
+        set(title) {
+            titleView?.text = title
         }
 
 }
