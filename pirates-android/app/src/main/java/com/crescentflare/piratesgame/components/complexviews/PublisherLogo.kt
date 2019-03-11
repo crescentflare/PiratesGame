@@ -122,6 +122,7 @@ class PublisherLogo : ViewGroup {
     fun setOn(on: Boolean, animated: Boolean, afterAssetLoad: (() -> Unit)? = null, completion: (() -> Unit)? = null) {
         // Safeguard against non-changing operations
         if (on == currentOn) {
+            completion?.invoke()
             return
         }
 
@@ -150,7 +151,7 @@ class PublisherLogo : ViewGroup {
                         currentOn = on
                         completion?.invoke()
                     }, {
-                        setOn(on, false)
+                        setOn(on, false, afterAssetLoad, completion)
                     })
                 } else {
                     // Prepare effect visibility
@@ -167,7 +168,7 @@ class PublisherLogo : ViewGroup {
                     completion?.invoke()
                 }
             }, {
-                setOn(on, false)
+                setOn(on, false, afterAssetLoad, completion)
             })
         } else {
             currentOn = on
