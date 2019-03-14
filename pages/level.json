@@ -1,0 +1,11 @@
+{
+  "dataSets": {
+    "layout": {
+      "viewlet": "level",
+      "width": "stretchToParent",
+      "height": "stretchToParent",
+      "backgroundColor": "#63a6c7",
+      "spawnSpeed": 0.2
+    }
+  }
+}

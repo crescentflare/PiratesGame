@@ -12,10 +12,12 @@
           "width": "stretchToParent",
           "height": "stretchToParent",
           "fillContent": true,
+          "recycling": true,
           "item": {
             "viewlet": "linearContainer",
             "width": "stretchToParent",
             "padding": [ 16, 16, 16, 16 ],
+            "recycling": true,
             "items": [
               {
                 "viewlet": "text",
@@ -26,8 +28,8 @@
                 "viewlet": "button",
                 "width": "stretchToParent",
                 "marginSpacing": 16,
-                "text": "Test button",
-                "tapEvent": "alert://simple?title=Button&text=TODO:+Implement+button+interaction"
+                "text": "Water animation test",
+                "tapEvent": "navigate://level?type=present"
               },
               {
                 "viewlet": "spacer",

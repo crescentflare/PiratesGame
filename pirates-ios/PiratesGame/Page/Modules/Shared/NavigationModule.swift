@@ -59,6 +59,8 @@ class NavigationModule: ControllerModule {
                 openViewController = SplashViewController()
             case "summary":
                 openViewController = SummaryViewController()
+            case "level":
+                openViewController = LevelViewController()
             default:
                 break
             }
@@ -72,7 +74,7 @@ class NavigationModule: ControllerModule {
                 case .replace:
                     viewController?.navigationController?.setViewControllers([openViewController], animated: true)
                 case .present:
-                    viewController?.present(openViewController, animated: true, completion: nil)
+                    viewController?.present(UINavigationController(rootViewController: openViewController), animated: true, completion: nil)
                 }
             }
         }
