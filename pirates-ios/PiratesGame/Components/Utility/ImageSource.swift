@@ -158,107 +158,6 @@ class ImageSource {
         }
     }
 
-
-    // --
-    // MARK: Image generators
-    // --
-    
-    class func generateFilledRect(color: UIColor, size: CGSize? = nil, horizontalGravity: CGFloat = 0.5, verticalGravity: CGFloat = 0.5, forceImageSize: CGSize? = nil, onImage: UIImage? = nil) -> UIImage? {
-        // Return early for invalid sizes
-        let wantSize = size ?? onImage?.size ?? CGSize.zero
-        if wantSize.width <= 0 || wantSize.height <= 0 {
-            return nil
-        }
-
-        // Start context
-        var contextSize = wantSize
-        if let onImage = onImage {
-            contextSize = onImage.size
-        } else if let forceImageSize = forceImageSize {
-            contextSize = forceImageSize
-        }
-        UIGraphicsBeginImageContextWithOptions(contextSize, false, 0)
-        let context = UIGraphicsGetCurrentContext()
-        
-        // Check when drawing on an image
-        if let onImage = onImage {
-            onImage.draw(at: CGPoint.zero)
-        }
-
-        // Cut out shape first when drawing with opacity on an existing image (shrinking the draw area is intentional due to edge blending)
-        if color.cgColor.alpha != 1 && onImage != nil {
-            // Determine the rectangle, shrink shape if it's not on a pixel boundary to improve edge blending
-            var cutRect = CGRect(x: (contextSize.width - wantSize.width) * horizontalGravity + 0.5, y: (contextSize.height - wantSize.height) * verticalGravity + 0.5, width: wantSize.width - 1, height: wantSize.height - 1)
-            if abs(cutRect.origin.x - floor(cutRect.origin.x)) > 0.001 {
-                cutRect.origin.x += 0.5
-                cutRect.size.width -= 0.5
-            }
-            if abs(cutRect.origin.y - floor(cutRect.origin.y)) > 0.001 {
-                cutRect.origin.y += 0.5
-                cutRect.size.height -= 0.5
-            }
-            if abs(cutRect.origin.x + cutRect.size.width - floor(cutRect.origin.x + cutRect.size.width)) > 0.001 {
-                cutRect.size.width -= 0.5
-            }
-            if abs(cutRect.origin.y + cutRect.size.height - floor(cutRect.origin.y + cutRect.size.height)) > 0.001 {
-                cutRect.size.height -= 0.5
-            }
-
-            // Clear shape
-            context?.setBlendMode(.clear)
-            context?.fill(cutRect)
-            context?.setBlendMode(.normal)
-        }
-        
-        // Draw
-        context?.setFillColor(color.cgColor)
-        context?.fill(CGRect(x: (contextSize.width - wantSize.width) * horizontalGravity, y: (contextSize.height - wantSize.height) * verticalGravity, width: wantSize.width, height: wantSize.height))
-        
-        // Obtain image and return result
-        let result = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return result
-    }
-
-    class func generateFilledOval(color: UIColor, size: CGSize? = nil, horizontalGravity: CGFloat = 0.5, verticalGravity: CGFloat = 0.5, forceImageSize: CGSize? = nil, onImage: UIImage? = nil) -> UIImage? {
-        // Return early for invalid sizes
-        let wantSize = size ?? onImage?.size ?? CGSize.zero
-        if wantSize.width <= 0 || wantSize.height <= 0 {
-            return nil
-        }
-
-        // Start context
-        var contextSize = wantSize
-        if let onImage = onImage {
-            contextSize = onImage.size
-        } else if let forceImageSize = forceImageSize {
-            contextSize = forceImageSize
-        }
-        UIGraphicsBeginImageContextWithOptions(contextSize, false, 0)
-        let context = UIGraphicsGetCurrentContext()
-        
-        // Check when drawing on an image
-        if let onImage = onImage {
-            onImage.draw(at: CGPoint.zero)
-        }
-        
-        // Cut out shape first when drawing with opacity on an existing image (shrinking the draw area is intentional due to edge blending)
-        if color.cgColor.alpha != 1 && onImage != nil {
-            context?.setBlendMode(.clear)
-            context?.fillEllipse(in: CGRect(x: (contextSize.width - wantSize.width) * horizontalGravity + 0.5, y: (contextSize.height - wantSize.height) * verticalGravity + 0.5, width: wantSize.width - 1, height: wantSize.height - 1))
-            context?.setBlendMode(.normal)
-        }
-
-        // Draw
-        context?.setFillColor(color.cgColor)
-        context?.fillEllipse(in: CGRect(x: (contextSize.width - wantSize.width) * horizontalGravity, y: (contextSize.height - wantSize.height) * verticalGravity, width: wantSize.width, height: wantSize.height))
-        
-        // Obtain image and return result
-        let result = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return result
-    }
-
     
     // --
     // MARK: Helper
@@ -295,19 +194,11 @@ class ImageSource {
     
     private func getGeneratedImage(onImage: UIImage? = nil) -> UIImage? {
         if let generateType = ImageSourceGenerateType(rawValue: fullPath) {
-            let size = CGSize(width: ViewletConvUtil.asDimension(value: parameters["width"]) ?? 0, height: ViewletConvUtil.asDimension(value: parameters["height"]) ?? 0)
-            var forceSize: CGSize? = CGSize(width: ViewletConvUtil.asDimension(value: parameters["imageWidth"]) ?? 0, height: ViewletConvUtil.asDimension(value: parameters["imageHeight"]) ?? 0)
-            let color = ViewletConvUtil.asColor(value: parameters["color"]) ?? UIColor.clear
-            let horizontalGravity = ViewletUtil.getHorizontalGravity(attributes: parameters) ?? 0.5
-            let verticalGravity = ViewletUtil.getVerticalGravity(attributes: parameters) ?? 0.5
-            if forceSize?.width ?? 0 <= 0 || forceSize?.height ?? 0 <= 0 {
-                forceSize = nil
-            }
             switch generateType {
             case .filledRect:
-                return ImageSource.generateFilledRect(color: color, size: size, horizontalGravity: horizontalGravity, verticalGravity: verticalGravity, forceImageSize: forceSize, onImage: onImage)
+                return FilledRectGenerator().generate(attributes: parameters, onImage: onImage)
             case .filledOval:
-                return ImageSource.generateFilledOval(color: color, size: size, horizontalGravity: horizontalGravity, verticalGravity: verticalGravity, forceImageSize: forceSize, onImage: onImage)
+                return FilledOvalGenerator().generate(attributes: parameters, onImage: onImage)
             default:
                 break
             }

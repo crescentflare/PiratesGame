@@ -57,6 +57,9 @@
 		049B63582232EA1200AFB13B /* SplashLoadingBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049B63572232EA1200AFB13B /* SplashLoadingBar.swift */; };
 		049B635B2232F31E00AFB13B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 049B63592232F31E00AFB13B /* Localizable.strings */; };
 		049B635F2232FB7C00AFB13B /* primitive.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 041558C42232A0BF001158FA /* primitive.ttf */; };
+		049C3B4B223A9FCE00856808 /* FilledRectGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049C3B48223A9FCE00856808 /* FilledRectGenerator.swift */; };
+		049C3B4C223A9FCE00856808 /* UIImageGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049C3B49223A9FCE00856808 /* UIImageGenerator.swift */; };
+		049C3B4D223A9FCE00856808 /* FilledOvalGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049C3B4A223A9FCE00856808 /* FilledOvalGenerator.swift */; };
 		04AA27752236AC6E0007FCAB /* SolidNavigationBar.json in Resources */ = {isa = PBXBuildFile; fileRef = 04AA27742236AC6E0007FCAB /* SolidNavigationBar.json */; };
 		6F94BD396123AAB128D3E348 /* Pods_PiratesGame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4452BEDF3C337F85343B6AC4 /* Pods_PiratesGame.framework */; };
 /* End PBXBuildFile section */
@@ -114,6 +117,9 @@
 		049B63552232E9CB00AFB13B /* SplashLoadingBar.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SplashLoadingBar.json; sourceTree = "<group>"; };
 		049B63572232EA1200AFB13B /* SplashLoadingBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashLoadingBar.swift; sourceTree = "<group>"; };
 		049B635A2232F31E00AFB13B /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		049C3B48223A9FCE00856808 /* FilledRectGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilledRectGenerator.swift; sourceTree = "<group>"; };
+		049C3B49223A9FCE00856808 /* UIImageGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageGenerator.swift; sourceTree = "<group>"; };
+		049C3B4A223A9FCE00856808 /* FilledOvalGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilledOvalGenerator.swift; sourceTree = "<group>"; };
 		04AA27742236AC6E0007FCAB /* SolidNavigationBar.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SolidNavigationBar.json; sourceTree = "<group>"; };
 		4452BEDF3C337F85343B6AC4 /* Pods_PiratesGame.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PiratesGame.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5EA8F4D7E84768DD64D8AEFD /* Pods-PiratesGame.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PiratesGame.release.xcconfig"; path = "Pods/Target Support Files/Pods-PiratesGame/Pods-PiratesGame.release.xcconfig"; sourceTree = "<group>"; };
@@ -231,6 +237,7 @@
 				041558F92232A42C001158FA /* AppConfig */,
 				041558ED2232A42C001158FA /* CoreExtensions */,
 				041558F22232A42C001158FA /* Events */,
+				049C3B47223A9FCE00856808 /* ImageGenerators */,
 				041558F72232A42C001158FA /* Tools */,
 			);
 			path = Infrastructure;
@@ -393,6 +400,16 @@
 			path = Splash;
 			sourceTree = "<group>";
 		};
+		049C3B47223A9FCE00856808 /* ImageGenerators */ = {
+			isa = PBXGroup;
+			children = (
+				049C3B48223A9FCE00856808 /* FilledRectGenerator.swift */,
+				049C3B49223A9FCE00856808 /* UIImageGenerator.swift */,
+				049C3B4A223A9FCE00856808 /* FilledOvalGenerator.swift */,
+			);
+			path = ImageGenerators;
+			sourceTree = "<group>";
+		};
 		8C8EF92CFFEA91BD3684FBA4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -549,6 +566,7 @@
 				041559142232A510001158FA /* ControllerModule.swift in Sources */,
 				049B634E2232BADC00AFB13B /* PublisherLogo.swift in Sources */,
 				042DBBFC22328EB4008831FE /* SplashViewController.swift in Sources */,
+				049C3B4C223A9FCE00856808 /* UIImageGenerator.swift in Sources */,
 				049B63582232EA1200AFB13B /* SplashLoadingBar.swift in Sources */,
 				041558E82232A200001158FA /* ImageSource.swift in Sources */,
 				041559022232A42C001158FA /* AppEventLabeledSender.swift in Sources */,
@@ -566,10 +584,12 @@
 				041558DD2232A200001158FA /* LinearContainerView.swift in Sources */,
 				041558E02232A200001158FA /* GradientView.swift in Sources */,
 				041558FF2232A42C001158FA /* String+URLCoding.swift in Sources */,
+				049C3B4B223A9FCE00856808 /* FilledRectGenerator.swift in Sources */,
 				043DF1702235392700F686B1 /* SummaryViewController.swift in Sources */,
 				041558E62232A200001158FA /* AppDimensions.swift in Sources */,
 				042DBBFA22328EB4008831FE /* AppDelegate.swift in Sources */,
 				041559002232A42C001158FA /* AppEvent.swift in Sources */,
+				049C3B4D223A9FCE00856808 /* FilledOvalGenerator.swift in Sources */,
 				041558FE2232A42C001158FA /* String+Localization.swift in Sources */,
 				041558FD2232A42C001158FA /* Data+MD5.swift in Sources */,
 				049B63542232C05400AFB13B /* SplashLoaderModule.swift in Sources */,
