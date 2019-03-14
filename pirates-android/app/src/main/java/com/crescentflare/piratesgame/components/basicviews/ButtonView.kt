@@ -257,7 +257,7 @@ class ButtonView : UniButtonView, AppEventLabeledSender {
 
     init {
         val buttonHorizontalPadding = resources.getDimensionPixelSize(R.dimen.buttonHorizontalPadding)
-        val buttonVerticalPadding = resources.getDimensionPixelSize(R.dimen.buttonHorizontalPadding)
+        val buttonVerticalPadding = resources.getDimensionPixelSize(R.dimen.buttonVerticalPadding)
         minHeight = 0
         minimumHeight = 0
         minWidth = 0
@@ -304,7 +304,7 @@ class ButtonView : UniButtonView, AppEventLabeledSender {
         }
 
     fun setColorStyle(colorStyle: ColorStyle) {
-        when(colorStyle) {
+        when (colorStyle) {
             ColorStyle.Primary -> {
                 background = createStateBackground(
                     getPrimaryButtonDrawable(context),

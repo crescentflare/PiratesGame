@@ -8,7 +8,7 @@ import android.text.TextPaint
 import android.text.style.TypefaceSpan
 
 /**
- * A span to be able to set a custom typeface
+ * Component utility: a span to be able to set a custom typeface
  */
 class CustomTypefaceSpan(private val newType: Typeface) : TypefaceSpan("") {
 

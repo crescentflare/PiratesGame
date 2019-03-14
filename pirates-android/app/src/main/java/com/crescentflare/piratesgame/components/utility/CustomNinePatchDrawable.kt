@@ -4,7 +4,7 @@ import android.graphics.*
 import android.graphics.drawable.Drawable
 
 /**
- * A custom drawable for drawing of simplified nine patches without needing a modified image
+ * Component utility: a custom drawable for drawing of simplified nine patches without needing a modified image
  */
 class CustomNinePatchDrawable(private val bitmap: Bitmap, private val horizontalInset: Int, private val verticalInset: Int): Drawable() {
 

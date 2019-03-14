@@ -6,7 +6,7 @@ import com.crescentflare.piratesgame.page.storage.Page
 import com.crescentflare.viewletcreator.binder.ViewletMapBinder
 
 /**
- * Page utility: provides an interface for separating controller logic into modules
+ * Page module: provides an interface for separating controller logic into modules
  */
 interface ControllerModule {
 

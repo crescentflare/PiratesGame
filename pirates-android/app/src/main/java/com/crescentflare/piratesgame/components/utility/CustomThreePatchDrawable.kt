@@ -4,7 +4,7 @@ import android.graphics.*
 import android.graphics.drawable.Drawable
 
 /**
- * A custom drawable for drawing of simplified three patches without needing a modified image
+ * Component utility: a custom drawable for drawing of simplified three patches without needing a modified image
  */
 class CustomThreePatchDrawable(private val bitmap: Bitmap, private val edgeInset: Int): Drawable() {
 

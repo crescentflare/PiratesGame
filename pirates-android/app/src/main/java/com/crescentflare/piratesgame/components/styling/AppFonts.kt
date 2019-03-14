@@ -9,7 +9,7 @@ import com.crescentflare.piratesgame.R
 import java.util.HashMap
 
 /**
- * Styling: the fonts used in the app, available everywhere
+ * Component styling: the fonts used in the app, available everywhere
  * Note: suppress static field leak warning, the context is set through the base application class
  */
 @SuppressLint("StaticFieldLeak")
