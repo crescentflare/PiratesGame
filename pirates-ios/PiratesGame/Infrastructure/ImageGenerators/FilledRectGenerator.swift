@@ -8,7 +8,7 @@ import ViewletCreator
 
 class FilledRectGenerator: UIImageGenerator {
 
-    func generate(color: UIColor, size: CGSize? = nil, horizontalGravity: CGFloat = 0.5, verticalGravity: CGFloat = 0.5, forceImageSize: CGSize? = nil, onImage: UIImage? = nil) -> UIImage? {
+    func generate(color: UIColor, size: CGSize? = nil, cornerRadius: CGFloat = 0, horizontalGravity: CGFloat = 0.5, verticalGravity: CGFloat = 0.5, forceImageSize: CGSize? = nil, onImage: UIImage? = nil) -> UIImage? {
         if let drawing = beginImageDrawing(withSize: size, horizontalGravity: horizontalGravity, verticalGravity: verticalGravity, forceImageSize: forceImageSize, onImage: onImage) {
             // Cut out shape to allow transparent overdraw without blending
             let rect = drawing.drawRect
@@ -32,13 +32,27 @@ class FilledRectGenerator: UIImageGenerator {
                 
                 // Clear shape
                 drawing.context.setBlendMode(.clear)
-                drawing.context.fill(cutRect)
+                if cornerRadius > 0 {
+                    let path = UIBezierPath(roundedRect: cutRect, cornerRadius: cornerRadius)
+                    drawing.context.saveGState()
+                    drawing.context.addPath(path.cgPath)
+                    drawing.context.fillPath()
+                    drawing.context.restoreGState()
+                } else {
+                    drawing.context.fill(cutRect)
+                }
                 drawing.context.setBlendMode(.normal)
             }
             
             // Draw
             drawing.context.setFillColor(color.cgColor)
-            drawing.context.fill(rect)
+            if cornerRadius > 0 {
+                let path = UIBezierPath(roundedRect: rect, cornerRadius: cornerRadius)
+                drawing.context.addPath(path.cgPath)
+                drawing.context.fillPath()
+            } else {
+                drawing.context.fill(rect)
+            }
             return endDrawingResult()
         }
         return nil
@@ -46,7 +60,7 @@ class FilledRectGenerator: UIImageGenerator {
     
     override func generate(attributes: [String: Any], onImage: UIImage? = nil) -> UIImage? {
         let gravity = gravityFromAttributes(attributes)
-        return generate(color: ViewletConvUtil.asColor(value: attributes["color"]) ?? UIColor.clear, size: sizeFromAttributes(attributes), horizontalGravity: gravity.x, verticalGravity: gravity.y, forceImageSize: imageSizeFromAttributes(attributes), onImage: onImage)
+        return generate(color: ViewletConvUtil.asColor(value: attributes["color"]) ?? UIColor.clear, size: sizeFromAttributes(attributes), cornerRadius: ViewletConvUtil.asDimension(value: attributes["cornerRadius"]) ?? 0, horizontalGravity: gravity.x, verticalGravity: gravity.y, forceImageSize: imageSizeFromAttributes(attributes), onImage: onImage)
     }
 
 }

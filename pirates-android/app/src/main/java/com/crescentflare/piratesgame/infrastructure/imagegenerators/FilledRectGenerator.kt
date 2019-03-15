@@ -13,7 +13,7 @@ import com.crescentflare.viewletcreator.utility.ViewletMapUtil
  */
 class FilledRectGenerator: ImageDrawableGenerator() {
 
-    fun generate(context: Context, color: Int, width: Int? = null, height: Int? = null, horizontalGravity: Float = 0.5f, verticalGravity: Float = 0.5f, forceImageWidth: Int? = null, forceImageHeight: Int? = null, onDrawable: Drawable? = null): Drawable? {
+    fun generate(context: Context, color: Int, width: Int? = null, height: Int? = null, cornerRadius: Int = 0, horizontalGravity: Float = 0.5f, verticalGravity: Float = 0.5f, forceImageWidth: Int? = null, forceImageHeight: Int? = null, onDrawable: Drawable? = null): Drawable? {
         val drawing = beginImageDrawing(width, height, horizontalGravity, verticalGravity, forceImageWidth, forceImageHeight, onDrawable)
         if (drawing != null) {
             // Cut out shape to allow transparent overdraw without blending
@@ -37,13 +37,21 @@ class FilledRectGenerator: ImageDrawableGenerator() {
                 // Clear shape
                 drawing.paint.color = Color.TRANSPARENT
                 drawing.paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
-                drawing.canvas.drawRect(cutRect, drawing.paint)
+                if (cornerRadius > 0) {
+                    drawing.canvas.drawRoundRect(cutRect, cornerRadius.toFloat(), cornerRadius.toFloat(), drawing.paint)
+                } else {
+                    drawing.canvas.drawRect(cutRect, drawing.paint)
+                }
                 drawing.paint.xfermode = null
             }
 
             // Draw shape
             drawing.paint.color = color
-            drawing.canvas.drawRect(rect.left, rect.top, rect.right, rect.bottom, drawing.paint)
+            if (cornerRadius > 0) {
+                drawing.canvas.drawRoundRect(rect, cornerRadius.toFloat(), cornerRadius.toFloat(), drawing.paint)
+            } else {
+                drawing.canvas.drawRect(rect.left, rect.top, rect.right, rect.bottom, drawing.paint)
+            }
             return endDrawingResult(context, drawing)
         }
         return null
@@ -51,7 +59,18 @@ class FilledRectGenerator: ImageDrawableGenerator() {
 
     override fun generate(context: Context, attributes: Map<String, Any>, onDrawable: Drawable?): Drawable? {
         val gravity = gravityFromAttributes(attributes)
-        return generate(context, ViewletMapUtil.optionalColor(attributes, "color", Color.TRANSPARENT), widthFromAttributes(attributes), heightFromAttributes(attributes), gravity.x, gravity.y, imageWidthFromAttributes(attributes), imageHeightFromAttributes(attributes), onDrawable)
+        return generate(
+            context,
+            ViewletMapUtil.optionalColor(attributes, "color", Color.TRANSPARENT),
+            widthFromAttributes(attributes),
+            heightFromAttributes(attributes),
+            ViewletMapUtil.optionalDimension(attributes, "cornerRadius", 0),
+            gravity.x,
+            gravity.y,
+            imageWidthFromAttributes(attributes),
+            imageHeightFromAttributes(attributes),
+            onDrawable
+        )
     }
 
 }
