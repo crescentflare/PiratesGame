@@ -97,6 +97,9 @@ class ScrollContainerView: UniVerticalScrollContainer, AppEventObserver {
     }
     
     private func setup() {
+        if #available(iOS 11.0, *) {
+            contentInsetAdjustmentBehavior = .never
+        }
     }
     
     
