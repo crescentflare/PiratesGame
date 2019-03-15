@@ -140,15 +140,15 @@ class ImageSource {
         }
     }
     
-    var threePatch: CGFloat {
+    var threePatch: CGFloat? {
         get {
-            return ViewletConvUtil.asDimension(value: parameters["threePatch"]) ?? -1
+            return ViewletConvUtil.asDimension(value: parameters["threePatch"])
         }
     }
     
-    var ninePatch: CGFloat {
+    var ninePatch: CGFloat? {
         get {
-            return ViewletConvUtil.asDimension(value: parameters["ninePatch"]) ?? -1
+            return ViewletConvUtil.asDimension(value: parameters["ninePatch"])
         }
     }
     
