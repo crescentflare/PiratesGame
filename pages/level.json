@@ -5,7 +5,17 @@
       "width": "stretchToParent",
       "height": "stretchToParent",
       "backgroundColor": "#63a6c7",
-      "spawnSpeed": 0.2
+      "tileMap": [
+        " #  #",
+        "     ",
+        "# ###",
+        "    #",
+        "# # #",
+        "     ",
+        "## ##",
+        " # # "
+      ],
+      "waveSpawnInterval": 0.2
     }
   }
 }

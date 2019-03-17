@@ -7,13 +7,21 @@ import UIKit
 import UniLayout
 import ViewletCreator
 
-class LevelView: UniView {
+class LevelView: FrameContainerView {
+
+    // --
+    // MARK: Members
+    // --
+    
+    private let tileMapView = LevelTileMapView()
+    private let waveAnimationView = LevelWaveAnimationView()
+
 
     // --
     // MARK: Viewlet integration
     // --
     
-    class func viewlet() -> Viewlet {
+    override class func viewlet() -> Viewlet {
         return ViewletClass()
     }
     
@@ -25,12 +33,22 @@ class LevelView: UniView {
         
         func update(view: UIView, attributes: [String : Any], parent: UIView?, binder: ViewletBinder?) -> Bool {
             if let levelView = view as? LevelView {
-                // Size properties
-                levelView.gridWidth = ViewletConvUtil.asInt(value: attributes["gridWidth"]) ?? 7
-                levelView.spawnSpeed = ViewletConvUtil.asFloat(value: attributes["spawnSpeed"]) ?? 1
+                // Apply animation
+                levelView.waveSpawnInterval = ViewletConvUtil.asFloat(value: attributes["waveSpawnInterval"]) ?? 0.2
+                
+                // Set tiles
+                levelView.tileMap = ViewletConvUtil.asStringArray(value: attributes["tileMap"])
 
                 // Generic view properties
                 ViewletUtil.applyGenericViewAttributes(view: view, attributes: attributes)
+
+                // Event handling
+                levelView.tapEvent = AppEvent(value: attributes["tapEvent"])
+
+                // Forward event observer
+                if let eventObserver = parent as? AppEventObserver {
+                    levelView.eventObserver = eventObserver
+                }
                 return true
             }
             return false
@@ -58,7 +76,17 @@ class LevelView: UniView {
     }
     
     fileprivate func setup() {
-        continueSpawning()
+        // Add tile map and wave animation views
+        tileMapView.layoutProperties.width = UniLayoutProperties.stretchToParent
+        tileMapView.layoutProperties.height = UniLayoutProperties.stretchToParent
+        addSubview(tileMapView)
+        waveAnimationView.layoutProperties.width = UniLayoutProperties.stretchToParent
+        waveAnimationView.layoutProperties.height = UniLayoutProperties.stretchToParent
+        waveAnimationView.tileMapView = tileMapView
+        addSubview(waveAnimationView)
+        
+        // Start spawning wave particles
+        continueWaveSpawning()
     }
     
 
@@ -66,53 +94,27 @@ class LevelView: UniView {
     // MARK: Configurable values
     // --
     
-    var gridWidth: Int = 7 {
-        didSet {
-            // TODO: recreate waves etc.?
-        }
-    }
+    var waveSpawnInterval: Float = 0.2
     
-    var spawnSpeed: Float = 1
+    var tileMap: [String] {
+        set {
+            tileMapView.tiles = newValue
+        }
+        get { return tileMapView.tiles }
+    }
    
 
     // --
-    // MARK: Handle spawn timer
+    // MARK: Spawning wave particles
     // --
     
-    private func continueSpawning() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + Double(spawnSpeed), execute: { [weak self] in
+    private func continueWaveSpawning() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + Double(waveSpawnInterval), execute: { [weak self] in
             if let level = self {
-                level.spawnWave()
-                level.continueSpawning()
+                level.waveAnimationView.spawnRandomWave()
+                level.continueWaveSpawning()
             }
         })
     }
-    
-    private func spawnWave() {
-        let particle = UIImageView()
-        particle.image = UIImage(named: "particle_wave")?.withRenderingMode(.alwaysTemplate)
-        particle.tintColor = UIColor.white
-        particle.frame = CGRect(x: CGFloat(drand48()) * (bounds.width + 64) - 64, y: CGFloat(drand48()) * (bounds.height + 16) - 16, width: 64, height: 16)
-        particle.transform = CGAffineTransform(translationX: 0, y: 0).scaledBy(x: 1.5, y: 0.1)
-        particle.alpha = 0
-        
-        let distance = CGFloat(32 + drand48() * 8)
-        let speed: Double = 4 + drand48() * 1
-        UIView.animateKeyframes(withDuration: speed, delay: 0, options: [.calculationModeLinear], animations: {
-            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5, animations: {
-                let scale = CGFloat(1 - drand48() * 0.5)
-                particle.transform = CGAffineTransform(translationX: -distance / 2, y: -0.75 * 16 * scale).scaledBy(x: 1, y: scale)
-                particle.alpha = 1
-            })
-            UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.5, animations: {
-                particle.transform = CGAffineTransform(translationX: -distance, y: 0).scaledBy(x: 1.5, y: 0.1)
-                particle.alpha = 0
-            })
-        }, completion: { (finished) -> Void in
-            particle.removeFromSuperview()
-        })
-        
-        addSubview(particle)
-    }
-    
+
 }

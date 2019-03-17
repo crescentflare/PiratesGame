@@ -63,6 +63,8 @@
 		049C3B4D223A9FCE00856808 /* FilledOvalGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049C3B4A223A9FCE00856808 /* FilledOvalGenerator.swift */; };
 		04AA27752236AC6E0007FCAB /* SolidNavigationBar.json in Resources */ = {isa = PBXBuildFile; fileRef = 04AA27742236AC6E0007FCAB /* SolidNavigationBar.json */; };
 		04DD4DA4223AE90900BD5AA4 /* LevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD4DA3223AE90900BD5AA4 /* LevelView.swift */; };
+		04E0FA21223E8F88006017D3 /* LevelWaveAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0FA20223E8F87006017D3 /* LevelWaveAnimationView.swift */; };
+		04E0FA23223E9025006017D3 /* LevelTileMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0FA22223E9025006017D3 /* LevelTileMapView.swift */; };
 		6F94BD396123AAB128D3E348 /* Pods_PiratesGame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4452BEDF3C337F85343B6AC4 /* Pods_PiratesGame.framework */; };
 /* End PBXBuildFile section */
 
@@ -125,6 +127,8 @@
 		049C3B4A223A9FCE00856808 /* FilledOvalGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilledOvalGenerator.swift; sourceTree = "<group>"; };
 		04AA27742236AC6E0007FCAB /* SolidNavigationBar.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SolidNavigationBar.json; sourceTree = "<group>"; };
 		04DD4DA3223AE90900BD5AA4 /* LevelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelView.swift; sourceTree = "<group>"; };
+		04E0FA20223E8F87006017D3 /* LevelWaveAnimationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelWaveAnimationView.swift; sourceTree = "<group>"; };
+		04E0FA22223E9025006017D3 /* LevelTileMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelTileMapView.swift; sourceTree = "<group>"; };
 		4452BEDF3C337F85343B6AC4 /* Pods_PiratesGame.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PiratesGame.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5EA8F4D7E84768DD64D8AEFD /* Pods-PiratesGame.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PiratesGame.release.xcconfig"; path = "Pods/Target Support Files/Pods-PiratesGame/Pods-PiratesGame.release.xcconfig"; sourceTree = "<group>"; };
 		8C90D63019B06504E85C7A4E /* Pods-PiratesGame.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PiratesGame.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PiratesGame/Pods-PiratesGame.debug.xcconfig"; sourceTree = "<group>"; };
@@ -419,9 +423,19 @@
 		04DD4DA2223AE90900BD5AA4 /* Game */ = {
 			isa = PBXGroup;
 			children = (
+				04E0FA1F223E8F87006017D3 /* LevelHelpers */,
 				04DD4DA3223AE90900BD5AA4 /* LevelView.swift */,
 			);
 			path = Game;
+			sourceTree = "<group>";
+		};
+		04E0FA1F223E8F87006017D3 /* LevelHelpers */ = {
+			isa = PBXGroup;
+			children = (
+				04E0FA22223E9025006017D3 /* LevelTileMapView.swift */,
+				04E0FA20223E8F87006017D3 /* LevelWaveAnimationView.swift */,
+			);
+			path = LevelHelpers;
 			sourceTree = "<group>";
 		};
 		8C8EF92CFFEA91BD3684FBA4 /* Frameworks */ = {
@@ -584,6 +598,7 @@
 				049B63582232EA1200AFB13B /* SplashLoadingBar.swift in Sources */,
 				041558E82232A200001158FA /* ImageSource.swift in Sources */,
 				041559022232A42C001158FA /* AppEventLabeledSender.swift in Sources */,
+				04E0FA23223E9025006017D3 /* LevelTileMapView.swift in Sources */,
 				041558E12232A200001158FA /* TextViewlet.swift in Sources */,
 				043DF17422353EE300F686B1 /* SolidNavigationBar.swift in Sources */,
 				041559052232A42C001158FA /* CustomAppConfigModel.swift in Sources */,
@@ -621,6 +636,7 @@
 				041558E22232A200001158FA /* SpacerViewlet.swift in Sources */,
 				041559172232AA0F001158FA /* ComponentViewController.swift in Sources */,
 				041559122232A510001158FA /* Page.swift in Sources */,
+				04E0FA21223E8F88006017D3 /* LevelWaveAnimationView.swift in Sources */,
 				041558EA2232A200001158FA /* ViewletUtil.swift in Sources */,
 				041559132232A510001158FA /* PageLoader.swift in Sources */,
 				049B634D2232BADC00AFB13B /* SplashAnimation.swift in Sources */,
