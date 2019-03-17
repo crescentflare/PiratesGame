@@ -112,10 +112,10 @@ class LevelWaveAnimationView: UniView {
     }
     
     private func removeVisibleWave(halfTileX: Int, halfTileY: Int) {
-        for waveIndex in self.visibleWaves.indices {
-            let checkWave = self.visibleWaves[waveIndex]
+        for waveIndex in visibleWaves.indices {
+            let checkWave = visibleWaves[waveIndex]
             if Int(checkWave.x) == halfTileX && Int(checkWave.y) == halfTileY {
-                self.visibleWaves.remove(at: waveIndex)
+                visibleWaves.remove(at: waveIndex)
                 break
             }
         }
