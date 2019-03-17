@@ -22,13 +22,13 @@
               {
                 "viewlet": "text",
                 "width": "stretchToParent",
-                "text": "TODO: this screen will contain a summary of the player's state"
+                "text": "TODO: this screen will contain a summary of the player's state.\n\nTest a level tilemap with water animation below (iOS only for the time being...)"
               },
               {
                 "viewlet": "button",
                 "width": "stretchToParent",
                 "marginSpacing": 16,
-                "text": "Water animation test",
+                "text": "Level test",
                 "tapEvent": "navigate://level?type=present"
               },
               {

@@ -52,6 +52,16 @@ class NavigationModule: ControllerModule {
 
     func catchEvent(_ event: AppEvent, sender: Any?) -> Bool {
         if event.rawType == eventType {
+            // Handle back navigation
+            if event.fullPath == "back" {
+                if let presentingViewController = viewController?.navigationController?.presentingViewController {
+                    presentingViewController.dismiss(animated: true, completion: nil)
+                } else {
+                    viewController?.navigationController?.popViewController(animated: true)
+                }
+                return false
+            }
+
             // Determine which view controller to navigate to
             var openViewController: UIViewController?
             switch event.fullPath {

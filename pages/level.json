@@ -15,7 +15,8 @@
         "## ##",
         " # # "
       ],
-      "waveSpawnInterval": 0.2
+      "waveSpawnInterval": 0.2,
+      "tapEvent": "navigate://back"
     }
   }
 }
