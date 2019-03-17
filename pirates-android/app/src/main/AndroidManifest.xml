@@ -29,6 +29,11 @@
                 android:label="@string/global_app_name"
                 android:configChanges="orientation|screenSize"/>
 
+        <activity
+                android:name=".page.activities.LevelActivity"
+                android:label="@string/global_app_name"
+                android:configChanges="orientation|screenSize"/>
+
         <activity android:name="com.crescentflare.dynamicappconfig.activity.ManageAppConfigActivity"/>
         <activity android:name="com.crescentflare.dynamicappconfig.activity.EditAppConfigActivity"/>
         <activity android:name="com.crescentflare.dynamicappconfig.activity.AppConfigStringChoiceActivity"/>

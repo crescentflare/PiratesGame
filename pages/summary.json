@@ -22,7 +22,7 @@
               {
                 "viewlet": "text",
                 "width": "stretchToParent",
-                "text": "TODO: this screen will contain a summary of the player's state.\n\nTest a level tilemap with water animation below (iOS only for the time being...)"
+                "text": "TODO: this screen will contain a summary of the player's state.\n\nTest a level tilemap with water animation below"
               },
               {
                 "viewlet": "button",
