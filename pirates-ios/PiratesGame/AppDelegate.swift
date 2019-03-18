@@ -92,6 +92,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ViewletCreator.register(name: "frameContainer", viewlet: FrameContainerView.viewlet())
         ViewletCreator.register(name: "linearContainer", viewlet: LinearContainerView.viewlet())
         
+        // Game views
+        ViewletCreator.register(name: "level", viewlet: LevelView.viewlet())
+        
         // Navigation bars
         ViewletCreator.register(name: "transparentNavigationBar", viewlet: TransparentNavigationBar.viewlet())
         ViewletCreator.register(name: "solidNavigationBar", viewlet: SolidNavigationBar.viewlet())

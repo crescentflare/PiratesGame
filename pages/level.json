@@ -1,0 +1,22 @@
+{
+  "dataSets": {
+    "layout": {
+      "viewlet": "level",
+      "width": "stretchToParent",
+      "height": "stretchToParent",
+      "backgroundColor": "#63a6c7",
+      "tileMap": [
+        " #  #",
+        "     ",
+        "# ###",
+        "    #",
+        "# # #",
+        "     ",
+        "## ##",
+        " # # "
+      ],
+      "waveSpawnInterval": 0.2,
+      "tapEvent": "navigate://back"
+    }
+  }
+}

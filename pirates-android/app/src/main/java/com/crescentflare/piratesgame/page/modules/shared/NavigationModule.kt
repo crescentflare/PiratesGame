@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import com.crescentflare.piratesgame.infrastructure.events.AppEvent
+import com.crescentflare.piratesgame.page.activities.LevelActivity
 import com.crescentflare.piratesgame.page.activities.SplashActivity
 import com.crescentflare.piratesgame.page.activities.SummaryActivity
 import com.crescentflare.piratesgame.page.modules.ControllerModule
@@ -50,10 +51,17 @@ class NavigationModule: ControllerModule {
         if (event.rawType == eventType) {
             val context = this.context?.get()
             if (context != null && (context as? AppCompatActivity)?.isFinishing == false) {
+                // Handle back navigation
+                if (event.fullPath == "back") {
+                    context.finish()
+                    return false
+                }
+
                 // Determine which activity to navigate to
                 val openActivityClass = when(event.fullPath) {
                     "splash" -> SplashActivity::class.java
                     "summary" -> SummaryActivity::class.java
+                    "level" -> LevelActivity::class.java
                     else -> null
                 }
 
