@@ -14,6 +14,7 @@ class LevelView: FrameContainerView {
     // --
     
     private let tileMapView = LevelTileMapView()
+    private let entitiesView = LevelEntitiesView()
     private let waveAnimationView = LevelWaveAnimationView()
 
 
@@ -76,14 +77,21 @@ class LevelView: FrameContainerView {
     }
     
     fileprivate func setup() {
-        // Add tile map and wave animation views
+        // Add tile map view
         tileMapView.layoutProperties.width = UniLayoutProperties.stretchToParent
         tileMapView.layoutProperties.height = UniLayoutProperties.stretchToParent
         addSubview(tileMapView)
+        
+        // Add wave animation view
         waveAnimationView.layoutProperties.width = UniLayoutProperties.stretchToParent
         waveAnimationView.layoutProperties.height = UniLayoutProperties.stretchToParent
         waveAnimationView.tileMapView = tileMapView
         addSubview(waveAnimationView)
+        
+        // Add entities view
+        entitiesView.layoutProperties.width = UniLayoutProperties.stretchToParent
+        entitiesView.layoutProperties.height = UniLayoutProperties.stretchToParent
+        addSubview(entitiesView)
         
         // Start spawning wave particles
         continueWaveSpawning()
@@ -99,6 +107,7 @@ class LevelView: FrameContainerView {
     var tileMap: [String] {
         set {
             tileMapView.tiles = newValue
+            entitiesView.tiles = newValue
         }
         get { return tileMapView.tiles }
     }

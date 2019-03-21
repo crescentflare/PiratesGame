@@ -62,6 +62,7 @@
 		049C3B4C223A9FCE00856808 /* UIImageGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049C3B49223A9FCE00856808 /* UIImageGenerator.swift */; };
 		049C3B4D223A9FCE00856808 /* FilledOvalGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049C3B4A223A9FCE00856808 /* FilledOvalGenerator.swift */; };
 		04AA27752236AC6E0007FCAB /* SolidNavigationBar.json in Resources */ = {isa = PBXBuildFile; fileRef = 04AA27742236AC6E0007FCAB /* SolidNavigationBar.json */; };
+		04BA4485224413AC0095B8F0 /* LevelEntitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BA4484224413AC0095B8F0 /* LevelEntitiesView.swift */; };
 		04DD4DA4223AE90900BD5AA4 /* LevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD4DA3223AE90900BD5AA4 /* LevelView.swift */; };
 		04E0FA21223E8F88006017D3 /* LevelWaveAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0FA20223E8F87006017D3 /* LevelWaveAnimationView.swift */; };
 		04E0FA23223E9025006017D3 /* LevelTileMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0FA22223E9025006017D3 /* LevelTileMapView.swift */; };
@@ -126,6 +127,7 @@
 		049C3B49223A9FCE00856808 /* UIImageGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageGenerator.swift; sourceTree = "<group>"; };
 		049C3B4A223A9FCE00856808 /* FilledOvalGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilledOvalGenerator.swift; sourceTree = "<group>"; };
 		04AA27742236AC6E0007FCAB /* SolidNavigationBar.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SolidNavigationBar.json; sourceTree = "<group>"; };
+		04BA4484224413AC0095B8F0 /* LevelEntitiesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelEntitiesView.swift; sourceTree = "<group>"; };
 		04DD4DA3223AE90900BD5AA4 /* LevelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelView.swift; sourceTree = "<group>"; };
 		04E0FA20223E8F87006017D3 /* LevelWaveAnimationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelWaveAnimationView.swift; sourceTree = "<group>"; };
 		04E0FA22223E9025006017D3 /* LevelTileMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelTileMapView.swift; sourceTree = "<group>"; };
@@ -432,6 +434,7 @@
 		04E0FA1F223E8F87006017D3 /* LevelHelpers */ = {
 			isa = PBXGroup;
 			children = (
+				04BA4484224413AC0095B8F0 /* LevelEntitiesView.swift */,
 				04E0FA22223E9025006017D3 /* LevelTileMapView.swift */,
 				04E0FA20223E8F87006017D3 /* LevelWaveAnimationView.swift */,
 			);
@@ -597,6 +600,7 @@
 				049C3B4C223A9FCE00856808 /* UIImageGenerator.swift in Sources */,
 				049B63582232EA1200AFB13B /* SplashLoadingBar.swift in Sources */,
 				041558E82232A200001158FA /* ImageSource.swift in Sources */,
+				04BA4485224413AC0095B8F0 /* LevelEntitiesView.swift in Sources */,
 				041559022232A42C001158FA /* AppEventLabeledSender.swift in Sources */,
 				04E0FA23223E9025006017D3 /* LevelTileMapView.swift in Sources */,
 				041558E12232A200001158FA /* TextViewlet.swift in Sources */,
