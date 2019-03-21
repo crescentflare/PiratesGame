@@ -66,21 +66,6 @@ class LevelEntitiesView: UniView {
     
 
     // --
-    // MARK: Check for a blocking tile
-    // --
-
-    func isOccupied(tileX: Int, tileY: Int) -> Bool {
-        /*if tileY >= 0 && tileY < tiles.count {
-            let characters = Array(tiles[tileY])
-            if tileX >= 0 && tileX < characters.count {
-                return characters[tileX] == rockTileCharacter
-            }
-        }*/
-        return false
-    }
-    
-
-    // --
     // MARK: Custom layout
     // --
 
