@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import com.crescentflare.piratesgame.components.containers.FrameContainerView
+import com.crescentflare.piratesgame.components.game.levelhelpers.LevelEntitiesView
 import com.crescentflare.piratesgame.components.game.levelhelpers.LevelTileMapView
 import com.crescentflare.piratesgame.components.game.levelhelpers.LevelWaveAnimationView
 import com.crescentflare.piratesgame.components.utility.ViewletUtil
@@ -75,6 +76,7 @@ class LevelView : FrameContainerView {
     // --
 
     private val tileMapView: LevelTileMapView
+    private val entitiesView: LevelEntitiesView
     private val waveAnimationView: LevelWaveAnimationView
     private var isAttached = false
     private var spawnIdle = true
@@ -100,14 +102,21 @@ class LevelView : FrameContainerView {
             : super(context, attrs, defStyleAttr, defStyleRes)
 
     init {
-        // Add tile map and wave animation views
+        // Add tile map view
         tileMapView = LevelTileMapView(context)
         tileMapView.layoutParams = UniLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
         addView(tileMapView)
+
+        // Add wave animation view
         waveAnimationView = LevelWaveAnimationView(context)
         waveAnimationView.layoutParams = UniLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
         waveAnimationView.tileMapView = tileMapView
         addView(waveAnimationView)
+
+        // Add entities view
+        entitiesView = LevelEntitiesView(context)
+        entitiesView.layoutParams = UniLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        addView(entitiesView)
 
         // Start spawning wave particles
         continueWaveSpawning()
@@ -123,6 +132,7 @@ class LevelView : FrameContainerView {
     var tileMap: MutableList<String>
         set(tileMap) {
             tileMapView.tiles = tileMap
+            entitiesView.tiles = tileMap
         }
         get() = tileMapView.tiles
 
