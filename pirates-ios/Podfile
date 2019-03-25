@@ -10,9 +10,9 @@ def app_pods
   pod 'Alamofire', '~> 4.8.1'
 
   pod 'UniLayout', '~> 0.4.3'
-  pod 'ViewletCreator', '~> 0.4.4'
+  pod 'ViewletCreator', '~> 0.5.0'
 
-  pod 'SimpleMarkdownParser', '~> 0.6.1'
+  pod 'SimpleMarkdownParser', '~> 0.6.2'
 
   pod 'AlamofireObjectMapper', '~> 5.2.0'
   pod 'lottie-ios', '~> 2.5.0'

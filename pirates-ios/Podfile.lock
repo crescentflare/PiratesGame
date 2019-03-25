@@ -10,9 +10,9 @@ PODS:
   - SDWebImage (4.4.6):
     - SDWebImage/Core (= 4.4.6)
   - SDWebImage/Core (4.4.6)
-  - SimpleMarkdownParser (0.6.1)
+  - SimpleMarkdownParser (0.6.2)
   - UniLayout (0.4.3)
-  - ViewletCreator (0.4.4)
+  - ViewletCreator (0.5.0)
 
 DEPENDENCIES:
   - Alamofire (~> 4.8.1)
@@ -21,9 +21,9 @@ DEPENDENCIES:
   - DynamicAppConfig (~> 1.3.0)
   - lottie-ios (~> 2.5.0)
   - SDWebImage (~> 4.0)
-  - SimpleMarkdownParser (~> 0.6.1)
+  - SimpleMarkdownParser (~> 0.6.2)
   - UniLayout (~> 0.4.3)
-  - ViewletCreator (~> 0.4.4)
+  - ViewletCreator (~> 0.5.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -46,10 +46,10 @@ SPEC CHECKSUMS:
   lottie-ios: a50d5c0160425cd4b01b852bb9578963e6d92d31
   ObjectMapper: 0d4402610f4e468903ae64629eec4784531e5c51
   SDWebImage: 3f3f0c02f09798048c47a5ed0a13f17b063572d8
-  SimpleMarkdownParser: fd5019fd2652ee26e53983afd64f42f449bd36c0
+  SimpleMarkdownParser: da23e1a2f81967740df8db0c60750dc5de7f0fa2
   UniLayout: 79a31c015de73eb23bb86d534a0fcebe002d016b
-  ViewletCreator: b9b70feebe150b407b8d6df31ebe396be0c2bd5c
+  ViewletCreator: 32b6697d3d9b098e2190367334a28953b4d767a2
 
-PODFILE CHECKSUM: df29b8befadeb6d1b13bee7bae68fd1387bf81d9
+PODFILE CHECKSUM: a21976a40ada530850b0a9e0d8bb52bdafb0761b
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.1
