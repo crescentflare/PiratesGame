@@ -64,6 +64,10 @@ class BaseApplication : Application(), AppConfigStorage.ChangedConfigListener {
     // --
 
     private fun registerViewlets() {
+        // Enable platform specific attributes
+        ViewletCreator.setMergeSubAttributes(listOf("android"))
+        ViewletCreator.setExcludeAttributes(listOf("ios"))
+
         // Lookups
         ViewletMapUtil.setColorLookup(ViewletResourceColorLookup(this))
         ViewletMapUtil.setDimensionLookup(ViewletResourceDimensionLookup(this))

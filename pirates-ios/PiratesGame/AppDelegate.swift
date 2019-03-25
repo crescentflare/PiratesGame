@@ -71,6 +71,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // --
 
     func registerViewlets() {
+        // Enable platform specific attributes
+        ViewletCreator.setMergeSubAttributes(["ios"])
+        ViewletCreator.setExcludeAttributes(["android"])
+        
         // Lookups
         ViewletConvUtil.colorLookup = AppColors.AppColorLookup()
         ViewletConvUtil.dimensionLookup = AppDimensions.AppDimensionLookup()
