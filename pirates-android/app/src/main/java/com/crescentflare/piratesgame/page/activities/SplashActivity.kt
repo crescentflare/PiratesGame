@@ -1,6 +1,7 @@
 package com.crescentflare.piratesgame.page.activities
 
 import android.os.Bundle
+import com.crescentflare.jsoninflator.binder.InflatorMapBinder
 import com.crescentflare.piratesgame.components.navigationbars.TransparentNavigationBar
 import com.crescentflare.piratesgame.components.containers.FrameContainerView
 import com.crescentflare.piratesgame.components.utility.ViewletUtil
@@ -17,7 +18,6 @@ import com.crescentflare.piratesgame.page.storage.PageLoaderContinuousCompletion
 import com.crescentflare.piratesgame.page.modules.ControllerModule
 import com.crescentflare.piratesgame.page.modules.shared.NavigationModule
 import com.crescentflare.piratesgame.page.storage.PageCache
-import com.crescentflare.viewletcreator.binder.ViewletMapBinder
 
 /**
  * Activity: the splash screen, loading assets
@@ -131,7 +131,7 @@ class SplashActivity : ComponentActivity(), AppEventObserver, PageLoaderContinuo
     }
 
     override fun didUpdatePage(page: Page) {
-        val binder = ViewletMapBinder()
+        val binder = InflatorMapBinder()
         val inflateLayout = mapOf(
             Pair("viewlet", "frameContainer"),
             Pair("width", "stretchToParent"),

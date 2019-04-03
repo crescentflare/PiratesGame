@@ -1,7 +1,7 @@
 package com.crescentflare.piratesgame.page.storage
 
+import com.crescentflare.jsoninflator.utility.InflatorMapUtil
 import com.crescentflare.piratesgame.infrastructure.coreextensions.md5
-import com.crescentflare.viewletcreator.utility.ViewletMapUtil
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.Exception
@@ -17,6 +17,7 @@ class Page {
 
     var loadedData = emptyMap<String, Any>()
     val hash: String
+    private val mapUtil = InflatorMapUtil()
 
 
     // --
@@ -51,9 +52,9 @@ class Page {
 
     val layout: Map<String, Any>?
         get() {
-            val dataSetMap = ViewletMapUtil.asStringObjectMap(loadedData["dataSets"])
+            val dataSetMap = mapUtil.asStringObjectMap(loadedData["dataSets"])
             if (dataSetMap != null) {
-                val layout = ViewletMapUtil.asStringObjectMap(dataSetMap["layout"])
+                val layout = mapUtil.asStringObjectMap(dataSetMap["layout"])
                 if (layout != null) {
                     return layout
                 }

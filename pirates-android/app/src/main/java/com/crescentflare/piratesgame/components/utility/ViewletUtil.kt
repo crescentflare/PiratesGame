@@ -10,11 +10,12 @@ import com.crescentflare.piratesgame.infrastructure.coreextensions.localized
 
 import com.crescentflare.unilayout.helpers.UniLayoutParams
 import com.crescentflare.unilayout.views.UniView
-import com.crescentflare.viewletcreator.ViewletCreator
-import com.crescentflare.viewletcreator.binder.ViewletAnnotationBinder
-import com.crescentflare.viewletcreator.binder.ViewletBinder
-import com.crescentflare.viewletcreator.binder.ViewletRef
-import com.crescentflare.viewletcreator.utility.ViewletMapUtil
+import com.crescentflare.jsoninflator.JsonInflatable
+import com.crescentflare.jsoninflator.binder.InflatableRef
+import com.crescentflare.jsoninflator.binder.InflatorAnnotationBinder
+import com.crescentflare.jsoninflator.binder.InflatorBinder
+import com.crescentflare.jsoninflator.utility.InflatorMapUtil
+import com.crescentflare.piratesgame.infrastructure.inflator.Inflators
 import kotlinx.coroutines.*
 
 import org.junit.Assert
@@ -29,19 +30,21 @@ object ViewletUtil {
     // Basic view viewlet
     // --
 
-    val basicViewViewlet: ViewletCreator.Viewlet = object : ViewletCreator.Viewlet {
+    val basicViewViewlet: JsonInflatable = object : JsonInflatable {
 
-        override fun create(context: Context): View {
+        override fun create(context: Context): Any {
             return UniView(context)
         }
 
-        override fun update(view: View, attributes: Map<String, Any>, parent: ViewGroup?, binder: ViewletBinder?): Boolean {
-            ViewletUtil.applyGenericViewAttributes(view, attributes)
+        override fun update(mapUtil: InflatorMapUtil, obj: Any, attributes: Map<String, Any>, parent: Any?, binder: InflatorBinder?): Boolean {
+            if (obj is View) {
+                ViewletUtil.applyGenericViewAttributes(mapUtil, obj, attributes)
+            }
             return true
         }
 
-        override fun canRecycle(view: View, attributes: Map<String, Any>): Boolean {
-            return view is UniView
+        override fun canRecycle(mapUtil: InflatorMapUtil, obj: Any, attributes: Map<String, Any>): Boolean {
+            return obj is UniView
         }
 
     }
@@ -51,28 +54,28 @@ object ViewletUtil {
     // Inflate with assertion
     // --
 
-    fun assertInflateOn(view: View, attributes: Map<String, Any>, binder: ViewletBinder) {
+    fun assertInflateOn(view: View, attributes: Map<String, Any>, binder: InflatorBinder) {
         assertInflateOn(view, attributes, null, binder)
     }
 
-    fun assertInflateOn(view: View, attributes: Map<String, Any>?, parent: ViewGroup?, binder: ViewletBinder) {
-        val inflateResult = ViewletCreator.inflateOn(view, attributes, parent, binder)
+    fun assertInflateOn(view: View, attributes: Map<String, Any>?, parent: ViewGroup?, binder: InflatorBinder) {
+        val inflateResult = Inflators.viewlet.inflateOn(view, attributes, parent, binder)
         if (BuildConfig.DEBUG) {
             // First check if attributes are not null
             Assert.assertNotNull("Attributes are null, load issue?", attributes)
 
             // Check viewlet name
-            val viewletName = ViewletCreator.findViewletNameInAttributes(attributes)
+            val viewletName = Inflators.viewlet.findInflatableNameInAttributes(attributes)
             Assert.assertNotNull("No viewlet found, JSON structure issue?", viewletName)
 
             // Check if the viewlet is registered
-            Assert.assertNotNull("No viewlet implementation found, registration issue of $viewletName?", ViewletCreator.findViewletInAttributes(attributes))
+            Assert.assertNotNull("No viewlet implementation found, registration issue of $viewletName?", Inflators.viewlet.findInflatableInAttributes(attributes))
 
             // Check result of inflate
             Assert.assertTrue("Can't inflate viewlet, class doesn't match with $viewletName?", inflateResult)
 
             // Check if there are any referenced views that are null
-            if (binder is ViewletAnnotationBinder) {
+            if (binder is InflatorAnnotationBinder) {
                 checkViewletRefs(view)
             }
         }
@@ -81,7 +84,7 @@ object ViewletUtil {
     private fun checkViewletRefs(view: View) {
         for (field in view.javaClass.declaredFields) {
             for (annotation in field.declaredAnnotations) {
-                if (annotation is ViewletRef) {
+                if (annotation is InflatableRef) {
                     var isNull = true
                     try {
                         field.isAccessible = true
@@ -101,16 +104,16 @@ object ViewletUtil {
     // Subview creation
     // --
 
-    fun createSubviews(container: ViewGroup, parent: ViewGroup, attributes: Map<String, Any>?, subviewItems: Any?, binder: ViewletBinder?) {
+    fun createSubviews(mapUtil: InflatorMapUtil, container: ViewGroup, parent: ViewGroup, attributes: Map<String, Any>?, subviewItems: Any?, binder: InflatorBinder?) {
         // Check if children are the same before and after the update, then they can be updated instead of re-created
         var canRecycle = false
-        val recycling = ViewletMapUtil.optionalBoolean(attributes, "recycling", false)
-        val items = ViewletCreator.attributesForSubViewletList(subviewItems)
+        val recycling = mapUtil.optionalBoolean(attributes, "recycling", false)
+        val items = Inflators.viewlet.attributesForNestedInflatableList(subviewItems)
         if (recycling) {
             if (items.size == container.childCount) {
                 canRecycle = true
                 for (i in items.indices) {
-                    if (!ViewletCreator.canRecycle(container.getChildAt(i), items[i])) {
+                    if (!Inflators.viewlet.canRecycle(container.getChildAt(i), items[i])) {
                         canRecycle = false
                         break
                     }
@@ -124,9 +127,9 @@ object ViewletUtil {
             for (item in items) {
                 if (childIndex < container.childCount) {
                     val child = container.getChildAt(childIndex)
-                    ViewletCreator.inflateOn(child, item, parent, binder)
-                    ViewletUtil.applyLayoutAttributes(child, item)
-                    ViewletUtil.bindRef(child, item, binder)
+                    Inflators.viewlet.inflateOn(child, item, parent, binder)
+                    ViewletUtil.applyLayoutAttributes(mapUtil, child, item)
+                    ViewletUtil.bindRef(mapUtil, child, item, binder)
                     childIndex++
                 }
             }
@@ -145,16 +148,16 @@ object ViewletUtil {
             // Add children
             var foundScrollView: ScrollView? = null
             for (item in items) {
-                val result = ViewletCreator.create(container.context, item, parent, binder)
-                if (result != null) {
+                val result = Inflators.viewlet.inflate(container.context, item, parent, binder)
+                if (result is View) {
                     container.addView(result)
-                    ViewletUtil.applyLayoutAttributes(result, item)
+                    ViewletUtil.applyLayoutAttributes(mapUtil, result, item)
                     if (scrollPosition != 0 && foundScrollView == null) {
                         if (result is ScrollView) {
                             foundScrollView = result
                         }
                     }
-                    ViewletUtil.bindRef(result, item, binder)
+                    ViewletUtil.bindRef(mapUtil, result, item, binder)
                 }
             }
 
@@ -195,9 +198,9 @@ object ViewletUtil {
     // Easy reference binding
     // --
 
-    fun bindRef(view: View?, attributes: Map<String, Any>, binder: ViewletBinder?) {
+    fun bindRef(mapUtil: InflatorMapUtil, view: View?, attributes: Map<String, Any>, binder: InflatorBinder?) {
         if (binder != null && view != null) {
-            val refId = ViewletMapUtil.optionalString(attributes, "refId", null)
+            val refId = mapUtil.optionalString(attributes, "refId", null)
             if (refId != null) {
                 binder.onBind(refId, view)
             }
@@ -241,36 +244,36 @@ object ViewletUtil {
     // Shared generic view handling
     // --
 
-    fun applyGenericViewAttributes(view: View, attributes: Map<String, Any>) {
+    fun applyGenericViewAttributes(mapUtil: InflatorMapUtil, view: View, attributes: Map<String, Any>) {
         // Visibility
-        val visibility = ViewletMapUtil.optionalString(attributes, "visibility", "")
+        val visibility = mapUtil.optionalString(attributes, "visibility", "")
         view.visibility = when(visibility) {
             "hidden" -> View.GONE
             "invisible" -> View.INVISIBLE
             else -> View.VISIBLE
         }
-        view.isEnabled = !ViewletMapUtil.optionalBoolean(attributes, "disabled", false)
+        view.isEnabled = !mapUtil.optionalBoolean(attributes, "disabled", false)
 
         // TODO: ignore background color for buttons and text entry
-        view.setBackgroundColor(ViewletMapUtil.optionalColor(attributes, "backgroundColor", 0))
+        view.setBackgroundColor(mapUtil.optionalColor(attributes, "backgroundColor", 0))
 
         // Padding
         var defaultPadding = Arrays.asList(0, 0, 0, 0)
-        val paddingArray = ViewletMapUtil.optionalDimensionList(attributes, "padding")
+        val paddingArray = mapUtil.optionalDimensionList(attributes, "padding")
         if (paddingArray.size == 4) {
             defaultPadding = paddingArray
         }
         // TODO: ignore padding for text entry
         view.setPadding(
-                ViewletMapUtil.optionalDimension(attributes, "paddingLeft", defaultPadding[0]),
-                ViewletMapUtil.optionalDimension(attributes, "paddingTop", defaultPadding[1]),
-                ViewletMapUtil.optionalDimension(attributes, "paddingRight", defaultPadding[2]),
-                ViewletMapUtil.optionalDimension(attributes, "paddingBottom", defaultPadding[3])
+            mapUtil.optionalDimension(attributes, "paddingLeft", defaultPadding[0]),
+            mapUtil.optionalDimension(attributes, "paddingTop", defaultPadding[1]),
+            mapUtil.optionalDimension(attributes, "paddingRight", defaultPadding[2]),
+            mapUtil.optionalDimension(attributes, "paddingBottom", defaultPadding[3])
         )
 
         // Capture touch
         // TODO: ignore block touch for containers
-        view.isClickable = ViewletMapUtil.optionalBoolean(attributes, "blockTouch", false)
+        view.isClickable = mapUtil.optionalBoolean(attributes, "blockTouch", false)
     }
 
 
@@ -278,7 +281,7 @@ object ViewletUtil {
     // Shared layout parameters handling
     // --
 
-    fun applyLayoutAttributes(view: View, attributes: Map<String, Any>) {
+    fun applyLayoutAttributes(mapUtil: InflatorMapUtil, view: View, attributes: Map<String, Any>) {
         // Margin
         val layoutParams = if (view.layoutParams is UniLayoutParams) {
             view.layoutParams as UniLayoutParams
@@ -286,40 +289,40 @@ object ViewletUtil {
             UniLayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         }
         var defaultMargin = Arrays.asList(0, 0, 0, 0)
-        val marginArray = ViewletMapUtil.optionalDimensionList(attributes, "margin")
+        val marginArray = mapUtil.optionalDimensionList(attributes, "margin")
         if (marginArray.size == 4) {
             defaultMargin = marginArray
         }
-        layoutParams.leftMargin = ViewletMapUtil.optionalDimension(attributes, "marginLeft", defaultMargin[0])
-        layoutParams.topMargin = ViewletMapUtil.optionalDimension(attributes, "marginTop", defaultMargin[1])
-        layoutParams.rightMargin = ViewletMapUtil.optionalDimension(attributes, "marginRight", defaultMargin[2])
-        layoutParams.bottomMargin = ViewletMapUtil.optionalDimension(attributes, "marginBottom", defaultMargin[3])
-        layoutParams.spacingMargin = ViewletMapUtil.optionalDimension(attributes, "marginSpacing", 0)
+        layoutParams.leftMargin = mapUtil.optionalDimension(attributes, "marginLeft", defaultMargin[0])
+        layoutParams.topMargin = mapUtil.optionalDimension(attributes, "marginTop", defaultMargin[1])
+        layoutParams.rightMargin = mapUtil.optionalDimension(attributes, "marginRight", defaultMargin[2])
+        layoutParams.bottomMargin = mapUtil.optionalDimension(attributes, "marginBottom", defaultMargin[3])
+        layoutParams.spacingMargin = mapUtil.optionalDimension(attributes, "marginSpacing", 0)
 
         // Forced size or stretching
-        val widthString = ViewletMapUtil.optionalString(attributes, "width", "")
-        val heightString = ViewletMapUtil.optionalString(attributes, "height", "")
+        val widthString = mapUtil.optionalString(attributes, "width", "")
+        val heightString = mapUtil.optionalString(attributes, "height", "")
         layoutParams.width = when(widthString) {
             "stretchToParent" -> ViewGroup.LayoutParams.MATCH_PARENT
             "fitContent" -> ViewGroup.LayoutParams.WRAP_CONTENT
-            else -> ViewletMapUtil.optionalDimension(attributes, "width", ViewGroup.LayoutParams.WRAP_CONTENT)
+            else -> mapUtil.optionalDimension(attributes, "width", ViewGroup.LayoutParams.WRAP_CONTENT)
         }
         layoutParams.height = when(heightString) {
             "stretchToParent" -> ViewGroup.LayoutParams.MATCH_PARENT
             "fitContent" -> ViewGroup.LayoutParams.WRAP_CONTENT
-            else -> ViewletMapUtil.optionalDimension(attributes, "height", ViewGroup.LayoutParams.WRAP_CONTENT)
+            else -> mapUtil.optionalDimension(attributes, "height", ViewGroup.LayoutParams.WRAP_CONTENT)
         }
 
         // Size limits and weight
-        layoutParams.minWidth = ViewletMapUtil.optionalDimension(attributes, "minWidth", 0)
-        layoutParams.maxWidth = ViewletMapUtil.optionalDimension(attributes, "maxWidth", 0xFFFFFF)
-        layoutParams.minHeight = ViewletMapUtil.optionalDimension(attributes, "minHeight", 0)
-        layoutParams.maxHeight = ViewletMapUtil.optionalDimension(attributes, "maxHeight", 0xFFFFFF)
-        layoutParams.weight = ViewletMapUtil.optionalFloat(attributes, "weight", 0f)
+        layoutParams.minWidth = mapUtil.optionalDimension(attributes, "minWidth", 0)
+        layoutParams.maxWidth = mapUtil.optionalDimension(attributes, "maxWidth", 0xFFFFFF)
+        layoutParams.minHeight = mapUtil.optionalDimension(attributes, "minHeight", 0)
+        layoutParams.maxHeight = mapUtil.optionalDimension(attributes, "maxHeight", 0xFFFFFF)
+        layoutParams.weight = mapUtil.optionalFloat(attributes, "weight", 0f)
 
         // Gravity
-        layoutParams.horizontalGravity = optionalHorizontalGravity(attributes, 0.0f)
-        layoutParams.verticalGravity = optionalVerticalGravity(attributes, 0.0f)
+        layoutParams.horizontalGravity = optionalHorizontalGravity(mapUtil, attributes, 0.0f)
+        layoutParams.verticalGravity = optionalVerticalGravity(mapUtil, attributes, 0.0f)
         view.layoutParams = layoutParams
     }
 
@@ -328,7 +331,7 @@ object ViewletUtil {
     // Viewlet property helpers
     // --
 
-    fun optionalHorizontalGravity(attributes: Map<String, Any>, defaultValue: Float): Float {
+    fun optionalHorizontalGravity(mapUtil: InflatorMapUtil, attributes: Map<String, Any>, defaultValue: Float): Float {
         // Extract horizontal gravity from shared horizontal/vertical string
         var gravityString: String? = null
         if (attributes["gravity"] is String) {
@@ -358,10 +361,10 @@ object ViewletUtil {
                 else -> defaultValue
             }
         }
-        return ViewletMapUtil.optionalFloat(attributes, "horizontalGravity", defaultValue)
+        return mapUtil.optionalFloat(attributes, "horizontalGravity", defaultValue)
     }
 
-    fun optionalVerticalGravity(attributes: Map<String, Any>, defaultValue: Float): Float {
+    fun optionalVerticalGravity(mapUtil: InflatorMapUtil, attributes: Map<String, Any>, defaultValue: Float): Float {
         // Extract horizontal gravity from shared horizontal/vertical string
         var gravityString: String? = null
         if (attributes["gravity"] is String) {
@@ -391,7 +394,7 @@ object ViewletUtil {
                 else -> defaultValue
             }
         }
-        return ViewletMapUtil.optionalFloat(attributes, "verticalGravity", defaultValue)
+        return mapUtil.optionalFloat(attributes, "verticalGravity", defaultValue)
     }
 
 }

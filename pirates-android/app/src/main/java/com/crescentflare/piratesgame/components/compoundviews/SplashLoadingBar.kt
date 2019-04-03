@@ -6,20 +6,18 @@ import android.annotation.TargetApi
 import android.content.Context
 import android.os.Build
 import android.util.AttributeSet
-import android.view.View
-import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import com.crescentflare.piratesgame.R
 import com.crescentflare.piratesgame.components.containers.FrameContainerView
 import com.crescentflare.piratesgame.components.utility.ViewletUtil
 import com.crescentflare.unilayout.helpers.UniLayoutParams
 import com.crescentflare.unilayout.views.UniImageView
-import com.crescentflare.viewletcreator.ViewletCreator
-import com.crescentflare.viewletcreator.ViewletLoader
-import com.crescentflare.viewletcreator.binder.ViewletAnnotationBinder
-import com.crescentflare.viewletcreator.binder.ViewletBinder
-import com.crescentflare.viewletcreator.binder.ViewletRef
-import com.crescentflare.viewletcreator.utility.ViewletMapUtil
+import com.crescentflare.jsoninflator.JsonInflatable
+import com.crescentflare.jsoninflator.JsonLoader
+import com.crescentflare.jsoninflator.binder.InflatableRef
+import com.crescentflare.jsoninflator.binder.InflatorAnnotationBinder
+import com.crescentflare.jsoninflator.binder.InflatorBinder
+import com.crescentflare.jsoninflator.utility.InflatorMapUtil
 
 /**
  * Compound view: the loading bar on the splash screen
@@ -50,27 +48,27 @@ class SplashLoadingBar : FrameContainerView {
         // Static: viewlet integration
         // --
 
-        val viewlet: ViewletCreator.Viewlet = object : ViewletCreator.Viewlet {
+        val viewlet: JsonInflatable = object : JsonInflatable {
 
-            override fun create(context: Context): View {
+            override fun create(context: Context): Any {
                 return SplashLoadingBar(context)
             }
 
-            override fun update(view: View, attributes: Map<String, Any>, parent: ViewGroup?, binder: ViewletBinder?): Boolean {
-                if (view is SplashLoadingBar) {
+            override fun update(mapUtil: InflatorMapUtil, obj: Any, attributes: Map<String, Any>, parent: Any?, binder: InflatorBinder?): Boolean {
+                if (obj is SplashLoadingBar) {
                     // Apply state
-                    view.autoAnimation = ViewletMapUtil.optionalBoolean(attributes, "autoAnimation", false)
-                    view.progress = ViewletMapUtil.optionalFloat(attributes, "progress", 0f)
+                    obj.autoAnimation = mapUtil.optionalBoolean(attributes, "autoAnimation", false)
+                    obj.progress = mapUtil.optionalFloat(attributes, "progress", 0f)
 
                     // Generic view properties
-                    ViewletUtil.applyGenericViewAttributes(view, attributes)
+                    ViewletUtil.applyGenericViewAttributes(mapUtil, obj, attributes)
                     return true
                 }
                 return false
             }
 
-            override fun canRecycle(view: View, attributes: Map<String, Any>): Boolean {
-                return view is SplashLoadingBar
+            override fun canRecycle(mapUtil: InflatorMapUtil, obj: Any, attributes: Map<String, Any>): Boolean {
+                return obj is SplashLoadingBar
             }
 
         }
@@ -82,7 +80,7 @@ class SplashLoadingBar : FrameContainerView {
     // Bound views
     // --
 
-    @ViewletRef("bar")
+    @InflatableRef("bar")
     private var barView: UniImageView? = null
 
 
@@ -114,7 +112,7 @@ class SplashLoadingBar : FrameContainerView {
             : super(context, attrs, defStyleAttr, defStyleRes)
 
     init {
-        ViewletUtil.assertInflateOn(this, ViewletLoader.loadAttributes(context, layoutResource),null, ViewletAnnotationBinder(this))
+        ViewletUtil.assertInflateOn(this, JsonLoader.instance.loadAttributes(context, layoutResource),null, InflatorAnnotationBinder(this))
     }
 
 

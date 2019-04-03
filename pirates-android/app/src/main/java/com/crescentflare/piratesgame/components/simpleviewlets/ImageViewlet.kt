@@ -4,18 +4,15 @@ import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.support.v4.content.ContextCompat
-import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import com.crescentflare.piratesgame.components.utility.CustomNinePatchDrawable
 import com.crescentflare.piratesgame.components.utility.CustomThreePatchDrawable
 import com.crescentflare.piratesgame.components.utility.ImageSource
 import com.crescentflare.piratesgame.components.utility.ViewletUtil
 import com.crescentflare.unilayout.views.UniImageView
-import com.crescentflare.viewletcreator.ViewletCreator
-import com.crescentflare.viewletcreator.binder.ViewletBinder
-import com.crescentflare.viewletcreator.utility.ViewletMapUtil
+import com.crescentflare.jsoninflator.JsonInflatable
+import com.crescentflare.jsoninflator.binder.InflatorBinder
+import com.crescentflare.jsoninflator.utility.InflatorMapUtil
 import com.squareup.picasso.Picasso
 
 
@@ -28,30 +25,30 @@ object ImageViewlet {
     // Viewlet instance
     // --
 
-    val viewlet: ViewletCreator.Viewlet = object : ViewletCreator.Viewlet {
+    val viewlet: JsonInflatable = object : JsonInflatable {
 
-        override fun create(context: Context): View {
+        override fun create(context: Context): Any {
             return UniImageView(context)
         }
 
-        override fun update(view: View, attributes: Map<String, Any>, parent: ViewGroup?, binder: ViewletBinder?): Boolean {
-            if (view is UniImageView) {
+        override fun update(mapUtil: InflatorMapUtil, obj: Any, attributes: Map<String, Any>, parent: Any?, binder: InflatorBinder?): Boolean {
+            if (obj is UniImageView) {
                 // Set image
-                applyImageSource(view, ImageSource.fromObject(attributes["source"]))
+                applyImageSource(obj, ImageSource.fromObject(attributes["source"]))
 
                 // Scale factor
-                val scaleType = ScaleType.fromString(ViewletMapUtil.optionalString(attributes, "scaleType", ""))
-                view.scaleType = scaleType.toImageViewScaleType()
+                val scaleType = ScaleType.fromString(mapUtil.optionalString(attributes, "scaleType", ""))
+                obj.scaleType = scaleType.toImageViewScaleType()
 
                 // Generic view properties
-                ViewletUtil.applyGenericViewAttributes(view, attributes)
+                ViewletUtil.applyGenericViewAttributes(mapUtil, obj, attributes)
                 return true
             }
             return false
         }
 
-        override fun canRecycle(view: View, attributes: Map<String, Any>): Boolean {
-            return view is UniImageView
+        override fun canRecycle(mapUtil: InflatorMapUtil, obj: Any, attributes: Map<String, Any>): Boolean {
+            return obj is UniImageView
         }
 
     }

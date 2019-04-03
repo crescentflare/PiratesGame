@@ -12,8 +12,6 @@ import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.Gravity
-import android.view.View
-import android.view.ViewGroup
 import com.crescentflare.piratesgame.R
 import com.crescentflare.piratesgame.components.utility.CustomThreePatchDrawable
 import com.crescentflare.piratesgame.components.utility.ImageSource
@@ -22,9 +20,9 @@ import com.crescentflare.piratesgame.infrastructure.events.AppEvent
 import com.crescentflare.piratesgame.infrastructure.events.AppEventLabeledSender
 import com.crescentflare.piratesgame.infrastructure.events.AppEventObserver
 import com.crescentflare.unilayout.views.UniButtonView
-import com.crescentflare.viewletcreator.ViewletCreator
-import com.crescentflare.viewletcreator.binder.ViewletBinder
-import com.crescentflare.viewletcreator.utility.ViewletMapUtil
+import com.crescentflare.jsoninflator.JsonInflatable
+import com.crescentflare.jsoninflator.binder.InflatorBinder
+import com.crescentflare.jsoninflator.utility.InflatorMapUtil
 import java.lang.ref.WeakReference
 
 /**
@@ -42,48 +40,48 @@ class ButtonView : UniButtonView, AppEventLabeledSender {
         // Static: viewlet integration
         // --
 
-        val viewlet: ViewletCreator.Viewlet = object : ViewletCreator.Viewlet {
+        val viewlet: JsonInflatable = object : JsonInflatable {
 
-            override fun create(context: Context): View {
+            override fun create(context: Context): Any {
                 return ButtonView(context)
             }
 
-            override fun update(view: View, attributes: Map<String, Any>, parent: ViewGroup?, binder: ViewletBinder?): Boolean {
-                if (view is ButtonView) {
+            override fun update(mapUtil: InflatorMapUtil, obj: Any, attributes: Map<String, Any>, parent: Any?, binder: InflatorBinder?): Boolean {
+                if (obj is ButtonView) {
                     // Text
-                    view.text = ViewletUtil.localizedString(
-                        view.context,
-                        ViewletMapUtil.optionalString(attributes, "localizedText", null),
-                        ViewletMapUtil.optionalString(attributes, "text", null)
+                    obj.text = ViewletUtil.localizedString(
+                        obj.context,
+                        mapUtil.optionalString(attributes, "localizedText", null),
+                        mapUtil.optionalString(attributes, "text", null)
                     )
 
                     // Font
-                    val defaultTextSize = view.resources.getDimensionPixelSize(R.dimen.buttonText)
-                    view.setTextSize(
+                    val defaultTextSize = obj.resources.getDimensionPixelSize(R.dimen.buttonText)
+                    obj.setTextSize(
                         TypedValue.COMPLEX_UNIT_PX,
-                        ViewletMapUtil.optionalDimension(attributes, "textSize", defaultTextSize).toFloat()
+                        mapUtil.optionalDimension(attributes, "textSize", defaultTextSize).toFloat()
                     )
 
                     // Generic view properties
-                    ViewletUtil.applyGenericViewAttributes(view, attributes)
+                    ViewletUtil.applyGenericViewAttributes(mapUtil, obj, attributes)
 
                     // Button background and text color based on color style
-                    view.setColorStyle(ColorStyle.fromString(ViewletMapUtil.optionalString(attributes, "colorStyle", "")))
+                    obj.setColorStyle(ColorStyle.fromString(mapUtil.optionalString(attributes, "colorStyle", "")))
 
                     // Event handling
-                    view.tapEvent = AppEvent.fromObject(attributes["tapEvent"])
+                    obj.tapEvent = AppEvent.fromObject(attributes["tapEvent"])
 
                     // Forward event observer
                     if (parent is AppEventObserver) {
-                        view.eventObserver = parent
+                        obj.eventObserver = parent
                     }
                     return true
                 }
                 return false
             }
 
-            override fun canRecycle(view: View, attributes: Map<String, Any>): Boolean {
-                return view is ButtonView
+            override fun canRecycle(mapUtil: InflatorMapUtil, obj: Any, attributes: Map<String, Any>): Boolean {
+                return obj is ButtonView
             }
 
         }

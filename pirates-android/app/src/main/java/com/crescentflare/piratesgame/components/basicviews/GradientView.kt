@@ -5,13 +5,11 @@ import android.content.Context
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.util.AttributeSet
-import android.view.View
-import android.view.ViewGroup
 import com.crescentflare.piratesgame.components.utility.ViewletUtil
 import com.crescentflare.unilayout.views.UniView
-import com.crescentflare.viewletcreator.ViewletCreator
-import com.crescentflare.viewletcreator.binder.ViewletBinder
-import com.crescentflare.viewletcreator.utility.ViewletMapUtil
+import com.crescentflare.jsoninflator.JsonInflatable
+import com.crescentflare.jsoninflator.binder.InflatorBinder
+import com.crescentflare.jsoninflator.utility.InflatorMapUtil
 
 /**
  * Basic view: a simple background with a gradient
@@ -24,28 +22,28 @@ class GradientView : UniView {
 
     companion object {
 
-        val viewlet: ViewletCreator.Viewlet = object : ViewletCreator.Viewlet {
+        val viewlet: JsonInflatable = object : JsonInflatable {
 
-            override fun create(context: Context): View {
+            override fun create(context: Context): Any {
                 return GradientView(context)
             }
 
-            override fun update(view: View, attributes: Map<String, Any>, parent: ViewGroup?, binder: ViewletBinder?): Boolean {
-                if (view is GradientView) {
+            override fun update(mapUtil: InflatorMapUtil, obj: Any, attributes: Map<String, Any>, parent: Any?, binder: InflatorBinder?): Boolean {
+                if (obj is GradientView) {
                     // Generic view properties
-                    ViewletUtil.applyGenericViewAttributes(view, attributes)
+                    ViewletUtil.applyGenericViewAttributes(mapUtil, obj, attributes)
 
                     // Gradient properties
-                    view.startColor = ViewletMapUtil.optionalColor(attributes, "startColor", 0)
-                    view.endColor = ViewletMapUtil.optionalColor(attributes, "endColor", 0)
-                    view.angle = ViewletMapUtil.optionalInteger(attributes, "angle", 0)
+                    obj.startColor = mapUtil.optionalColor(attributes, "startColor", 0)
+                    obj.endColor = mapUtil.optionalColor(attributes, "endColor", 0)
+                    obj.angle = mapUtil.optionalInteger(attributes, "angle", 0)
                     return true
                 }
                 return false
             }
 
-            override fun canRecycle(view: View, attributes: Map<String, Any>): Boolean {
-                return view is GradientView
+            override fun canRecycle(mapUtil: InflatorMapUtil, obj: Any, attributes: Map<String, Any>): Boolean {
+                return obj is GradientView
             }
 
         }

@@ -6,7 +6,7 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.graphics.RectF
 import android.graphics.drawable.Drawable
-import com.crescentflare.viewletcreator.utility.ViewletMapUtil
+import com.crescentflare.piratesgame.infrastructure.inflator.Inflators
 
 /**
  * Image generators: a base class to generate a new image drawable dynamically
@@ -58,13 +58,14 @@ class FilledRectGenerator: ImageDrawableGenerator() {
     }
 
     override fun generate(context: Context, attributes: Map<String, Any>, onDrawable: Drawable?): Drawable? {
-        val gravity = gravityFromAttributes(attributes)
+        val mapUtil = Inflators.viewlet.mapUtil
+        val gravity = gravityFromAttributes(mapUtil, attributes)
         return generate(
             context,
-            ViewletMapUtil.optionalColor(attributes, "color", Color.TRANSPARENT),
+            mapUtil.optionalColor(attributes, "color", Color.TRANSPARENT),
             widthFromAttributes(attributes),
             heightFromAttributes(attributes),
-            ViewletMapUtil.optionalDimension(attributes, "cornerRadius", 0),
+            mapUtil.optionalDimension(attributes, "cornerRadius", 0),
             gravity.x,
             gravity.y,
             imageWidthFromAttributes(attributes),

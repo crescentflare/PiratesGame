@@ -16,8 +16,9 @@ import android.view.animation.LinearInterpolator
 import android.widget.ImageView
 import com.crescentflare.piratesgame.R
 import com.crescentflare.piratesgame.components.utility.ViewletUtil
-import com.crescentflare.viewletcreator.ViewletCreator
-import com.crescentflare.viewletcreator.binder.ViewletBinder
+import com.crescentflare.jsoninflator.JsonInflatable
+import com.crescentflare.jsoninflator.binder.InflatorBinder
+import com.crescentflare.jsoninflator.utility.InflatorMapUtil
 
 /**
  * Complex view: the publisher logo with effect animation
@@ -31,23 +32,23 @@ class PublisherLogo : ViewGroup {
 
     companion object {
 
-        val viewlet: ViewletCreator.Viewlet = object : ViewletCreator.Viewlet {
+        val viewlet: JsonInflatable = object : JsonInflatable {
 
-            override fun create(context: Context): View {
+            override fun create(context: Context): Any {
                 return PublisherLogo(context)
             }
 
-            override fun update(view: View, attributes: Map<String, Any>, parent: ViewGroup?, binder: ViewletBinder?): Boolean {
-                if (view is PublisherLogo) {
+            override fun update(mapUtil: InflatorMapUtil, obj: Any, attributes: Map<String, Any>, parent: Any?, binder: InflatorBinder?): Boolean {
+                if (obj is PublisherLogo) {
                     // Generic view properties
-                    ViewletUtil.applyGenericViewAttributes(view, attributes)
+                    ViewletUtil.applyGenericViewAttributes(mapUtil, obj, attributes)
                     return true
                 }
                 return false
             }
 
-            override fun canRecycle(view: View, attributes: Map<String, Any>): Boolean {
-                return view is PublisherLogo
+            override fun canRecycle(mapUtil: InflatorMapUtil, obj: Any, attributes: Map<String, Any>): Boolean {
+                return obj is PublisherLogo
             }
 
         }

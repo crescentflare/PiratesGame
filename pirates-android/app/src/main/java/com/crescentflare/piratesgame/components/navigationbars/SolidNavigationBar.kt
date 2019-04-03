@@ -4,26 +4,21 @@ import android.annotation.TargetApi
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
-import android.view.View
-import android.view.ViewGroup
+import com.crescentflare.jsoninflator.JsonInflatable
+import com.crescentflare.jsoninflator.JsonLoader
+import com.crescentflare.jsoninflator.binder.InflatableRef
+import com.crescentflare.jsoninflator.binder.InflatorAnnotationBinder
+import com.crescentflare.jsoninflator.binder.InflatorBinder
+import com.crescentflare.jsoninflator.utility.InflatorMapUtil
 import com.crescentflare.piratesgame.R
 import com.crescentflare.piratesgame.components.containers.FrameContainerView
 import com.crescentflare.piratesgame.components.containers.LinearContainerView
 import com.crescentflare.piratesgame.components.utility.NavigationBarComponent
 import com.crescentflare.piratesgame.components.utility.ViewletUtil
 import com.crescentflare.unilayout.views.UniTextView
-import com.crescentflare.viewletcreator.binder.ViewletBinder
-import com.crescentflare.viewletcreator.ViewletCreator
-import com.crescentflare.unilayout.views.UniView
-import com.crescentflare.viewletcreator.ViewletLoader
-import com.crescentflare.viewletcreator.binder.ViewletAnnotationBinder
-import com.crescentflare.viewletcreator.binder.ViewletRef
-import com.crescentflare.viewletcreator.utility.ViewletMapUtil
-
 
 
 /**
@@ -48,30 +43,30 @@ class SolidNavigationBar : FrameContainerView, NavigationBarComponent {
         // Static: viewlet integration
         // --
 
-        val viewlet: ViewletCreator.Viewlet = object : ViewletCreator.Viewlet {
+        val viewlet: JsonInflatable = object : JsonInflatable {
 
-            override fun create(context: Context): View {
+            override fun create(context: Context): Any {
                 return SolidNavigationBar(context)
             }
 
-            override fun update(view: View, attributes: Map<String, Any>, parent: ViewGroup?, binder: ViewletBinder?): Boolean {
-                if (view is SolidNavigationBar) {
+            override fun update(mapUtil: InflatorMapUtil, obj: Any, attributes: Map<String, Any>, parent: Any?, binder: InflatorBinder?): Boolean {
+                if (obj is SolidNavigationBar) {
                     // Apply text
-                    view.title = ViewletUtil.localizedString(
-                        view.context,
-                        ViewletMapUtil.optionalString(attributes, "localizedTitle", null),
-                        ViewletMapUtil.optionalString(attributes, "title", null)
+                    obj.title = ViewletUtil.localizedString(
+                        obj.context,
+                        mapUtil.optionalString(attributes, "localizedTitle", null),
+                        mapUtil.optionalString(attributes, "title", null)
                     )
 
                     // Generic view properties
-                    ViewletUtil.applyGenericViewAttributes(view, attributes)
+                    ViewletUtil.applyGenericViewAttributes(mapUtil, obj, attributes)
                     return true
                 }
                 return false
             }
 
-            override fun canRecycle(view: View, attributes: Map<String, Any>): Boolean {
-                return view is SolidNavigationBar
+            override fun canRecycle(mapUtil: InflatorMapUtil, obj: Any, attributes: Map<String, Any>): Boolean {
+                return obj is SolidNavigationBar
             }
 
         }
@@ -83,10 +78,10 @@ class SolidNavigationBar : FrameContainerView, NavigationBarComponent {
     // Bound views
     // --
 
-    @ViewletRef("title")
+    @InflatableRef("title")
     private var titleView: UniTextView? = null
 
-    @ViewletRef("subContainer")
+    @InflatableRef("subContainer")
     private var subContainer: LinearContainerView? = null
 
 
@@ -127,7 +122,7 @@ class SolidNavigationBar : FrameContainerView, NavigationBarComponent {
             : super(context, attrs, defStyleAttr, defStyleRes)
 
     init {
-        ViewletUtil.assertInflateOn(this, ViewletLoader.loadAttributes(context, layoutResource),null, ViewletAnnotationBinder(this))
+        ViewletUtil.assertInflateOn(this, JsonLoader.instance.loadAttributes(context, layoutResource),null, InflatorAnnotationBinder(this))
     }
 
 

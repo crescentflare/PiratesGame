@@ -2,6 +2,7 @@ package com.crescentflare.piratesgame.page.activities
 
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import com.crescentflare.jsoninflator.binder.InflatorMapBinder
 import com.crescentflare.piratesgame.R
 import com.crescentflare.piratesgame.components.navigationbars.TransparentNavigationBar
 import com.crescentflare.piratesgame.components.containers.FrameContainerView
@@ -21,7 +22,6 @@ import com.crescentflare.piratesgame.page.storage.PageLoaderContinuousCompletion
 import com.crescentflare.piratesgame.page.modules.ControllerModule
 import com.crescentflare.piratesgame.page.modules.shared.NavigationModule
 import com.crescentflare.piratesgame.page.storage.PageCache
-import com.crescentflare.viewletcreator.binder.ViewletMapBinder
 
 /**
  * Activity: a game level
@@ -137,7 +137,7 @@ class LevelActivity : ComponentActivity(), AppEventObserver, PageLoaderContinuou
     }
 
     override fun didUpdatePage(page: Page) {
-        val binder = ViewletMapBinder()
+        val binder = InflatorMapBinder()
         val inflateLayout = mapOf(
             Pair("viewlet", "frameContainer"),
             Pair("width", "stretchToParent"),

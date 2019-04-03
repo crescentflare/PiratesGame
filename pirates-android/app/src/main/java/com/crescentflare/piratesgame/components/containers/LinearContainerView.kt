@@ -4,16 +4,14 @@ import android.annotation.TargetApi
 import android.content.Context
 import android.os.Build
 import android.util.AttributeSet
-import android.view.View
-import android.view.ViewGroup
 import com.crescentflare.piratesgame.components.utility.ViewletUtil
 import com.crescentflare.piratesgame.infrastructure.events.AppEvent
 import com.crescentflare.piratesgame.infrastructure.events.AppEventLabeledSender
 import com.crescentflare.piratesgame.infrastructure.events.AppEventObserver
 import com.crescentflare.unilayout.containers.UniLinearContainer
-import com.crescentflare.viewletcreator.ViewletCreator
-import com.crescentflare.viewletcreator.binder.ViewletBinder
-import com.crescentflare.viewletcreator.utility.ViewletMapUtil
+import com.crescentflare.jsoninflator.JsonInflatable
+import com.crescentflare.jsoninflator.binder.InflatorBinder
+import com.crescentflare.jsoninflator.utility.InflatorMapUtil
 import java.lang.ref.WeakReference
 
 /**
@@ -27,41 +25,41 @@ open class LinearContainerView : UniLinearContainer, AppEventObserver, AppEventL
 
     companion object {
 
-        val viewlet: ViewletCreator.Viewlet = object : ViewletCreator.Viewlet {
-            override fun create(context: Context): View {
+        val viewlet: JsonInflatable = object : JsonInflatable {
+            override fun create(context: Context): Any {
                 return LinearContainerView(context)
             }
 
-            override fun update(view: View, attributes: Map<String, Any>, parent: ViewGroup?, binder: ViewletBinder?): Boolean {
-                if (view is LinearContainerView) {
+            override fun update(mapUtil: InflatorMapUtil, obj: Any, attributes: Map<String, Any>, parent: Any?, binder: InflatorBinder?): Boolean {
+                if (obj is LinearContainerView) {
                     // Orientation
-                    val orientationString = ViewletMapUtil.optionalString(attributes, "orientation", "")
+                    val orientationString = mapUtil.optionalString(attributes, "orientation", "")
                     if (orientationString == "horizontal") {
-                        view.orientation = UniLinearContainer.HORIZONTAL
+                        obj.orientation = UniLinearContainer.HORIZONTAL
                     } else {
-                        view.orientation = UniLinearContainer.VERTICAL
+                        obj.orientation = UniLinearContainer.VERTICAL
                     }
 
                     // Create or update children
-                    ViewletUtil.createSubviews(view, view, attributes, attributes["items"], binder)
+                    ViewletUtil.createSubviews(mapUtil, obj, obj, attributes, attributes["items"], binder)
 
                     // Generic view properties
-                    ViewletUtil.applyGenericViewAttributes(view, attributes)
+                    ViewletUtil.applyGenericViewAttributes(mapUtil, obj, attributes)
 
                     // Event handling
-                    view.tapEvent = AppEvent.fromObject(attributes["tapEvent"])
+                    obj.tapEvent = AppEvent.fromObject(attributes["tapEvent"])
 
                     // Forward event observer
                     if (parent is AppEventObserver) {
-                        view.eventObserver = parent
+                        obj.eventObserver = parent
                     }
                     return true
                 }
                 return false
             }
 
-            override fun canRecycle(view: View, attributes: Map<String, Any>): Boolean {
-                return view is LinearContainerView
+            override fun canRecycle(mapUtil: InflatorMapUtil, obj: Any, attributes: Map<String, Any>): Boolean {
+                return obj is LinearContainerView
             }
         }
     }

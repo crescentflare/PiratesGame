@@ -3,13 +3,13 @@ package com.crescentflare.piratesgame.page.modules.shared
 import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
+import com.crescentflare.jsoninflator.binder.InflatorMapBinder
 import com.crescentflare.piratesgame.infrastructure.events.AppEvent
 import com.crescentflare.piratesgame.page.activities.LevelActivity
 import com.crescentflare.piratesgame.page.activities.SplashActivity
 import com.crescentflare.piratesgame.page.activities.SummaryActivity
 import com.crescentflare.piratesgame.page.modules.ControllerModule
 import com.crescentflare.piratesgame.page.storage.Page
-import com.crescentflare.viewletcreator.binder.ViewletMapBinder
 import java.lang.ref.WeakReference
 
 /**
@@ -38,7 +38,7 @@ class NavigationModule: ControllerModule {
     // Page updates
     // --
 
-    override fun onPageUpdated(page: Page, binder: ViewletMapBinder) {
+    override fun onPageUpdated(page: Page, binder: InflatorMapBinder) {
         // No implementation
     }
 

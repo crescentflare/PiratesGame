@@ -6,7 +6,7 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.graphics.RectF
 import android.graphics.drawable.Drawable
-import com.crescentflare.viewletcreator.utility.ViewletMapUtil
+import com.crescentflare.piratesgame.infrastructure.inflator.Inflators
 
 /**
  * Image generators: generates an oval filled with a color
@@ -34,8 +34,9 @@ class FilledOvalGenerator: ImageDrawableGenerator() {
     }
 
     override fun generate(context: Context, attributes: Map<String, Any>, onDrawable: Drawable?): Drawable? {
-        val gravity = gravityFromAttributes(attributes)
-        return generate(context, ViewletMapUtil.optionalColor(attributes, "color", Color.TRANSPARENT), widthFromAttributes(attributes), heightFromAttributes(attributes), gravity.x, gravity.y, imageWidthFromAttributes(attributes), imageHeightFromAttributes(attributes), onDrawable)
+        val mapUtil = Inflators.viewlet.mapUtil
+        val gravity = gravityFromAttributes(mapUtil, attributes)
+        return generate(context, mapUtil.optionalColor(attributes, "color", Color.TRANSPARENT), widthFromAttributes(attributes), heightFromAttributes(attributes), gravity.x, gravity.y, imageWidthFromAttributes(attributes), imageHeightFromAttributes(attributes), onDrawable)
     }
 
 }

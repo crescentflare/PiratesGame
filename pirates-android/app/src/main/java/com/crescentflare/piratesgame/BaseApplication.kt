@@ -2,6 +2,8 @@ package com.crescentflare.piratesgame
 
 import android.app.Application
 import com.crescentflare.dynamicappconfig.manager.AppConfigStorage
+import com.crescentflare.jsoninflator.utility.InflatorResourceColorLookup
+import com.crescentflare.jsoninflator.utility.InflatorResourceDimensionLookup
 import com.crescentflare.piratesgame.components.basicviews.ButtonView
 import com.crescentflare.piratesgame.components.basicviews.GradientView
 import com.crescentflare.piratesgame.components.complexviews.PublisherLogo
@@ -14,16 +16,13 @@ import com.crescentflare.piratesgame.components.game.LevelView
 import com.crescentflare.piratesgame.components.navigationbars.SolidNavigationBar
 import com.crescentflare.piratesgame.components.navigationbars.TransparentNavigationBar
 import com.crescentflare.piratesgame.components.simpleviewlets.ImageViewlet
-import com.crescentflare.viewletcreator.ViewletCreator
 import com.crescentflare.piratesgame.components.utility.ViewletUtil
 import com.crescentflare.piratesgame.components.simpleviewlets.SpacerViewlet
 import com.crescentflare.piratesgame.components.simpleviewlets.SpinnerViewlet
 import com.crescentflare.piratesgame.components.simpleviewlets.TextViewlet
 import com.crescentflare.piratesgame.components.styling.AppFonts
 import com.crescentflare.piratesgame.infrastructure.appconfig.CustomAppConfigManager
-import com.crescentflare.viewletcreator.utility.ViewletResourceDimensionLookup
-import com.crescentflare.viewletcreator.utility.ViewletMapUtil
-import com.crescentflare.viewletcreator.utility.ViewletResourceColorLookup
+import com.crescentflare.piratesgame.infrastructure.inflator.Inflators
 
 
 /**
@@ -65,43 +64,43 @@ class BaseApplication : Application(), AppConfigStorage.ChangedConfigListener {
 
     private fun registerViewlets() {
         // Enable platform specific attributes
-        ViewletCreator.setMergeSubAttributes(listOf("android"))
-        ViewletCreator.setExcludeAttributes(listOf("ios"))
+        Inflators.viewlet.setMergeSubAttributes(listOf("android"))
+        Inflators.viewlet.setExcludeAttributes(listOf("ios"))
 
         // Lookups
-        ViewletMapUtil.setColorLookup(ViewletResourceColorLookup(this))
-        ViewletMapUtil.setDimensionLookup(ViewletResourceDimensionLookup(this))
+        Inflators.viewlet.setColorLookup(InflatorResourceColorLookup(this))
+        Inflators.viewlet.setDimensionLookup(InflatorResourceDimensionLookup(this))
 
         // Basic views
-        ViewletCreator.registerViewlet("button", ButtonView.viewlet)
-        ViewletCreator.registerStyle("button", "default", ButtonView.defaultStyle())
-        ViewletCreator.registerViewlet("gradient", GradientView.viewlet)
+        Inflators.viewlet.register("button", ButtonView.viewlet)
+        Inflators.viewlet.registerAttributeSet("button", "default", ButtonView.defaultStyle())
+        Inflators.viewlet.register("gradient", GradientView.viewlet)
 
         // Compound views
-        ViewletCreator.registerViewlet("splashAnimation", SplashAnimation.viewlet)
-        ViewletCreator.registerViewlet("splashLoadingBar", SplashLoadingBar.viewlet)
+        Inflators.viewlet.register("splashAnimation", SplashAnimation.viewlet)
+        Inflators.viewlet.register("splashLoadingBar", SplashLoadingBar.viewlet)
 
         // Complex views
-        ViewletCreator.registerViewlet("publisherLogo", PublisherLogo.viewlet)
+        Inflators.viewlet.register("publisherLogo", PublisherLogo.viewlet)
 
         // Containers
-        ViewletCreator.registerViewlet("frameContainer", FrameContainerView.viewlet)
-        ViewletCreator.registerViewlet( "linearContainer", LinearContainerView.viewlet)
-        ViewletCreator.registerViewlet( "scrollContainer", ScrollContainerView.viewlet)
+        Inflators.viewlet.register("frameContainer", FrameContainerView.viewlet)
+        Inflators.viewlet.register( "linearContainer", LinearContainerView.viewlet)
+        Inflators.viewlet.register( "scrollContainer", ScrollContainerView.viewlet)
 
         // Game
-        ViewletCreator.registerViewlet("level", LevelView.viewlet)
+        Inflators.viewlet.register("level", LevelView.viewlet)
 
         // Navigation bars
-        ViewletCreator.registerViewlet("transparentNavigationBar", TransparentNavigationBar.viewlet)
-        ViewletCreator.registerViewlet("solidNavigationBar", SolidNavigationBar.viewlet)
+        Inflators.viewlet.register("transparentNavigationBar", TransparentNavigationBar.viewlet)
+        Inflators.viewlet.register("solidNavigationBar", SolidNavigationBar.viewlet)
 
         // Simple viewlets
-        ViewletCreator.registerViewlet("image", ImageViewlet.viewlet)
-        ViewletCreator.registerViewlet("spacer", SpacerViewlet.viewlet)
-        ViewletCreator.registerViewlet("spinner", SpinnerViewlet.viewlet)
-        ViewletCreator.registerViewlet("text", TextViewlet.viewlet)
-        ViewletCreator.registerViewlet("view", ViewletUtil.basicViewViewlet)
+        Inflators.viewlet.register("image", ImageViewlet.viewlet)
+        Inflators.viewlet.register("spacer", SpacerViewlet.viewlet)
+        Inflators.viewlet.register("spinner", SpinnerViewlet.viewlet)
+        Inflators.viewlet.register("text", TextViewlet.viewlet)
+        Inflators.viewlet.register("view", ViewletUtil.basicViewViewlet)
     }
 
 }

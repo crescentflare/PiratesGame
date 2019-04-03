@@ -1,7 +1,7 @@
 package com.crescentflare.piratesgame.infrastructure.events
 
 import com.crescentflare.piratesgame.infrastructure.coreextensions.urlDecode
-import com.crescentflare.viewletcreator.utility.ViewletMapUtil
+import com.crescentflare.piratesgame.infrastructure.inflator.Inflators
 
 /**
  * Event system: defines an event with optional parameters
@@ -18,7 +18,7 @@ class AppEvent {
             if (value is String) {
                 return AppEvent(value)
             } else if (value is Map<*, *>) {
-                val result: Map<String, Any>? = ViewletMapUtil.asStringObjectMap(value)
+                val result: Map<String, Any>? = Inflators.viewlet.mapUtil.asStringObjectMap(value)
                 if (result != null) {
                     return AppEvent(result)
                 }
@@ -47,7 +47,7 @@ class AppEvent {
         if (value is String) {
             initParse(value)
         } else if (value is Map<*, *>) {
-            val result: Map<String, Any>? = ViewletMapUtil.asStringObjectMap(value)
+            val result: Map<String, Any>? = Inflators.viewlet.mapUtil.asStringObjectMap(value)
             initParse(result ?: mapOf())
         }
     }

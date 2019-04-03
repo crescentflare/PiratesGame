@@ -6,19 +6,17 @@ import android.os.Build
 import android.os.Handler
 import android.util.AttributeSet
 import android.view.View
-import android.view.ViewGroup
 import com.crescentflare.piratesgame.components.utility.ViewletUtil
 import com.crescentflare.piratesgame.infrastructure.events.AppEvent
 import com.crescentflare.piratesgame.infrastructure.events.AppEventObserver
 import com.crescentflare.piratesgame.infrastructure.events.AppEventType
 import com.crescentflare.unilayout.containers.UniVerticalScrollContainer
-import com.crescentflare.viewletcreator.ViewletCreator
-import com.crescentflare.viewletcreator.binder.ViewletBinder
-import com.crescentflare.viewletcreator.utility.ViewletMapUtil
+import com.crescentflare.jsoninflator.JsonInflatable
+import com.crescentflare.jsoninflator.binder.InflatorBinder
+import com.crescentflare.jsoninflator.utility.InflatorMapUtil
+import com.crescentflare.piratesgame.infrastructure.inflator.Inflators
 
 import java.lang.ref.WeakReference
-import java.util.ArrayList
-import java.util.HashMap
 
 /**
  * Container view: a scroll view specifically made for the layout containers (like LinearContainerView)
@@ -31,57 +29,57 @@ class ScrollContainerView : UniVerticalScrollContainer, AppEventObserver {
 
     companion object {
 
-        val viewlet: ViewletCreator.Viewlet = object : ViewletCreator.Viewlet {
+        val viewlet: JsonInflatable = object : JsonInflatable {
 
-            override fun create(context: Context): View {
+            override fun create(context: Context): Any {
                 return ScrollContainerView(context)
             }
 
-            override fun update(view: View, attributes: Map<String, Any>, parent: ViewGroup?, binder: ViewletBinder?): Boolean {
-                if (view is ScrollContainerView) {
+            override fun update(mapUtil: InflatorMapUtil, obj: Any, attributes: Map<String, Any>, parent: Any?, binder: InflatorBinder?): Boolean {
+                if (obj is ScrollContainerView) {
                     // Set fill content mode
-                    view.isFillViewport = ViewletMapUtil.optionalBoolean(attributes, "fillContent", false)
+                    obj.isFillViewport = mapUtil.optionalBoolean(attributes, "fillContent", false)
 
                     // Set content
-                    val item = ViewletCreator.attributesForSubViewlet(attributes["item"])
-                    val recycling = ViewletMapUtil.optionalBoolean(attributes, "recycling", false)
-                    if (recycling && ViewletCreator.canRecycle(view.contentView, item)) {
-                        val contentView = view.contentView
+                    val item = Inflators.viewlet.attributesForNestedInflatable(attributes["item"])
+                    val recycling = mapUtil.optionalBoolean(attributes, "recycling", false)
+                    if (recycling && Inflators.viewlet.canRecycle(obj.contentView, item)) {
+                        val contentView = obj.contentView
                         if (contentView != null && item != null) {
-                            ViewletCreator.inflateOn(contentView, item, null)
-                            ViewletUtil.applyLayoutAttributes(contentView, item)
-                            ViewletUtil.bindRef(contentView, item, binder)
+                            Inflators.viewlet.inflateOn(contentView, item, null)
+                            ViewletUtil.applyLayoutAttributes(mapUtil, contentView, item)
+                            ViewletUtil.bindRef(mapUtil, contentView, item, binder)
                         }
                     } else {
                         // First empty content
-                        view.contentView = null
+                        obj.contentView = null
 
                         // Set content view
-                        val result = ViewletCreator.create(view.getContext(), item, view, binder)
-                        if (result != null && item != null) {
-                            view.addView(result)
-                            ViewletUtil.applyLayoutAttributes(result, item)
-                            ViewletUtil.bindRef(result, item, binder)
+                        val result = Inflators.viewlet.inflate(obj.context, item, obj, binder)
+                        if (result is View && item != null) {
+                            obj.addView(result)
+                            ViewletUtil.applyLayoutAttributes(mapUtil, result, item)
+                            ViewletUtil.bindRef(mapUtil, result, item, binder)
                         }
                     }
 
                     // Generic view properties
-                    ViewletUtil.applyGenericViewAttributes(view, attributes)
+                    ViewletUtil.applyGenericViewAttributes(mapUtil, obj, attributes)
 
                     // Forward event observer
                     if (parent is AppEventObserver) {
-                        view.eventObserver = parent
+                        obj.eventObserver = parent
                     }
 
                     // Set pull to refresh (after interaction listener is set)
-                    view.pullToRefreshEvent = AppEvent.fromObject(attributes["pullToRefreshEvent"])
+                    obj.pullToRefreshEvent = AppEvent.fromObject(attributes["pullToRefreshEvent"])
                     return true
                 }
                 return false
             }
 
-            override fun canRecycle(view: View, attributes: Map<String, Any>): Boolean {
-                return view is ScrollContainerView
+            override fun canRecycle(mapUtil: InflatorMapUtil, obj: Any, attributes: Map<String, Any>): Boolean {
+                return obj is ScrollContainerView
             }
 
         }

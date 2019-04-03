@@ -1,10 +1,10 @@
 package com.crescentflare.piratesgame.infrastructure.tools
 
 import android.os.Build
+import com.crescentflare.jsoninflator.utility.InflatorMapUtil
 import com.crescentflare.piratesgame.infrastructure.appconfig.CustomAppConfigManager
 import com.crescentflare.piratesgame.infrastructure.events.AppEvent
 import com.crescentflare.piratesgame.infrastructure.events.AppEventObserver
-import com.crescentflare.viewletcreator.utility.ViewletMapUtil
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.Dispatchers
@@ -27,6 +27,7 @@ object EventReceiverTool {
 
     private var observers = mutableListOf<WeakReference<AppEventObserver>>()
     private val events = mutableListOf<AppEvent>()
+    private val mapUtil = InflatorMapUtil()
     private var token = ""
     private var lastUpdate = "0"
     private var busy = false
@@ -133,11 +134,11 @@ object EventReceiverTool {
                     try {
                         val result = Gson().fromJson<Map<String, Any>>(jsonString, type)
                         if (result != null) {
-                            val commands: MutableList<Any> = ViewletMapUtil.optionalObjectList(result, "commands")
+                            val commands: MutableList<Any> = mapUtil.optionalObjectList(result, "commands")
                             for (command in commands) {
-                                val commandInfo = ViewletMapUtil.asStringObjectMap(command)
+                                val commandInfo = mapUtil.asStringObjectMap(command)
                                 if (commandInfo != null) {
-                                    val received = ViewletMapUtil.optionalBoolean(commandInfo, "received", false)
+                                    val received = mapUtil.optionalBoolean(commandInfo, "received", false)
                                     if (!received) {
                                         val event = AppEvent.fromObject(commandInfo["command"])
                                         if (event != null) {

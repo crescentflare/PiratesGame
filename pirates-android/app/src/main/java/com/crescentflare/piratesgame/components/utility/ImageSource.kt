@@ -11,7 +11,7 @@ import com.crescentflare.piratesgame.infrastructure.coreextensions.urlDecode
 import com.crescentflare.piratesgame.infrastructure.coreextensions.urlEncode
 import com.crescentflare.piratesgame.infrastructure.imagegenerators.FilledOvalGenerator
 import com.crescentflare.piratesgame.infrastructure.imagegenerators.FilledRectGenerator
-import com.crescentflare.viewletcreator.utility.ViewletMapUtil
+import com.crescentflare.piratesgame.infrastructure.inflator.Inflators
 
 
 /**
@@ -29,7 +29,7 @@ class ImageSource {
             if (value is String) {
                 return ImageSource(value)
             } else if (value is Map<*, *>) {
-                val result: Map<String, Any>? = ViewletMapUtil.asStringObjectMap(value)
+                val result: Map<String, Any>? = Inflators.viewlet.mapUtil.asStringObjectMap(value)
                 if (result != null) {
                     return ImageSource(result)
                 }
@@ -58,7 +58,7 @@ class ImageSource {
         if (value is String) {
             initParse(value)
         } else if (value is Map<*, *>) {
-            val result: Map<String, Any>? = ViewletMapUtil.asStringObjectMap(value)
+            val result: Map<String, Any>? = Inflators.viewlet.mapUtil.asStringObjectMap(value)
             initParse(result ?: mapOf())
         }
     }
@@ -107,7 +107,7 @@ class ImageSource {
         if (path is String) {
             pathComponents = path.split("/")
         }
-        val otherSources = ViewletMapUtil.optionalObjectList(map, "otherSources")
+        val otherSources = Inflators.viewlet.mapUtil.optionalObjectList(map, "otherSources")
         for (otherSource in otherSources) {
             val imageSource = ImageSource.fromObject(otherSource)
             if (imageSource != null) {
@@ -135,7 +135,7 @@ class ImageSource {
             if (parameters.isNotEmpty()) {
                 var firstParam = true
                 for (key in parameters.keys) {
-                    val stringValue = ViewletMapUtil.optionalString(parameters, key, null)
+                    val stringValue = Inflators.viewlet.mapUtil.optionalString(parameters, key, null)
                     if (stringValue != null) {
                         uri += if (firstParam) "?" else "&"
                         uri += key.urlEncode() + "=" + stringValue.urlEncode()
@@ -150,13 +150,13 @@ class ImageSource {
         get() = pathComponents.joinToString("/")
 
     val tintColor: Int
-        get() = ViewletMapUtil.optionalColor(parameters.toMap(), "colorize", 0)
+        get() = Inflators.viewlet.mapUtil.optionalColor(parameters.toMap(), "colorize", 0)
 
     val threePatch: Int
-        get() = ViewletMapUtil.optionalDimension(parameters.toMap(), "threePatch", -1)
+        get() = Inflators.viewlet.mapUtil.optionalDimension(parameters.toMap(), "threePatch", -1)
 
     val ninePatch: Int
-        get() = ViewletMapUtil.optionalDimension(parameters.toMap(), "ninePatch", -1)
+        get() = Inflators.viewlet.mapUtil.optionalDimension(parameters.toMap(), "ninePatch", -1)
 
     val onlinePath: String?
         get() = if (type == Type.OnlineImage || type == Type.SecureOnlineImage) fullURI else null

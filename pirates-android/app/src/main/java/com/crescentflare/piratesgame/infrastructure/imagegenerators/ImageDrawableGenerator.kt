@@ -4,8 +4,9 @@ import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import com.crescentflare.jsoninflator.utility.InflatorMapUtil
 import com.crescentflare.piratesgame.components.utility.ViewletUtil
-import com.crescentflare.viewletcreator.utility.ViewletMapUtil
+import com.crescentflare.piratesgame.infrastructure.inflator.Inflators
 
 /**
  * Image generators: a base class to generate a new image drawable dynamically
@@ -78,7 +79,7 @@ abstract class ImageDrawableGenerator {
     // --
 
     protected fun widthFromAttributes(attributes: Map<String, Any>): Int? {
-        val width = ViewletMapUtil.optionalDimension(attributes, "width", 0)
+        val width = Inflators.viewlet.mapUtil.optionalDimension(attributes, "width", 0)
         if (width <= 0) {
             return null
         }
@@ -86,7 +87,7 @@ abstract class ImageDrawableGenerator {
     }
 
     protected fun heightFromAttributes(attributes: Map<String, Any>): Int? {
-        val height = ViewletMapUtil.optionalDimension(attributes, "height", 0)
+        val height = Inflators.viewlet.mapUtil.optionalDimension(attributes, "height", 0)
         if (height <= 0) {
             return null
         }
@@ -94,7 +95,7 @@ abstract class ImageDrawableGenerator {
     }
 
     protected fun imageWidthFromAttributes(attributes: Map<String, Any>): Int? {
-        val width = ViewletMapUtil.optionalDimension(attributes, "imageWidth", 0)
+        val width = Inflators.viewlet.mapUtil.optionalDimension(attributes, "imageWidth", 0)
         if (width <= 0) {
             return null
         }
@@ -102,15 +103,15 @@ abstract class ImageDrawableGenerator {
     }
 
     protected fun imageHeightFromAttributes(attributes: Map<String, Any>): Int? {
-        val height = ViewletMapUtil.optionalDimension(attributes, "imageHeight", 0)
+        val height = Inflators.viewlet.mapUtil.optionalDimension(attributes, "imageHeight", 0)
         if (height <= 0) {
             return null
         }
         return height
     }
 
-    protected fun gravityFromAttributes(attributes: Map<String, Any>): PointF {
-        return PointF(ViewletUtil.optionalHorizontalGravity(attributes, 0.5f), ViewletUtil.optionalVerticalGravity(attributes, 0.5f))
+    protected fun gravityFromAttributes(mapUtil: InflatorMapUtil, attributes: Map<String, Any>): PointF {
+        return PointF(ViewletUtil.optionalHorizontalGravity(mapUtil, attributes, 0.5f), ViewletUtil.optionalVerticalGravity(mapUtil, attributes, 0.5f))
     }
 
 

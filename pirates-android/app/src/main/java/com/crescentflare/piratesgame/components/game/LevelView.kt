@@ -4,7 +4,6 @@ import android.annotation.TargetApi
 import android.content.Context
 import android.os.Build
 import android.util.AttributeSet
-import android.view.View
 import android.view.ViewGroup
 import com.crescentflare.piratesgame.components.containers.FrameContainerView
 import com.crescentflare.piratesgame.components.game.levelhelpers.LevelEntitiesView
@@ -14,9 +13,9 @@ import com.crescentflare.piratesgame.components.utility.ViewletUtil
 import com.crescentflare.piratesgame.infrastructure.events.AppEvent
 import com.crescentflare.piratesgame.infrastructure.events.AppEventObserver
 import com.crescentflare.unilayout.helpers.UniLayoutParams
-import com.crescentflare.viewletcreator.ViewletCreator
-import com.crescentflare.viewletcreator.binder.ViewletBinder
-import com.crescentflare.viewletcreator.utility.ViewletMapUtil
+import com.crescentflare.jsoninflator.JsonInflatable
+import com.crescentflare.jsoninflator.binder.InflatorBinder
+import com.crescentflare.jsoninflator.utility.InflatorMapUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -33,37 +32,37 @@ class LevelView : FrameContainerView {
 
     companion object {
 
-        val viewlet: ViewletCreator.Viewlet = object : ViewletCreator.Viewlet {
+        val viewlet: JsonInflatable = object : JsonInflatable {
 
-            override fun create(context: Context): View {
+            override fun create(context: Context): Any {
                 return LevelView(context)
             }
 
-            override fun update(view: View, attributes: Map<String, Any>, parent: ViewGroup?, binder: ViewletBinder?): Boolean {
-                if (view is LevelView) {
+            override fun update(mapUtil: InflatorMapUtil, obj: Any, attributes: Map<String, Any>, parent: Any?, binder: InflatorBinder?): Boolean {
+                if (obj is LevelView) {
                     // Apply animation
-                    view.waveSpawnInterval = ViewletMapUtil.optionalFloat(attributes, "waveSpawnInterval", 0.2f)
+                    obj.waveSpawnInterval = mapUtil.optionalFloat(attributes, "waveSpawnInterval", 0.2f)
 
                     // Set tiles
-                    view.tileMap = ViewletMapUtil.optionalStringList(attributes, "tileMap")
+                    obj.tileMap = mapUtil.optionalStringList(attributes, "tileMap")
 
                     // Generic view properties
-                    ViewletUtil.applyGenericViewAttributes(view, attributes)
+                    ViewletUtil.applyGenericViewAttributes(mapUtil, obj, attributes)
 
                     // Event handling
-                    view.tapEvent = AppEvent.fromObject(attributes["tapEvent"])
+                    obj.tapEvent = AppEvent.fromObject(attributes["tapEvent"])
 
                     // Forward event observer
                     if (parent is AppEventObserver) {
-                        view.eventObserver = parent
+                        obj.eventObserver = parent
                     }
                     return true
                 }
                 return false
             }
 
-            override fun canRecycle(view: View, attributes: Map<String, Any>): Boolean {
-                return view is LevelView
+            override fun canRecycle(mapUtil: InflatorMapUtil, obj: Any, attributes: Map<String, Any>): Boolean {
+                return obj is LevelView
             }
 
         }

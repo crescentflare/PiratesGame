@@ -5,12 +5,12 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
+import com.crescentflare.jsoninflator.binder.InflatorMapBinder
 import com.crescentflare.piratesgame.components.compoundviews.SplashLoadingBar
 import com.crescentflare.piratesgame.infrastructure.events.AppEvent
 import com.crescentflare.piratesgame.infrastructure.events.AppEventObserver
 import com.crescentflare.piratesgame.page.storage.Page
 import com.crescentflare.piratesgame.page.modules.ControllerModule
-import com.crescentflare.viewletcreator.binder.ViewletMapBinder
 import kotlinx.coroutines.*
 import java.lang.ref.WeakReference
 
@@ -25,7 +25,7 @@ class SplashLoaderModule: ControllerModule {
 
     override val eventType = "splashLoader"
     private var context: WeakReference<Context>? = null
-    private var binder: ViewletMapBinder? = null
+    private var binder: InflatorMapBinder? = null
     private var loadingTasks = mutableListOf<LoadingTask>()
     private var busy = false
     private var preparing = false
@@ -51,7 +51,7 @@ class SplashLoaderModule: ControllerModule {
     // Page updates
     // --
 
-    override fun onPageUpdated(page: Page, binder: ViewletMapBinder) {
+    override fun onPageUpdated(page: Page, binder: InflatorMapBinder) {
         this.binder = binder
         if (busy) {
             showLoading(false)
@@ -117,8 +117,8 @@ class SplashLoaderModule: ControllerModule {
     }
 
     private fun showLoading(animated: Boolean = true) {
-        val bar = binder?.findByReference("loadingBar")
-        val text = binder?.findByReference("loadingText")
+        val bar = binder?.findByReference("loadingBar") as? View
+        val text = binder?.findByReference("loadingText") as? View
         bar?.visibility = View.VISIBLE
         text?.visibility = View.VISIBLE
         if (animated) {

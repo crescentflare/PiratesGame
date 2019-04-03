@@ -4,14 +4,12 @@ import android.annotation.TargetApi
 import android.content.Context
 import android.os.Build
 import android.util.AttributeSet
-import android.view.View
-import android.view.ViewGroup
 import com.crescentflare.piratesgame.components.utility.NavigationBarComponent
 import com.crescentflare.piratesgame.components.utility.ViewletUtil
-import com.crescentflare.viewletcreator.binder.ViewletBinder
-import com.crescentflare.viewletcreator.ViewletCreator
+import com.crescentflare.jsoninflator.JsonInflatable
+import com.crescentflare.jsoninflator.binder.InflatorBinder
+import com.crescentflare.jsoninflator.utility.InflatorMapUtil
 import com.crescentflare.unilayout.views.UniView
-import com.crescentflare.viewletcreator.utility.ViewletMapUtil
 
 
 /**
@@ -25,26 +23,26 @@ class TransparentNavigationBar : UniView, NavigationBarComponent {
 
     companion object {
 
-        val viewlet: ViewletCreator.Viewlet = object : ViewletCreator.Viewlet {
+        val viewlet: JsonInflatable = object : JsonInflatable {
 
-            override fun create(context: Context): View {
+            override fun create(context: Context): Any {
                 return TransparentNavigationBar(context)
             }
 
-            override fun update(view: View, attributes: Map<String, Any>, parent: ViewGroup?, binder: ViewletBinder?): Boolean {
-                if (view is TransparentNavigationBar) {
+            override fun update(mapUtil: InflatorMapUtil, obj: Any, attributes: Map<String, Any>, parent: Any?, binder: InflatorBinder?): Boolean {
+                if (obj is TransparentNavigationBar) {
                     // Bar properties
-                    view.lightContent = ViewletMapUtil.optionalBoolean(attributes, "lightContent", false)
+                    obj.lightContent = mapUtil.optionalBoolean(attributes, "lightContent", false)
 
                     // Generic view properties
-                    ViewletUtil.applyGenericViewAttributes(view, attributes)
+                    ViewletUtil.applyGenericViewAttributes(mapUtil, obj, attributes)
                     return true
                 }
                 return false
             }
 
-            override fun canRecycle(view: View, attributes: Map<String, Any>): Boolean {
-                return view is TransparentNavigationBar
+            override fun canRecycle(mapUtil: InflatorMapUtil, obj: Any, attributes: Map<String, Any>): Boolean {
+                return obj is TransparentNavigationBar
             }
 
         }

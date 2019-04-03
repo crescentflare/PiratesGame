@@ -5,11 +5,9 @@ import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.annotation.TargetApi
 import android.content.Context
-import android.content.res.Resources
 import android.os.Build
 import android.util.AttributeSet
 import android.view.View
-import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import com.crescentflare.piratesgame.R
 import com.crescentflare.piratesgame.components.basicviews.GradientView
@@ -22,12 +20,12 @@ import com.crescentflare.piratesgame.infrastructure.events.AppEventObserver
 import com.crescentflare.piratesgame.components.utility.ImageSource
 import com.crescentflare.unilayout.helpers.UniLayoutParams
 import com.crescentflare.unilayout.views.UniImageView
-import com.crescentflare.viewletcreator.ViewletCreator
-import com.crescentflare.viewletcreator.ViewletLoader
-import com.crescentflare.viewletcreator.binder.ViewletAnnotationBinder
-import com.crescentflare.viewletcreator.binder.ViewletBinder
-import com.crescentflare.viewletcreator.binder.ViewletRef
-import com.crescentflare.viewletcreator.utility.ViewletMapUtil
+import com.crescentflare.jsoninflator.JsonInflatable
+import com.crescentflare.jsoninflator.JsonLoader
+import com.crescentflare.jsoninflator.binder.InflatableRef
+import com.crescentflare.jsoninflator.binder.InflatorAnnotationBinder
+import com.crescentflare.jsoninflator.binder.InflatorBinder
+import com.crescentflare.jsoninflator.utility.InflatorMapUtil
 
 /**
  * Compound view: contains the publisher logo and background, handles animation
@@ -51,39 +49,39 @@ class SplashAnimation : FrameContainerView {
         // Static: viewlet integration
         // --
 
-        val viewlet: ViewletCreator.Viewlet = object : ViewletCreator.Viewlet {
+        val viewlet: JsonInflatable = object : JsonInflatable {
 
-            override fun create(context: Context): View {
+            override fun create(context: Context): Any {
                 return SplashAnimation(context)
             }
 
-            override fun update(view: View, attributes: Map<String, Any>, parent: ViewGroup?, binder: ViewletBinder?): Boolean {
-                if (view is SplashAnimation) {
+            override fun update(mapUtil: InflatorMapUtil, obj: Any, attributes: Map<String, Any>, parent: Any?, binder: InflatorBinder?): Boolean {
+                if (obj is SplashAnimation) {
                     // Apply background
-                    view.gradientColor = ViewletMapUtil.optionalColor(attributes, "gradientColor", 0)
-                    view.backgroundImage = ImageSource.fromObject(attributes["backgroundImage"])
+                    obj.gradientColor = mapUtil.optionalColor(attributes, "gradientColor", 0)
+                    obj.backgroundImage = ImageSource.fromObject(attributes["backgroundImage"])
 
                     // Apply state
-                    view.autoAnimation = ViewletMapUtil.optionalBoolean(attributes, "autoAnimation", false)
-                    view.on = ViewletMapUtil.optionalBoolean(attributes, "on", false)
+                    obj.autoAnimation = mapUtil.optionalBoolean(attributes, "autoAnimation", false)
+                    obj.on = mapUtil.optionalBoolean(attributes, "on", false)
 
                     // Generic view properties
-                    ViewletUtil.applyGenericViewAttributes(view, attributes)
+                    ViewletUtil.applyGenericViewAttributes(mapUtil, obj, attributes)
 
                     // Event handling
-                    view.setOnEvent = AppEvent.fromObject(attributes["setOnEvent"])
+                    obj.setOnEvent = AppEvent.fromObject(attributes["setOnEvent"])
 
                     // Forward event observer
                     if (parent is AppEventObserver) {
-                        view.eventObserver = parent
+                        obj.eventObserver = parent
                     }
                     return true
                 }
                 return false
             }
 
-            override fun canRecycle(view: View, attributes: Map<String, Any>): Boolean {
-                return view is SplashAnimation
+            override fun canRecycle(mapUtil: InflatorMapUtil, obj: Any, attributes: Map<String, Any>): Boolean {
+                return obj is SplashAnimation
             }
 
         }
@@ -95,13 +93,13 @@ class SplashAnimation : FrameContainerView {
     // Bound views
     // --
 
-    @ViewletRef("logo")
+    @InflatableRef("logo")
     private var logoView: PublisherLogo? = null
 
-    @ViewletRef("backgroundGradient")
+    @InflatableRef("backgroundGradient")
     private var backgroundGradientView: GradientView? = null
 
-    @ViewletRef("backgroundImage")
+    @InflatableRef("backgroundImage")
     private var backgroundImageView: UniImageView? = null
 
 
@@ -132,7 +130,7 @@ class SplashAnimation : FrameContainerView {
             : super(context, attrs, defStyleAttr, defStyleRes)
 
     init {
-        ViewletUtil.assertInflateOn(this, ViewletLoader.loadAttributes(context, layoutResource),null, ViewletAnnotationBinder(this))
+        ViewletUtil.assertInflateOn(this, JsonLoader.instance.loadAttributes(context, layoutResource),null, InflatorAnnotationBinder(this))
         backgroundGradientView?.alpha = 0.0f
         clipChildren = false
     }
