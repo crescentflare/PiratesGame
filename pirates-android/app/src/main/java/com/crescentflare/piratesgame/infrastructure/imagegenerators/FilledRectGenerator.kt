@@ -63,13 +63,10 @@ class FilledRectGenerator: ImageDrawableGenerator() {
         return generate(
             context,
             mapUtil.optionalColor(attributes, "color", Color.TRANSPARENT),
-            widthFromAttributes(attributes),
-            heightFromAttributes(attributes),
+            widthFromAttributes(mapUtil, attributes), heightFromAttributes(mapUtil, attributes),
             mapUtil.optionalDimension(attributes, "cornerRadius", 0),
-            gravity.x,
-            gravity.y,
-            imageWidthFromAttributes(attributes),
-            imageHeightFromAttributes(attributes),
+            gravity.x, gravity.y,
+            imageWidthFromAttributes(mapUtil, attributes), imageHeightFromAttributes(mapUtil, attributes),
             onDrawable
         )
     }

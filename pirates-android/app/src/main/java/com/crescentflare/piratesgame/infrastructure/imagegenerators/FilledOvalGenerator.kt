@@ -36,7 +36,14 @@ class FilledOvalGenerator: ImageDrawableGenerator() {
     override fun generate(context: Context, attributes: Map<String, Any>, onDrawable: Drawable?): Drawable? {
         val mapUtil = Inflators.viewlet.mapUtil
         val gravity = gravityFromAttributes(mapUtil, attributes)
-        return generate(context, mapUtil.optionalColor(attributes, "color", Color.TRANSPARENT), widthFromAttributes(attributes), heightFromAttributes(attributes), gravity.x, gravity.y, imageWidthFromAttributes(attributes), imageHeightFromAttributes(attributes), onDrawable)
+        return generate(
+            context,
+            mapUtil.optionalColor(attributes, "color", Color.TRANSPARENT),
+            widthFromAttributes(mapUtil, attributes), heightFromAttributes(mapUtil, attributes),
+            gravity.x, gravity.y,
+            imageWidthFromAttributes(mapUtil, attributes), imageHeightFromAttributes(mapUtil, attributes),
+            onDrawable
+        )
     }
 
 }

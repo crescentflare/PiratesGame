@@ -78,32 +78,32 @@ abstract class ImageDrawableGenerator {
     // Attribute helpers
     // --
 
-    protected fun widthFromAttributes(attributes: Map<String, Any>): Int? {
-        val width = Inflators.viewlet.mapUtil.optionalDimension(attributes, "width", 0)
+    protected fun widthFromAttributes(mapUtil: InflatorMapUtil, attributes: Map<String, Any>): Int? {
+        val width = mapUtil.optionalDimension(attributes, "width", 0)
         if (width <= 0) {
             return null
         }
         return width
     }
 
-    protected fun heightFromAttributes(attributes: Map<String, Any>): Int? {
-        val height = Inflators.viewlet.mapUtil.optionalDimension(attributes, "height", 0)
+    protected fun heightFromAttributes(mapUtil: InflatorMapUtil, attributes: Map<String, Any>): Int? {
+        val height = mapUtil.optionalDimension(attributes, "height", 0)
         if (height <= 0) {
             return null
         }
         return height
     }
 
-    protected fun imageWidthFromAttributes(attributes: Map<String, Any>): Int? {
-        val width = Inflators.viewlet.mapUtil.optionalDimension(attributes, "imageWidth", 0)
+    protected fun imageWidthFromAttributes(mapUtil: InflatorMapUtil, attributes: Map<String, Any>): Int? {
+        val width = mapUtil.optionalDimension(attributes, "imageWidth", 0)
         if (width <= 0) {
             return null
         }
         return width
     }
 
-    protected fun imageHeightFromAttributes(attributes: Map<String, Any>): Int? {
-        val height = Inflators.viewlet.mapUtil.optionalDimension(attributes, "imageHeight", 0)
+    protected fun imageHeightFromAttributes(mapUtil: InflatorMapUtil, attributes: Map<String, Any>): Int? {
+        val height = mapUtil.optionalDimension(attributes, "imageHeight", 0)
         if (height <= 0) {
             return null
         }
