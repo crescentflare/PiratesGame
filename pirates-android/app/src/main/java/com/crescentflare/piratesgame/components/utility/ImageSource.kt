@@ -11,6 +11,7 @@ import com.crescentflare.piratesgame.infrastructure.coreextensions.urlDecode
 import com.crescentflare.piratesgame.infrastructure.coreextensions.urlEncode
 import com.crescentflare.piratesgame.infrastructure.imagegenerators.FilledOvalGenerator
 import com.crescentflare.piratesgame.infrastructure.imagegenerators.FilledRectGenerator
+import com.crescentflare.piratesgame.infrastructure.imagegenerators.StrokedPathGenerator
 import com.crescentflare.piratesgame.infrastructure.inflator.Inflators
 
 
@@ -202,6 +203,7 @@ class ImageSource {
             return when (generateType) {
                 GenerateType.FilledRect -> FilledRectGenerator().generate(context, parameters, onDrawable)
                 GenerateType.FilledOval -> FilledOvalGenerator().generate(context, parameters, onDrawable)
+                GenerateType.StrokedPath -> StrokedPathGenerator().generate(context, parameters, onDrawable)
                 else -> null
             }
         }
@@ -241,7 +243,8 @@ class ImageSource {
 
         Unknown("unknown"),
         FilledRect("filledRect"),
-        FilledOval("filledOval");
+        FilledOval("filledOval"),
+        StrokedPath("strokedPath");
 
         companion object {
 
