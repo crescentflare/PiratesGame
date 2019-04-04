@@ -22,6 +22,7 @@ enum ImageSourceGenerateType: String {
     case unknown = "unknown"
     case filledRect = "filledRect"
     case filledOval = "filledOval"
+    case strokedPath = "strokedPath"
     
 }
 
@@ -198,6 +199,8 @@ class ImageSource {
                 return FilledRectGenerator().generate(attributes: parameters, onImage: onImage)
             case .filledOval:
                 return FilledOvalGenerator().generate(attributes: parameters, onImage: onImage)
+            case .strokedPath:
+                return StrokedPathGenerator().generate(attributes: parameters, onImage: onImage)
             default:
                 break
             }

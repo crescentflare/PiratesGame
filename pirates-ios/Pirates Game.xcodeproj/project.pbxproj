@@ -59,6 +59,7 @@
 		049B635B2232F31E00AFB13B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 049B63592232F31E00AFB13B /* Localizable.strings */; };
 		049B635F2232FB7C00AFB13B /* primitive.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 041558C42232A0BF001158FA /* primitive.ttf */; };
 		049BCA412255EA72001BCEED /* Inflators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049BCA402255EA72001BCEED /* Inflators.swift */; };
+		049BCA43225615BA001BCEED /* StrokedPathGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049BCA42225615BA001BCEED /* StrokedPathGenerator.swift */; };
 		049C3B4B223A9FCE00856808 /* FilledRectGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049C3B48223A9FCE00856808 /* FilledRectGenerator.swift */; };
 		049C3B4C223A9FCE00856808 /* UIImageGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049C3B49223A9FCE00856808 /* UIImageGenerator.swift */; };
 		049C3B4D223A9FCE00856808 /* FilledOvalGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049C3B4A223A9FCE00856808 /* FilledOvalGenerator.swift */; };
@@ -125,6 +126,7 @@
 		049B63572232EA1200AFB13B /* SplashLoadingBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashLoadingBar.swift; sourceTree = "<group>"; };
 		049B635A2232F31E00AFB13B /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		049BCA402255EA72001BCEED /* Inflators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Inflators.swift; sourceTree = "<group>"; };
+		049BCA42225615BA001BCEED /* StrokedPathGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StrokedPathGenerator.swift; sourceTree = "<group>"; };
 		049C3B48223A9FCE00856808 /* FilledRectGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilledRectGenerator.swift; sourceTree = "<group>"; };
 		049C3B49223A9FCE00856808 /* UIImageGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageGenerator.swift; sourceTree = "<group>"; };
 		049C3B4A223A9FCE00856808 /* FilledOvalGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilledOvalGenerator.swift; sourceTree = "<group>"; };
@@ -426,9 +428,10 @@
 		049C3B47223A9FCE00856808 /* ImageGenerators */ = {
 			isa = PBXGroup;
 			children = (
-				049C3B48223A9FCE00856808 /* FilledRectGenerator.swift */,
-				049C3B49223A9FCE00856808 /* UIImageGenerator.swift */,
 				049C3B4A223A9FCE00856808 /* FilledOvalGenerator.swift */,
+				049C3B48223A9FCE00856808 /* FilledRectGenerator.swift */,
+				049BCA42225615BA001BCEED /* StrokedPathGenerator.swift */,
+				049C3B49223A9FCE00856808 /* UIImageGenerator.swift */,
 			);
 			path = ImageGenerators;
 			sourceTree = "<group>";
@@ -631,6 +634,7 @@
 				041559152232A510001158FA /* AlertModule.swift in Sources */,
 				041558FC2232A42C001158FA /* String+MD5.swift in Sources */,
 				041558E22232A200001158FA /* SpacerViewlet.swift in Sources */,
+				049BCA43225615BA001BCEED /* StrokedPathGenerator.swift in Sources */,
 				041559172232AA0F001158FA /* ComponentViewController.swift in Sources */,
 				041559122232A510001158FA /* Page.swift in Sources */,
 				04E0FA21223E8F88006017D3 /* LevelWaveAnimationView.swift in Sources */,
