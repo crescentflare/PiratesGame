@@ -4,14 +4,14 @@
 //
 
 import UIKit
-import ViewletCreator
+import JsonInflator
 
 protocol ControllerModule: class {
     
     var eventType: String { get }
     
     func didCreate(viewController: UIViewController)
-    func didUpdatePage(page: Page, binder: ViewletDictBinder)
+    func didUpdatePage(page: Page, binder: InflatorDictBinder)
     func catchEvent(_ event: AppEvent, sender: Any?) -> Bool
 
 }

@@ -4,7 +4,7 @@
 //
 
 import UIKit
-import ViewletCreator
+import JsonInflator
 
 fileprivate enum NavigationType: String {
     
@@ -41,7 +41,7 @@ class NavigationModule: ControllerModule {
     // MARK: Page updates
     // --
 
-    func didUpdatePage(page: Page, binder: ViewletDictBinder) {
+    func didUpdatePage(page: Page, binder: InflatorDictBinder) {
         // No implementation
     }
 

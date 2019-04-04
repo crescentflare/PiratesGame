@@ -5,7 +5,7 @@
 
 import UIKit
 import UniLayout
-import ViewletCreator
+import JsonInflator
 
 class SolidNavigationBar: FrameContainerView, NavigationBarComponent {
 
@@ -38,34 +38,34 @@ class SolidNavigationBar: FrameContainerView, NavigationBarComponent {
     // MARK: Viewlet integration
     // --
     
-    override class func viewlet() -> Viewlet {
+    override class func viewlet() -> JsonInflatable {
         return ViewletClass()
     }
     
-    private class ViewletClass: Viewlet {
+    private class ViewletClass: JsonInflatable {
         
-        func create() -> UIView {
+        func create() -> Any {
             return SolidNavigationBar()
         }
         
-        func update(view: UIView, attributes: [String : Any], parent: UIView?, binder: ViewletBinder?) -> Bool {
-            if let navigationBar = view as? SolidNavigationBar {
+        func update(convUtil: InflatorConvUtil, object: Any, attributes: [String: Any], parent: Any?, binder: InflatorBinder?) -> Bool {
+            if let navigationBar = object as? SolidNavigationBar {
                 // Apply text
-                if let localizedTitle = ViewletConvUtil.asString(value: attributes["localizedTitle"]) {
+                if let localizedTitle = convUtil.asString(value: attributes["localizedTitle"]) {
                     navigationBar.title = localizedTitle.localized()
                 } else {
-                    navigationBar.title = ViewletConvUtil.asString(value: attributes["title"])
+                    navigationBar.title = convUtil.asString(value: attributes["title"])
                 }
                 
                 // Generic view properties
-                ViewletUtil.applyGenericViewAttributes(view: view, attributes: attributes)
+                ViewletUtil.applyGenericViewAttributes(convUtil: convUtil, view: navigationBar, attributes: attributes)
                 return true
             }
             return false
         }
         
-        func canRecycle(view: UIView, attributes: [String : Any]) -> Bool {
-            return view is SolidNavigationBar
+        func canRecycle(convUtil: InflatorConvUtil, object: Any, attributes: [String: Any]) -> Bool {
+            return object is SolidNavigationBar
         }
         
     }
@@ -86,8 +86,8 @@ class SolidNavigationBar: FrameContainerView, NavigationBarComponent {
     }
     
     fileprivate func setup() {
-        let binder = ViewletDictBinder()
-        ViewletUtil.assertInflateOn(view: self, attributes: ViewletLoader.attributesFrom(jsonFile: layoutFile), parent: nil, binder: binder)
+        let binder = InflatorDictBinder()
+        ViewletUtil.assertInflateOn(view: self, attributes: JsonLoader.shared.attributesFrom(jsonFile: layoutFile), parent: nil, binder: binder)
         titleView = binder.findByReference("title") as? UniTextView
     }
     

@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double ViewletCreatorVersionNumber;
-FOUNDATION_EXPORT const unsigned char ViewletCreatorVersionString[];
+FOUNDATION_EXPORT double JsonInflatorVersionNumber;
+FOUNDATION_EXPORT const unsigned char JsonInflatorVersionString[];
 

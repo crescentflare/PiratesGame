@@ -4,7 +4,7 @@
 //
 
 import UIKit
-import ViewletCreator
+import JsonInflator
 
 class AppColors {
     
@@ -12,7 +12,7 @@ class AppColors {
     // MARK: Color lookup
     // --
     
-    class AppColorLookup: ViewletColorLookup {
+    class AppColorLookup: InflatorColorLookup {
         
         func getColor(refId: String) -> UIColor? {
             let colorTable: [String: UIColor] = [

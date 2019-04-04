@@ -5,7 +5,7 @@
 
 import UIKit
 import UniLayout
-import ViewletCreator
+import JsonInflator
 
 class FrameContainerView: UniFrameContainer, AppEventObserver, AppEventLabeledSender, UniTapDelegate {
     
@@ -13,26 +13,26 @@ class FrameContainerView: UniFrameContainer, AppEventObserver, AppEventLabeledSe
     // MARK: Viewlet integration
     // --
     
-    class func viewlet() -> Viewlet {
+    class func viewlet() -> JsonInflatable {
         return ViewletClass()
     }
     
-    private class ViewletClass: Viewlet {
+    private class ViewletClass: JsonInflatable {
         
-        func create() -> UIView {
+        func create() -> Any {
             return FrameContainerView()
         }
         
-        func update(view: UIView, attributes: [String : Any], parent: UIView?, binder: ViewletBinder?) -> Bool {
-            if let frameContainer = view as? FrameContainerView {
+        func update(convUtil: InflatorConvUtil, object: Any, attributes: [String: Any], parent: Any?, binder: InflatorBinder?) -> Bool {
+            if let frameContainer = object as? FrameContainerView {
                 // Set container name
-                frameContainer.accessibilityLabel = ViewletConvUtil.asString(value: attributes["containerName"])
+                frameContainer.accessibilityLabel = convUtil.asString(value: attributes["containerName"])
                 
                 // Create or update subviews
-                ViewletUtil.createSubviews(container: frameContainer, parent: frameContainer, attributes: attributes, subviewItems: attributes["items"], binder: binder)
+                ViewletUtil.createSubviews(convUtil: convUtil, container: frameContainer, parent: frameContainer, attributes: attributes, subviewItems: attributes["items"], binder: binder)
                 
                 // Generic view properties
-                ViewletUtil.applyGenericViewAttributes(view: view, attributes: attributes)
+                ViewletUtil.applyGenericViewAttributes(convUtil: convUtil, view: frameContainer, attributes: attributes)
                 
                 // Event handling
                 frameContainer.tapEvent = AppEvent(value: attributes["tapEvent"])
@@ -46,8 +46,8 @@ class FrameContainerView: UniFrameContainer, AppEventObserver, AppEventLabeledSe
             return false
         }
         
-        func canRecycle(view: UIView, attributes: [String : Any]) -> Bool {
-            return view is FrameContainerView
+        func canRecycle(convUtil: InflatorConvUtil, object: Any, attributes: [String: Any]) -> Bool {
+            return object is FrameContainerView
         }
         
     }

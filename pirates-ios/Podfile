@@ -10,7 +10,7 @@ def app_pods
   pod 'Alamofire', '~> 4.8.1'
 
   pod 'UniLayout', '~> 0.4.5'
-  pod 'ViewletCreator', '~> 0.5.2'
+  pod 'JsonInflator', '~> 0.6.0'
 
   pod 'SimpleMarkdownParser', '~> 0.6.4'
 

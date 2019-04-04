@@ -5,7 +5,7 @@
 
 import UIKit
 import UniLayout
-import ViewletCreator
+import JsonInflator
 
 class ScrollContainerView: UniVerticalScrollContainer, AppEventObserver {
     
@@ -20,29 +20,29 @@ class ScrollContainerView: UniVerticalScrollContainer, AppEventObserver {
     // MARK: Viewlet integration
     // --
     
-    class func viewlet() -> Viewlet {
+    class func viewlet() -> JsonInflatable {
         return ViewletClass()
     }
     
-    private class ViewletClass: Viewlet {
+    private class ViewletClass: JsonInflatable {
         
-        func create() -> UIView {
+        func create() -> Any {
             return ScrollContainerView()
         }
         
-        func update(view: UIView, attributes: [String : Any], parent: UIView?, binder: ViewletBinder?) -> Bool {
-            if let scrollContainer = view as? ScrollContainerView {
+        func update(convUtil: InflatorConvUtil, object: Any, attributes: [String: Any], parent: Any?, binder: InflatorBinder?) -> Bool {
+            if let scrollContainer = object as? ScrollContainerView {
                 // Set fill content mode
-                scrollContainer.fillContent = ViewletConvUtil.asBool(value: attributes["fillContent"]) ?? false
+                scrollContainer.fillContent = convUtil.asBool(value: attributes["fillContent"]) ?? false
                 
                 // Update content view
-                let checkItem = ViewletCreator.attributesForSubViewlet(attributes["item"])
-                let recycling = ViewletConvUtil.asBool(value: attributes["recycling"]) ?? false
-                if recycling && ViewletCreator.canRecycle(view: scrollContainer.contentView, attributes: checkItem) {
+                let checkItem = Inflators.viewlet.attributesForNestedInflatable(attributes["item"])
+                let recycling = convUtil.asBool(value: attributes["recycling"]) ?? false
+                if recycling && Inflators.viewlet.canRecycle(object: scrollContainer.contentView, attributes: checkItem) {
                     if let item = checkItem {
                         if let view = scrollContainer.contentView {
-                            ViewletCreator.inflateOn(view: view, attributes: item)
-                            ViewletUtil.applyLayoutAttributes(view: view, attributes: item)
+                            Inflators.viewlet.inflate(onObject: view, attributes: item)
+                            ViewletUtil.applyLayoutAttributes(convUtil: convUtil, view: view, attributes: item)
                             ViewletUtil.bindRef(view: view, attributes: item, binder: binder)
                         }
                     }
@@ -52,16 +52,16 @@ class ScrollContainerView: UniVerticalScrollContainer, AppEventObserver {
                     
                     // Set content item
                     if let item = checkItem {
-                        if let view = ViewletCreator.create(attributes: item, parent: view, binder: binder) {
+                        if let view = Inflators.viewlet.inflate(attributes: item, parent: scrollContainer, binder: binder) as? UIView {
                             scrollContainer.contentView = view
-                            ViewletUtil.applyLayoutAttributes(view: view, attributes: item)
+                            ViewletUtil.applyLayoutAttributes(convUtil: convUtil, view: view, attributes: item)
                             ViewletUtil.bindRef(view: view, attributes: item, binder: binder)
                         }
                     }
                 }
                 
                 // Generic view properties
-                ViewletUtil.applyGenericViewAttributes(view: view, attributes: attributes)
+                ViewletUtil.applyGenericViewAttributes(convUtil: convUtil, view: scrollContainer, attributes: attributes)
                 
                 // Event handling
                 scrollContainer.pullToRefreshEvent = AppEvent(value: attributes["pullToRefreshEvent"])
@@ -75,8 +75,8 @@ class ScrollContainerView: UniVerticalScrollContainer, AppEventObserver {
             return false
         }
         
-        func canRecycle(view: UIView, attributes: [String : Any]) -> Bool {
-            return view is ScrollContainerView
+        func canRecycle(convUtil: InflatorConvUtil, object: Any, attributes: [String: Any]) -> Bool {
+            return object is ScrollContainerView
         }
         
     }

@@ -4,7 +4,7 @@
 //
 
 import UIKit
-import ViewletCreator
+import JsonInflator
 
 class SummaryViewController: ComponentViewController, AppEventObserver, PageLoaderContinuousCompletion {
 
@@ -100,7 +100,7 @@ class SummaryViewController: ComponentViewController, AppEventObserver, PageLoad
     }
     
     func didUpdatePage(page: Page) {
-        let binder = ViewletDictBinder()
+        let binder = InflatorDictBinder()
         let inflateLayout: [String: Any] = [
             "viewlet": "frameContainer",
             "width": "stretchToParent",

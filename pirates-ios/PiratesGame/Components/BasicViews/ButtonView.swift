@@ -5,7 +5,7 @@
 
 import UIKit
 import UniLayout
-import ViewletCreator
+import JsonInflator
 
 enum ButtonViewColorStyle: String {
     
@@ -21,34 +21,34 @@ class ButtonView: UniButtonView, AppEventLabeledSender {
     // MARK: Viewlet integration
     // --
     
-    class func viewlet() -> Viewlet {
+    class func viewlet() -> JsonInflatable {
         return ViewletClass()
     }
     
-    private class ViewletClass: Viewlet {
+    private class ViewletClass: JsonInflatable {
         
-        func create() -> UIView {
+        func create() -> Any {
             return ButtonView()
         }
         
-        func update(view: UIView, attributes: [String : Any], parent: UIView?, binder: ViewletBinder?) -> Bool {
-            if let button = view as? ButtonView {
+        func update(convUtil: InflatorConvUtil, object: Any, attributes: [String: Any], parent: Any?, binder: InflatorBinder?) -> Bool {
+            if let button = object as? ButtonView {
                 // Apply text
-                if let localizedText = ViewletConvUtil.asString(value: attributes["localizedText"]) {
+                if let localizedText = convUtil.asString(value: attributes["localizedText"]) {
                     button.setTitle(localizedText.localized(), for: .normal)
                 } else {
-                    button.setTitle(ViewletConvUtil.asString(value: attributes["text"]), for: .normal)
+                    button.setTitle(convUtil.asString(value: attributes["text"]), for: .normal)
                 }
 
                 // Apply font
-                let fontSize = ViewletConvUtil.asDimension(value: attributes["textSize"]) ?? AppDimensions.buttonText
+                let fontSize = convUtil.asDimension(value: attributes["textSize"]) ?? AppDimensions.buttonText
                 button.titleLabel?.font = AppFonts.normal.font(ofSize: fontSize)
 
                 // Generic view properties
-                ViewletUtil.applyGenericViewAttributes(view: view, attributes: attributes)
+                ViewletUtil.applyGenericViewAttributes(convUtil: convUtil, view: button, attributes: attributes)
 
                 // Button background and text color based on color style
-                button.setColorStyle(ButtonViewColorStyle(rawValue: ViewletConvUtil.asString(value: attributes["colorStyle"]) ?? "") ?? .primary)
+                button.setColorStyle(ButtonViewColorStyle(rawValue: convUtil.asString(value: attributes["colorStyle"]) ?? "") ?? .primary)
                 
                 // Event handling
                 button.tapEvent = AppEvent(value: attributes["tapEvent"])
@@ -62,8 +62,8 @@ class ButtonView: UniButtonView, AppEventLabeledSender {
             return false
         }
         
-        func canRecycle(view: UIView, attributes: [String : Any]) -> Bool {
-            return view is ButtonView
+        func canRecycle(convUtil: InflatorConvUtil, object: Any, attributes: [String: Any]) -> Bool {
+            return object is ButtonView
         }
         
     }

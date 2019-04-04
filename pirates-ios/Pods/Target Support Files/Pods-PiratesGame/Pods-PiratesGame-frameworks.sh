@@ -165,11 +165,11 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/AlamofireObjectMapper/AlamofireObjectMapper.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/BitletSynchronizer/BitletSynchronizer.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/DynamicAppConfig/DynamicAppConfig.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/JsonInflator/JsonInflator.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SimpleMarkdownParser/SimpleMarkdownParser.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/UniLayout/UniLayout.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/ViewletCreator/ViewletCreator.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
@@ -177,11 +177,11 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/AlamofireObjectMapper/AlamofireObjectMapper.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/BitletSynchronizer/BitletSynchronizer.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/DynamicAppConfig/DynamicAppConfig.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/JsonInflator/JsonInflator.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SimpleMarkdownParser/SimpleMarkdownParser.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/UniLayout/UniLayout.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/ViewletCreator/ViewletCreator.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then

@@ -4,7 +4,7 @@
 //
 
 import UIKit
-import ViewletCreator
+import JsonInflator
 
 class AppDimensions {
     
@@ -12,7 +12,7 @@ class AppDimensions {
     // MARK: Dimension lookup
     // --
     
-    class AppDimensionLookup: ViewletDimensionLookup {
+    class AppDimensionLookup: InflatorDimensionLookup {
         
         func getDimension(refId: String) -> CGFloat? {
             let dimensionTable: [String: CGFloat] = [

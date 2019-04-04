@@ -5,7 +5,7 @@
 
 import UIKit
 import UniLayout
-import ViewletCreator
+import JsonInflator
 
 class SplashAnimation: FrameContainerView {
 
@@ -36,28 +36,28 @@ class SplashAnimation: FrameContainerView {
     // MARK: Viewlet integration
     // --
     
-    override class func viewlet() -> Viewlet {
+    override class func viewlet() -> JsonInflatable {
         return ViewletClass()
     }
     
-    private class ViewletClass: Viewlet {
+    private class ViewletClass: JsonInflatable {
         
-        func create() -> UIView {
+        func create() -> Any {
             return SplashAnimation()
         }
         
-        func update(view: UIView, attributes: [String : Any], parent: UIView?, binder: ViewletBinder?) -> Bool {
-            if let animation = view as? SplashAnimation {
+        func update(convUtil: InflatorConvUtil, object: Any, attributes: [String: Any], parent: Any?, binder: InflatorBinder?) -> Bool {
+            if let animation = object as? SplashAnimation {
                 // Apply background
-                animation.gradientColor = ViewletConvUtil.asColor(value: attributes["gradientColor"]) ?? UIColor.black
-                animation.backgroundImage = ImageSource(string: ViewletConvUtil.asString(value: attributes["backgroundImage"]))
+                animation.gradientColor = convUtil.asColor(value: attributes["gradientColor"]) ?? UIColor.black
+                animation.backgroundImage = ImageSource(string: convUtil.asString(value: attributes["backgroundImage"]))
                 
                 // Apply state
-                animation.autoAnimation = ViewletConvUtil.asBool(value: attributes["autoAnimation"]) ?? false
-                animation.on = ViewletConvUtil.asBool(value: attributes["on"]) ?? false
+                animation.autoAnimation = convUtil.asBool(value: attributes["autoAnimation"]) ?? false
+                animation.on = convUtil.asBool(value: attributes["on"]) ?? false
                 
                 // Generic view properties
-                ViewletUtil.applyGenericViewAttributes(view: view, attributes: attributes)
+                ViewletUtil.applyGenericViewAttributes(convUtil: convUtil, view: animation, attributes: attributes)
 
                 // Event handling
                 animation.setOnEvent = AppEvent(value: attributes["setOnEvent"])
@@ -71,8 +71,8 @@ class SplashAnimation: FrameContainerView {
             return false
         }
         
-        func canRecycle(view: UIView, attributes: [String : Any]) -> Bool {
-            return view is SplashAnimation
+        func canRecycle(convUtil: InflatorConvUtil, object: Any, attributes: [String: Any]) -> Bool {
+            return object is SplashAnimation
         }
         
     }
@@ -94,8 +94,8 @@ class SplashAnimation: FrameContainerView {
     
     fileprivate func setup() {
         // Bind views
-        let binder = ViewletDictBinder()
-        ViewletUtil.assertInflateOn(view: self, attributes: ViewletLoader.attributesFrom(jsonFile: layoutFile), parent: nil, binder: binder)
+        let binder = InflatorDictBinder()
+        ViewletUtil.assertInflateOn(view: self, attributes: JsonLoader.shared.attributesFrom(jsonFile: layoutFile), parent: nil, binder: binder)
         logoView = binder.findByReference("logo") as? PublisherLogo
         backgroundGradientView = binder.findByReference("backgroundGradient") as? GradientView
         backgroundImageView = binder.findByReference("backgroundImage") as? UniImageView

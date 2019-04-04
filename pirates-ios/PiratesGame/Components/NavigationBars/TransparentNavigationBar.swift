@@ -5,7 +5,7 @@
 
 import UIKit
 import UniLayout
-import ViewletCreator
+import JsonInflator
 
 class TransparentNavigationBar: UniView, NavigationBarComponent {
 
@@ -24,30 +24,30 @@ class TransparentNavigationBar: UniView, NavigationBarComponent {
     // MARK: Viewlet integration
     // --
     
-    class func viewlet() -> Viewlet {
+    class func viewlet() -> JsonInflatable {
         return ViewletClass()
     }
     
-    private class ViewletClass: Viewlet {
+    private class ViewletClass: JsonInflatable {
         
-        func create() -> UIView {
+        func create() -> Any {
             return TransparentNavigationBar()
         }
         
-        func update(view: UIView, attributes: [String : Any], parent: UIView?, binder: ViewletBinder?) -> Bool {
-            if let navigationBar = view as? TransparentNavigationBar {
+        func update(convUtil: InflatorConvUtil, object: Any, attributes: [String: Any], parent: Any?, binder: InflatorBinder?) -> Bool {
+            if let navigationBar = object as? TransparentNavigationBar {
                 // Bar properties
-                navigationBar.isLightContent = ViewletConvUtil.asBool(value: attributes["lightContent"]) ?? false
+                navigationBar.isLightContent = convUtil.asBool(value: attributes["lightContent"]) ?? false
 
                 // Generic view properties
-                ViewletUtil.applyGenericViewAttributes(view: view, attributes: attributes)
+                ViewletUtil.applyGenericViewAttributes(convUtil: convUtil, view: navigationBar, attributes: attributes)
                 return true
             }
             return false
         }
         
-        func canRecycle(view: UIView, attributes: [String : Any]) -> Bool {
-            return view is TransparentNavigationBar
+        func canRecycle(convUtil: InflatorConvUtil, object: Any, attributes: [String: Any]) -> Bool {
+            return object is TransparentNavigationBar
         }
         
     }

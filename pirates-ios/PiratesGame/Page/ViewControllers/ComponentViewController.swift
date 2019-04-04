@@ -5,7 +5,6 @@
 
 import UIKit
 import UniLayout
-import ViewletCreator
 
 class ComponentViewController: UIViewController {
 

@@ -58,6 +58,7 @@
 		049B63582232EA1200AFB13B /* SplashLoadingBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049B63572232EA1200AFB13B /* SplashLoadingBar.swift */; };
 		049B635B2232F31E00AFB13B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 049B63592232F31E00AFB13B /* Localizable.strings */; };
 		049B635F2232FB7C00AFB13B /* primitive.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 041558C42232A0BF001158FA /* primitive.ttf */; };
+		049BCA412255EA72001BCEED /* Inflators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049BCA402255EA72001BCEED /* Inflators.swift */; };
 		049C3B4B223A9FCE00856808 /* FilledRectGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049C3B48223A9FCE00856808 /* FilledRectGenerator.swift */; };
 		049C3B4C223A9FCE00856808 /* UIImageGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049C3B49223A9FCE00856808 /* UIImageGenerator.swift */; };
 		049C3B4D223A9FCE00856808 /* FilledOvalGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049C3B4A223A9FCE00856808 /* FilledOvalGenerator.swift */; };
@@ -123,6 +124,7 @@
 		049B63552232E9CB00AFB13B /* SplashLoadingBar.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SplashLoadingBar.json; sourceTree = "<group>"; };
 		049B63572232EA1200AFB13B /* SplashLoadingBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashLoadingBar.swift; sourceTree = "<group>"; };
 		049B635A2232F31E00AFB13B /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		049BCA402255EA72001BCEED /* Inflators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Inflators.swift; sourceTree = "<group>"; };
 		049C3B48223A9FCE00856808 /* FilledRectGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilledRectGenerator.swift; sourceTree = "<group>"; };
 		049C3B49223A9FCE00856808 /* UIImageGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageGenerator.swift; sourceTree = "<group>"; };
 		049C3B4A223A9FCE00856808 /* FilledOvalGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilledOvalGenerator.swift; sourceTree = "<group>"; };
@@ -249,6 +251,7 @@
 				041558ED2232A42C001158FA /* CoreExtensions */,
 				041558F22232A42C001158FA /* Events */,
 				049C3B47223A9FCE00856808 /* ImageGenerators */,
+				049BCA3F2255EA72001BCEED /* Inflator */,
 				041558F72232A42C001158FA /* Tools */,
 			);
 			path = Infrastructure;
@@ -410,6 +413,14 @@
 				049B63532232C05400AFB13B /* SplashLoaderModule.swift */,
 			);
 			path = Splash;
+			sourceTree = "<group>";
+		};
+		049BCA3F2255EA72001BCEED /* Inflator */ = {
+			isa = PBXGroup;
+			children = (
+				049BCA402255EA72001BCEED /* Inflators.swift */,
+			);
+			path = Inflator;
 			sourceTree = "<group>";
 		};
 		049C3B47223A9FCE00856808 /* ImageGenerators */ = {
@@ -623,6 +634,7 @@
 				041559172232AA0F001158FA /* ComponentViewController.swift in Sources */,
 				041559122232A510001158FA /* Page.swift in Sources */,
 				04E0FA21223E8F88006017D3 /* LevelWaveAnimationView.swift in Sources */,
+				049BCA412255EA72001BCEED /* Inflators.swift in Sources */,
 				041558EA2232A200001158FA /* ViewletUtil.swift in Sources */,
 				041559132232A510001158FA /* PageLoader.swift in Sources */,
 				049B634D2232BADC00AFB13B /* SplashAnimation.swift in Sources */,

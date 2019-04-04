@@ -4,7 +4,7 @@
 //
 
 import UIKit
-import ViewletCreator
+import JsonInflator
 
 class LevelViewController: ComponentViewController, AppEventObserver, PageLoaderContinuousCompletion {
 
@@ -100,7 +100,7 @@ class LevelViewController: ComponentViewController, AppEventObserver, PageLoader
     }
     
     func didUpdatePage(page: Page) {
-        let binder = ViewletDictBinder()
+        let binder = InflatorDictBinder()
         let inflateLayout: [String: Any] = [
             "viewlet": "frameContainer",
             "width": "stretchToParent",

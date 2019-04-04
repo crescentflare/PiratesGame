@@ -1,34 +1,36 @@
 //
-//  ViewletConvUtil.swift
-//  Viewlet creator Pod
+//  InflatorConvUtil.swift
+//  Json inflator Pod
 //
 //  Library utility: conversion utilities
 //  Provides conversion from optional Any to the desired type
 //
 
-public class ViewletConvUtil {
+public class InflatorConvUtil {
     
-    // ---
+    // --
+    // MARK: Members
+    // --
+    
+    public let colorLookup: InflatorColorLookup?
+    public let dimensionLookup: InflatorDimensionLookup?
+    
+    
+    // --
     // MARK: Initialization
-    // ---
+    // --
     
-    private init() {
+    public init(colorLookup: InflatorColorLookup? = nil, dimensionLookup: InflatorDimensionLookup? = nil) {
+        self.colorLookup = colorLookup
+        self.dimensionLookup = dimensionLookup
     }
     
     
-    // ---
-    // MARK: Lookups
-    // ---
-    
-    public static var colorLookup: ViewletColorLookup?
-    public static var dimensionLookup: ViewletDimensionLookup?
-    
-
-    // ---
+    // --
     // MARK: Array conversion
-    // ---
+    // --
 
-    public static func asStringArray(value: Any?) -> [String] {
+    public func asStringArray(value: Any?) -> [String] {
         var array: [String] = []
         if let valueArray = value as? [Any] {
             for valueItem in valueArray {
@@ -40,7 +42,7 @@ public class ViewletConvUtil {
         return array
     }
     
-    public static func asDoubleArray(value: Any?) -> [Double] {
+    public func asDoubleArray(value: Any?) -> [Double] {
         var array: [Double] = []
         if let valueArray = value as? [Any] {
             for valueItem in valueArray {
@@ -52,7 +54,7 @@ public class ViewletConvUtil {
         return array
     }
 
-    public static func asFloatArray(value: Any?) -> [Float] {
+    public func asFloatArray(value: Any?) -> [Float] {
         var array: [Float] = []
         if let valueArray = value as? [Any] {
             for valueItem in valueArray {
@@ -64,7 +66,7 @@ public class ViewletConvUtil {
         return array
     }
     
-    public static func asIntArray(value: Any?) -> [Int] {
+    public func asIntArray(value: Any?) -> [Int] {
         var array: [Int] = []
         if let valueArray = value as? [Any] {
             for valueItem in valueArray {
@@ -76,7 +78,7 @@ public class ViewletConvUtil {
         return array
     }
 
-    public static func asBoolArray(value: Any?) -> [Bool] {
+    public func asBoolArray(value: Any?) -> [Bool] {
         var array: [Bool] = []
         if let valueArray = value as? [Any] {
             for valueItem in valueArray {
@@ -89,11 +91,11 @@ public class ViewletConvUtil {
     }
 
     
-    // ---
+    // --
     // MARK: View related data conversion
-    // ---
+    // --
     
-    public static func asDimensionArray(value: Any?) -> [CGFloat] {
+    public func asDimensionArray(value: Any?) -> [CGFloat] {
         var array: [CGFloat] = []
         if let valueArray = value as? [Any] {
             for valueItem in valueArray {
@@ -105,7 +107,7 @@ public class ViewletConvUtil {
         return array
     }
 
-    public static func asColor(value: Any?) -> UIColor? {
+    public func asColor(value: Any?) -> UIColor? {
         if let colorString = value as? String {
             // Handle lookup
             if colorString.hasPrefix("$") {
@@ -196,7 +198,7 @@ public class ViewletConvUtil {
         return nil
     }
     
-    public static func asDimension(value: Any?) -> CGFloat? {
+    public func asDimension(value: Any?) -> CGFloat? {
         if var stringValue = value as? String {
             var multiplier: CGFloat = 1
             if stringValue.hasPrefix("$") {
@@ -232,11 +234,11 @@ public class ViewletConvUtil {
     }
 
     
-    // ---
+    // --
     // MARK: Basic value conversion
-    // ---
+    // --
     
-    public static func asDate(value: Any?) -> Date? {
+    public func asDate(value: Any?) -> Date? {
         if let stringDate = value as? String {
             let formats = [
                 "yyyy-MM-dd'T'HH:mm:ssZZZZ",
@@ -257,7 +259,7 @@ public class ViewletConvUtil {
         return nil
     }
     
-    public static func asString(value: Any?) -> String? {
+    public func asString(value: Any?) -> String? {
         if value is String {
             return value as? String
         } else if let doubleValue = value as? Double {
@@ -272,7 +274,7 @@ public class ViewletConvUtil {
         return nil
     }
     
-    public static func asDouble(value: Any?) -> Double? {
+    public func asDouble(value: Any?) -> Double? {
         if let stringValue = value as? String {
             return Double(stringValue)
         } else if value is Double {
@@ -287,7 +289,7 @@ public class ViewletConvUtil {
         return nil
     }
     
-    public static func asFloat(value: Any?) -> Float? {
+    public func asFloat(value: Any?) -> Float? {
         if let stringValue = value as? String {
             return Float(stringValue)
         } else if let doubleValue = value as? Double {
@@ -302,7 +304,7 @@ public class ViewletConvUtil {
         return nil
     }
 
-    public static func asInt(value: Any?) -> Int? {
+    public func asInt(value: Any?) -> Int? {
         if let stringValue = value as? String {
             if let intValue = Int(stringValue) {
                 return intValue
@@ -322,7 +324,7 @@ public class ViewletConvUtil {
         return nil
     }
 
-    public static func asBool(value: Any?) -> Bool? {
+    public func asBool(value: Any?) -> Bool? {
         if let stringValue = value as? String {
             return Bool(stringValue)
         } else if let doubleValue = value as? Double {

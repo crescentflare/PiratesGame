@@ -5,7 +5,6 @@
 
 import UIKit
 import UniLayout
-import ViewletCreator
 
 enum ImageSourceType: String {
     
@@ -85,8 +84,8 @@ class ImageSource {
     }
     
     init(dict: [String: Any]) {
-        type = ImageSourceType(rawValue: ViewletConvUtil.asString(value: dict["type"]) ?? "unknown") ?? .unknown
-        if let path = ViewletConvUtil.asString(value: dict["path"]) ?? ViewletConvUtil.asString(value: dict["name"]) {
+        type = ImageSourceType(rawValue: Inflators.viewlet.convUtil.asString(value: dict["type"]) ?? "unknown") ?? .unknown
+        if let path = Inflators.viewlet.convUtil.asString(value: dict["path"]) ?? Inflators.viewlet.convUtil.asString(value: dict["name"]) {
             pathComponents = path.split(separator: "/").map(String.init)
         }
         if let otherSources = dict["otherSources"] as? [Any] {
@@ -114,7 +113,7 @@ class ImageSource {
             if parameters.count > 0 {
                 var firstParam = true
                 for key in parameters.keys {
-                    if let value = ViewletConvUtil.asString(value: parameters[key]) {
+                    if let value = Inflators.viewlet.convUtil.asString(value: parameters[key]) {
                         uri += firstParam ? "?" : "&"
                         uri += key.urlEncode() + "=" + value.urlEncode()
                         firstParam = false
@@ -134,7 +133,7 @@ class ImageSource {
     var tintColor: UIColor? {
         get {
             if let colorizeString = parameters["colorize"] {
-                return ViewletConvUtil.asColor(value: colorizeString)
+                return Inflators.viewlet.convUtil.asColor(value: colorizeString)
             }
             return nil
         }
@@ -142,13 +141,13 @@ class ImageSource {
     
     var threePatch: CGFloat? {
         get {
-            return ViewletConvUtil.asDimension(value: parameters["threePatch"])
+            return Inflators.viewlet.convUtil.asDimension(value: parameters["threePatch"])
         }
     }
     
     var ninePatch: CGFloat? {
         get {
-            return ViewletConvUtil.asDimension(value: parameters["ninePatch"])
+            return Inflators.viewlet.convUtil.asDimension(value: parameters["ninePatch"])
         }
     }
     

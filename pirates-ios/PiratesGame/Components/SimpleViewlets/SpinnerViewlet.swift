@@ -5,7 +5,7 @@
 
 import UIKit
 import UniLayout
-import ViewletCreator
+import JsonInflator
 
 class SpinnerViewlet {
     
@@ -13,36 +13,36 @@ class SpinnerViewlet {
     // MARK: Viewlet instance
     // --
     
-    class func viewlet() -> Viewlet {
+    class func viewlet() -> JsonInflatable {
         return ViewletClass()
     }
     
-    private class ViewletClass: Viewlet {
+    private class ViewletClass: JsonInflatable {
         
-        func create() -> UIView {
+        func create() -> Any {
             let spinner = UniSpinnerView()
             spinner.startAnimating()
             return spinner
         }
         
-        func update(view: UIView, attributes: [String : Any], parent: UIView?, binder: ViewletBinder?) -> Bool {
-            if let spinner = view as? UniSpinnerView {
+        func update(convUtil: InflatorConvUtil, object: Any, attributes: [String: Any], parent: Any?, binder: InflatorBinder?) -> Bool {
+            if let spinner = object as? UniSpinnerView {
                 // Style
-                if ViewletConvUtil.asString(value: attributes["style"]) == "inverted" {
+                if convUtil.asString(value: attributes["style"]) == "inverted" {
                     spinner.activityIndicatorViewStyle = .white
                 } else {
                     spinner.activityIndicatorViewStyle = .gray
                 }
                 
                 // Generic view properties
-                ViewletUtil.applyGenericViewAttributes(view: view, attributes: attributes)
+                ViewletUtil.applyGenericViewAttributes(convUtil: convUtil, view: spinner, attributes: attributes)
                 return true
             }
             return false
         }
         
-        func canRecycle(view: UIView, attributes: [String : Any]) -> Bool {
-            return view is UniSpinnerView
+        func canRecycle(convUtil: InflatorConvUtil, object: Any, attributes: [String: Any]) -> Bool {
+            return object is UniSpinnerView
         }
         
     }

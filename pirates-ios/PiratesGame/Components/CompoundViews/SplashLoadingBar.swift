@@ -5,7 +5,7 @@
 
 import UIKit
 import UniLayout
-import ViewletCreator
+import JsonInflator
 
 class SplashLoadingBar: FrameContainerView {
 
@@ -42,31 +42,31 @@ class SplashLoadingBar: FrameContainerView {
     // MARK: Viewlet integration
     // --
     
-    override class func viewlet() -> Viewlet {
+    override class func viewlet() -> JsonInflatable {
         return ViewletClass()
     }
     
-    private class ViewletClass: Viewlet {
+    private class ViewletClass: JsonInflatable {
         
-        func create() -> UIView {
+        func create() -> Any {
             return SplashLoadingBar()
         }
         
-        func update(view: UIView, attributes: [String : Any], parent: UIView?, binder: ViewletBinder?) -> Bool {
-            if let bar = view as? SplashLoadingBar {
+        func update(convUtil: InflatorConvUtil, object: Any, attributes: [String: Any], parent: Any?, binder: InflatorBinder?) -> Bool {
+            if let bar = object as? SplashLoadingBar {
                 // Apply state
-                bar.autoAnimation = ViewletConvUtil.asBool(value: attributes["autoAnimation"]) ?? false
-                bar.progress = ViewletConvUtil.asFloat(value: attributes["progress"]) ?? 0
+                bar.autoAnimation = convUtil.asBool(value: attributes["autoAnimation"]) ?? false
+                bar.progress = convUtil.asFloat(value: attributes["progress"]) ?? 0
                 
                 // Generic view properties
-                ViewletUtil.applyGenericViewAttributes(view: view, attributes: attributes)
+                ViewletUtil.applyGenericViewAttributes(convUtil: convUtil, view: bar, attributes: attributes)
                 return true
             }
             return false
         }
         
-        func canRecycle(view: UIView, attributes: [String : Any]) -> Bool {
-            return view is SplashLoadingBar
+        func canRecycle(convUtil: InflatorConvUtil, object: Any, attributes: [String: Any]) -> Bool {
+            return object is SplashLoadingBar
         }
         
     }
@@ -87,8 +87,8 @@ class SplashLoadingBar: FrameContainerView {
     }
     
     fileprivate func setup() {
-        let binder = ViewletDictBinder()
-        ViewletUtil.assertInflateOn(view: self, attributes: ViewletLoader.attributesFrom(jsonFile: layoutFile), parent: nil, binder: binder)
+        let binder = InflatorDictBinder()
+        ViewletUtil.assertInflateOn(view: self, attributes: JsonLoader.shared.attributesFrom(jsonFile: layoutFile), parent: nil, binder: binder)
         barView = binder.findByReference("bar") as? UniImageView
     }
     

@@ -5,7 +5,7 @@
 
 import UIKit
 import UniLayout
-import ViewletCreator
+import JsonInflator
 
 class LevelView: FrameContainerView {
 
@@ -22,26 +22,26 @@ class LevelView: FrameContainerView {
     // MARK: Viewlet integration
     // --
     
-    override class func viewlet() -> Viewlet {
+    override class func viewlet() -> JsonInflatable {
         return ViewletClass()
     }
     
-    private class ViewletClass: Viewlet {
+    private class ViewletClass: JsonInflatable {
         
-        func create() -> UIView {
+        func create() -> Any {
             return LevelView()
         }
         
-        func update(view: UIView, attributes: [String : Any], parent: UIView?, binder: ViewletBinder?) -> Bool {
-            if let levelView = view as? LevelView {
+        func update(convUtil: InflatorConvUtil, object: Any, attributes: [String: Any], parent: Any?, binder: InflatorBinder?) -> Bool {
+            if let levelView = object as? LevelView {
                 // Apply animation
-                levelView.waveSpawnInterval = ViewletConvUtil.asFloat(value: attributes["waveSpawnInterval"]) ?? 0.2
+                levelView.waveSpawnInterval = convUtil.asFloat(value: attributes["waveSpawnInterval"]) ?? 0.2
                 
                 // Set tiles
-                levelView.tileMap = ViewletConvUtil.asStringArray(value: attributes["tileMap"])
+                levelView.tileMap = convUtil.asStringArray(value: attributes["tileMap"])
 
                 // Generic view properties
-                ViewletUtil.applyGenericViewAttributes(view: view, attributes: attributes)
+                ViewletUtil.applyGenericViewAttributes(convUtil: convUtil, view: levelView, attributes: attributes)
 
                 // Event handling
                 levelView.tapEvent = AppEvent(value: attributes["tapEvent"])
@@ -55,8 +55,8 @@ class LevelView: FrameContainerView {
             return false
         }
         
-        func canRecycle(view: UIView, attributes: [String : Any]) -> Bool {
-            return view is LevelView
+        func canRecycle(convUtil: InflatorConvUtil, object: Any, attributes: [String: Any]) -> Bool {
+            return object is LevelView
         }
         
     }

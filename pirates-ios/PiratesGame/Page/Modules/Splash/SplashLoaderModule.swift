@@ -5,7 +5,7 @@
 
 import UIKit
 import UniLayout
-import ViewletCreator
+import JsonInflator
 
 fileprivate class SplashLoaderModuleTask {
     
@@ -36,7 +36,7 @@ class SplashLoaderModule: ControllerModule {
     
     let eventType = "splashLoader"
     private weak var viewController: UIViewController?
-    private var binder: ViewletDictBinder?
+    private var binder: InflatorDictBinder?
     private var loadingTasks = [SplashLoaderModuleTask]()
     private var busy = false
     private var preparing = false
@@ -66,7 +66,7 @@ class SplashLoaderModule: ControllerModule {
     // MARK: Page updates
     // --
 
-    func didUpdatePage(page: Page, binder: ViewletDictBinder) {
+    func didUpdatePage(page: Page, binder: InflatorDictBinder) {
         self.binder = binder
         if (busy) {
             showLoading(animated: false)

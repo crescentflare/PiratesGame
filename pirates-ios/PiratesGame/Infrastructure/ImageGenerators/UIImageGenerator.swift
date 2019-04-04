@@ -4,7 +4,7 @@
 //
 
 import UIKit
-import ViewletCreator
+import JsonInflator
 
 class UIImageGeneratorDrawing {
     
@@ -76,24 +76,24 @@ open class UIImageGenerator {
     // MARK: Attribute helpers
     // --
     
-    func sizeFromAttributes(_ attributes: [String: Any]) -> CGSize? {
-        var size: CGSize? = CGSize(width: ViewletConvUtil.asDimension(value: attributes["width"]) ?? 0, height: ViewletConvUtil.asDimension(value: attributes["height"]) ?? 0)
+    func sizeFromAttributes(convUtil: InflatorConvUtil, attributes: [String: Any]) -> CGSize? {
+        var size: CGSize? = CGSize(width: convUtil.asDimension(value: attributes["width"]) ?? 0, height: convUtil.asDimension(value: attributes["height"]) ?? 0)
         if size?.width ?? 0 <= 0 || size?.height ?? 0 <= 0 {
             size = nil
         }
         return size
     }
 
-    func imageSizeFromAttributes(_ attributes: [String: Any]) -> CGSize? {
-        var size: CGSize? = CGSize(width: ViewletConvUtil.asDimension(value: attributes["imageWidth"]) ?? 0, height: ViewletConvUtil.asDimension(value: attributes["imageHeight"]) ?? 0)
+    func imageSizeFromAttributes(convUtil: InflatorConvUtil, attributes: [String: Any]) -> CGSize? {
+        var size: CGSize? = CGSize(width: convUtil.asDimension(value: attributes["imageWidth"]) ?? 0, height: convUtil.asDimension(value: attributes["imageHeight"]) ?? 0)
         if size?.width ?? 0 <= 0 || size?.height ?? 0 <= 0 {
             size = nil
         }
         return size
     }
     
-    func gravityFromAttributes(_ attributes: [String: Any]) -> CGPoint {
-        return CGPoint(x: ViewletUtil.getHorizontalGravity(attributes: attributes) ?? 0.5, y: ViewletUtil.getVerticalGravity(attributes: attributes) ?? 0.5)
+    func gravityFromAttributes(convUtil: InflatorConvUtil, attributes: [String: Any]) -> CGPoint {
+        return CGPoint(x: ViewletUtil.getHorizontalGravity(convUtil: convUtil, attributes: attributes) ?? 0.5, y: ViewletUtil.getVerticalGravity(convUtil: convUtil, attributes: attributes) ?? 0.5)
     }
 
 }

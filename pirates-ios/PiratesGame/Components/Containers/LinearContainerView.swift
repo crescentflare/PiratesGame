@@ -5,7 +5,7 @@
 
 import UIKit
 import UniLayout
-import ViewletCreator
+import JsonInflator
 
 class LinearContainerView: UniLinearContainer, AppEventObserver, /*PageViewComponentInfo,*/ UniTapDelegate {
     
@@ -13,33 +13,33 @@ class LinearContainerView: UniLinearContainer, AppEventObserver, /*PageViewCompo
     // MARK: Viewlet integration
     // --
     
-    class func viewlet() -> Viewlet {
+    class func viewlet() -> JsonInflatable {
         return ViewletClass()
     }
     
-    private class ViewletClass: Viewlet {
+    private class ViewletClass: JsonInflatable {
         
-        func create() -> UIView {
+        func create() -> Any {
             return LinearContainerView()
         }
         
-        func update(view: UIView, attributes: [String : Any], parent: UIView?, binder: ViewletBinder?) -> Bool {
-            if let linearContainer = view as? LinearContainerView {
+        func update(convUtil: InflatorConvUtil, object: Any, attributes: [String: Any], parent: Any?, binder: InflatorBinder?) -> Bool {
+            if let linearContainer = object as? LinearContainerView {
                 // Set container name
-                linearContainer.accessibilityLabel = ViewletConvUtil.asString(value: attributes["containerName"])
+                linearContainer.accessibilityLabel = convUtil.asString(value: attributes["containerName"])
 
                 // Set orientation
-                if let orientation = UniLinearContainerOrientation(rawValue: ViewletConvUtil.asString(value: attributes["orientation"]) ?? "") {
+                if let orientation = UniLinearContainerOrientation(rawValue: convUtil.asString(value: attributes["orientation"]) ?? "") {
                     linearContainer.orientation = orientation
                 } else {
                     linearContainer.orientation = .vertical
                 }
                 
                 // Create or update subviews
-                ViewletUtil.createSubviews(container: linearContainer, parent: linearContainer, attributes: attributes, subviewItems: attributes["items"], binder: binder)
+                ViewletUtil.createSubviews(convUtil: convUtil, container: linearContainer, parent: linearContainer, attributes: attributes, subviewItems: attributes["items"], binder: binder)
                 
                 // Generic view properties
-                ViewletUtil.applyGenericViewAttributes(view: view, attributes: attributes)
+                ViewletUtil.applyGenericViewAttributes(convUtil: convUtil, view: linearContainer, attributes: attributes)
                 
                 // Event handling
                 linearContainer.tapEvent = AppEvent(value: attributes["tapEvent"])
@@ -53,8 +53,8 @@ class LinearContainerView: UniLinearContainer, AppEventObserver, /*PageViewCompo
             return false
         }
         
-        func canRecycle(view: UIView, attributes: [String : Any]) -> Bool {
-            return view is LinearContainerView
+        func canRecycle(convUtil: InflatorConvUtil, object: Any, attributes: [String: Any]) -> Bool {
+            return object is LinearContainerView
         }
         
     }

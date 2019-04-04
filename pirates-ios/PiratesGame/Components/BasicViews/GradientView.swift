@@ -5,7 +5,7 @@
 
 import UIKit
 import UniLayout
-import ViewletCreator
+import JsonInflator
 
 class GradientView: UniView {
 
@@ -13,32 +13,32 @@ class GradientView: UniView {
     // MARK: Viewlet integration
     // --
     
-    class func viewlet() -> Viewlet {
+    class func viewlet() -> JsonInflatable {
         return ViewletClass()
     }
     
-    private class ViewletClass: Viewlet {
+    private class ViewletClass: JsonInflatable {
         
-        func create() -> UIView {
+        func create() -> Any {
             return GradientView()
         }
         
-        func update(view: UIView, attributes: [String : Any], parent: UIView?, binder: ViewletBinder?) -> Bool {
-            if let gradientView = view as? GradientView {
+        func update(convUtil: InflatorConvUtil, object: Any, attributes: [String: Any], parent: Any?, binder: InflatorBinder?) -> Bool {
+            if let gradientView = object as? GradientView {
                 // Gradient properties
-                gradientView.startColor = ViewletConvUtil.asColor(value: attributes["startColor"]) ?? UIColor.clear
-                gradientView.endColor = ViewletConvUtil.asColor(value: attributes["endColor"]) ?? UIColor.clear
-                gradientView.angle = ViewletConvUtil.asInt(value: attributes["angle"]) ?? 0
+                gradientView.startColor = convUtil.asColor(value: attributes["startColor"]) ?? UIColor.clear
+                gradientView.endColor = convUtil.asColor(value: attributes["endColor"]) ?? UIColor.clear
+                gradientView.angle = convUtil.asInt(value: attributes["angle"]) ?? 0
 
                 // Generic view properties
-                ViewletUtil.applyGenericViewAttributes(view: view, attributes: attributes)
+                ViewletUtil.applyGenericViewAttributes(convUtil: convUtil, view: gradientView, attributes: attributes)
                 return true
             }
             return false
         }
         
-        func canRecycle(view: UIView, attributes: [String : Any]) -> Bool {
-            return view is GradientView
+        func canRecycle(convUtil: InflatorConvUtil, object: Any, attributes: [String: Any]) -> Bool {
+            return object is GradientView
         }
         
     }

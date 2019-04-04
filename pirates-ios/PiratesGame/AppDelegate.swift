@@ -4,7 +4,7 @@
 //
 
 import UIKit
-import ViewletCreator
+import JsonInflator
 import DynamicAppConfig
 
 @UIApplicationMain
@@ -72,43 +72,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func registerViewlets() {
         // Enable platform specific attributes
-        ViewletCreator.setMergeSubAttributes(["ios"])
-        ViewletCreator.setExcludeAttributes(["android"])
+        Inflators.viewlet.setMergeSubAttributes(["ios"])
+        Inflators.viewlet.setExcludeAttributes(["android"])
         
         // Lookups
-        ViewletConvUtil.colorLookup = AppColors.AppColorLookup()
-        ViewletConvUtil.dimensionLookup = AppDimensions.AppDimensionLookup()
+        Inflators.viewlet.colorLookup = AppColors.AppColorLookup()
+        Inflators.viewlet.dimensionLookup = AppDimensions.AppDimensionLookup()
         
         // Basic views
-        ViewletCreator.register(name: "button", viewlet: ButtonView.viewlet())
-        ViewletCreator.registerStyle(viewletName: "button", styleName: "default", styleAttributes: ButtonView.defaultStyle)
-        ViewletCreator.register(name: "gradient", viewlet: GradientView.viewlet())
+        Inflators.viewlet.register(name: "button", inflatable: ButtonView.viewlet())
+        Inflators.viewlet.registerAttributeSet(inflatableName: "button", setName: "default", setAttributes: ButtonView.defaultStyle)
+        Inflators.viewlet.register(name: "gradient", inflatable: GradientView.viewlet())
         
         // Compound views
-        ViewletCreator.register(name: "splashAnimation", viewlet: SplashAnimation.viewlet())
-        ViewletCreator.register(name: "splashLoadingBar", viewlet: SplashLoadingBar.viewlet())
+        Inflators.viewlet.register(name: "splashAnimation", inflatable: SplashAnimation.viewlet())
+        Inflators.viewlet.register(name: "splashLoadingBar", inflatable: SplashLoadingBar.viewlet())
 
         // Complex views
-        ViewletCreator.register(name: "publisherLogo", viewlet: PublisherLogo.viewlet())
+        Inflators.viewlet.register(name: "publisherLogo", inflatable: PublisherLogo.viewlet())
         
         // Containers
-        ViewletCreator.register(name: "scrollContainer", viewlet: ScrollContainerView.viewlet())
-        ViewletCreator.register(name: "frameContainer", viewlet: FrameContainerView.viewlet())
-        ViewletCreator.register(name: "linearContainer", viewlet: LinearContainerView.viewlet())
+        Inflators.viewlet.register(name: "scrollContainer", inflatable: ScrollContainerView.viewlet())
+        Inflators.viewlet.register(name: "frameContainer", inflatable: FrameContainerView.viewlet())
+        Inflators.viewlet.register(name: "linearContainer", inflatable: LinearContainerView.viewlet())
         
         // Game views
-        ViewletCreator.register(name: "level", viewlet: LevelView.viewlet())
+        Inflators.viewlet.register(name: "level", inflatable: LevelView.viewlet())
         
         // Navigation bars
-        ViewletCreator.register(name: "transparentNavigationBar", viewlet: TransparentNavigationBar.viewlet())
-        ViewletCreator.register(name: "solidNavigationBar", viewlet: SolidNavigationBar.viewlet())
+        Inflators.viewlet.register(name: "transparentNavigationBar", inflatable: TransparentNavigationBar.viewlet())
+        Inflators.viewlet.register(name: "solidNavigationBar", inflatable: SolidNavigationBar.viewlet())
 
         // Simple viewlets
-        ViewletCreator.register(name: "image", viewlet: ImageViewlet.viewlet())
-        ViewletCreator.register(name: "spacer", viewlet: SpacerViewlet.viewlet())
-        ViewletCreator.register(name: "spinner", viewlet: SpinnerViewlet.viewlet())
-        ViewletCreator.register(name: "text", viewlet: TextViewlet.viewlet())
-        ViewletCreator.register(name: "view", viewlet: ViewletUtil.basicViewViewlet())
+        Inflators.viewlet.register(name: "image", inflatable: ImageViewlet.viewlet())
+        Inflators.viewlet.register(name: "spacer", inflatable: SpacerViewlet.viewlet())
+        Inflators.viewlet.register(name: "spinner", inflatable: SpinnerViewlet.viewlet())
+        Inflators.viewlet.register(name: "text", inflatable: TextViewlet.viewlet())
+        Inflators.viewlet.register(name: "view", inflatable: ViewletUtil.basicViewViewlet())
     }
 
 }

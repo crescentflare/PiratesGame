@@ -4,7 +4,7 @@
 //
 
 import UIKit
-import ViewletCreator
+import JsonInflator
 
 class SplashViewController: ComponentViewController, AppEventObserver, PageLoaderContinuousCompletion {
 
@@ -100,7 +100,7 @@ class SplashViewController: ComponentViewController, AppEventObserver, PageLoade
     }
     
     func didUpdatePage(page: Page) {
-        let binder = ViewletDictBinder()
+        let binder = InflatorDictBinder()
         let inflateLayout: [String: Any] = [
             "viewlet": "frameContainer",
             "width": "stretchToParent",

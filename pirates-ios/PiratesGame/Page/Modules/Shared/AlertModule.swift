@@ -4,7 +4,7 @@
 //
 
 import UIKit
-import ViewletCreator
+import JsonInflator
 
 class AlertModule: ControllerModule {
     
@@ -33,7 +33,7 @@ class AlertModule: ControllerModule {
     // MARK: Page updates
     // --
 
-    func didUpdatePage(page: Page, binder: ViewletDictBinder) {
+    func didUpdatePage(page: Page, binder: InflatorDictBinder) {
         // No implementation
     }
 

@@ -4,7 +4,6 @@
 //
 
 import UIKit
-import ViewletCreator
 
 class FilledRectGenerator: UIImageGenerator {
 
@@ -59,8 +58,9 @@ class FilledRectGenerator: UIImageGenerator {
     }
     
     override func generate(attributes: [String: Any], onImage: UIImage? = nil) -> UIImage? {
-        let gravity = gravityFromAttributes(attributes)
-        return generate(color: ViewletConvUtil.asColor(value: attributes["color"]) ?? UIColor.clear, size: sizeFromAttributes(attributes), cornerRadius: ViewletConvUtil.asDimension(value: attributes["cornerRadius"]) ?? 0, horizontalGravity: gravity.x, verticalGravity: gravity.y, forceImageSize: imageSizeFromAttributes(attributes), onImage: onImage)
+        let convUtil = Inflators.viewlet.convUtil
+        let gravity = gravityFromAttributes(convUtil: convUtil, attributes: attributes)
+        return generate(color: convUtil.asColor(value: attributes["color"]) ?? UIColor.clear, size: sizeFromAttributes(convUtil: convUtil, attributes: attributes), cornerRadius: convUtil.asDimension(value: attributes["cornerRadius"]) ?? 0, horizontalGravity: gravity.x, verticalGravity: gravity.y, forceImageSize: imageSizeFromAttributes(convUtil: convUtil, attributes: attributes), onImage: onImage)
     }
 
 }

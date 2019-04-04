@@ -5,7 +5,7 @@
 
 import UIKit
 import UniLayout
-import ViewletCreator
+import JsonInflator
 
 enum SpacerTakeSize: String {
     
@@ -29,31 +29,31 @@ class SpacerViewlet: UniView {
     // MARK: Viewlet integration
     // --
     
-    class func viewlet() -> Viewlet {
+    class func viewlet() -> JsonInflatable {
         return ViewletClass()
     }
     
-    private class ViewletClass: Viewlet {
+    private class ViewletClass: JsonInflatable {
         
-        func create() -> UIView {
+        func create() -> Any {
             return SpacerViewlet()
         }
         
-        func update(view: UIView, attributes: [String : Any], parent: UIView?, binder: ViewletBinder?) -> Bool {
-            if let spacer = view as? SpacerViewlet {
+        func update(convUtil: InflatorConvUtil, object: Any, attributes: [String: Any], parent: Any?, binder: InflatorBinder?) -> Bool {
+            if let spacer = object as? SpacerViewlet {
                 // Apply take width and height
-                spacer.takeWidth = SpacerTakeSize(rawValue: ViewletConvUtil.asString(value: attributes["takeWidth"]) ?? "") ?? .none
-                spacer.takeHeight = SpacerTakeSize(rawValue: ViewletConvUtil.asString(value: attributes["takeHeight"]) ?? "") ?? .none
+                spacer.takeWidth = SpacerTakeSize(rawValue: convUtil.asString(value: attributes["takeWidth"]) ?? "") ?? .none
+                spacer.takeHeight = SpacerTakeSize(rawValue: convUtil.asString(value: attributes["takeHeight"]) ?? "") ?? .none
                 
                 // Generic view properties
-                ViewletUtil.applyGenericViewAttributes(view: view, attributes: attributes)
+                ViewletUtil.applyGenericViewAttributes(convUtil: convUtil, view: spacer, attributes: attributes)
                 return true
             }
             return false
         }
         
-        func canRecycle(view: UIView, attributes: [String : Any]) -> Bool {
-            return view is SpacerViewlet
+        func canRecycle(convUtil: InflatorConvUtil, object: Any, attributes: [String: Any]) -> Bool {
+            return object is SpacerViewlet
         }
         
     }
