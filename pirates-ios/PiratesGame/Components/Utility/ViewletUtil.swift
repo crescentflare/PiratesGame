@@ -91,7 +91,7 @@ class ViewletUtil {
             for item in items {
                 if subviewIndex < container.subviews.count {
                     let view = container.subviews[subviewIndex]
-                    Inflators.viewlet.inflate(onObject: view, attributes: item, parent: parent)
+                    Inflators.viewlet.inflate(onObject: view, attributes: item, parent: parent, binder: binder)
                     ViewletUtil.applyLayoutAttributes(convUtil: convUtil, view: view, attributes: item)
                     ViewletUtil.bindRef(view: view, attributes: item, binder: binder)
                     subviewIndex += 1

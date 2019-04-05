@@ -46,7 +46,7 @@ class ScrollContainerView : UniVerticalScrollContainer, AppEventObserver {
                     if (recycling && Inflators.viewlet.canRecycle(obj.contentView, item)) {
                         val contentView = obj.contentView
                         if (contentView != null && item != null) {
-                            Inflators.viewlet.inflateOn(contentView, item, null)
+                            Inflators.viewlet.inflateOn(contentView, item, null, binder)
                             ViewletUtil.applyLayoutAttributes(mapUtil, contentView, item)
                             ViewletUtil.bindRef(mapUtil, contentView, item, binder)
                         }

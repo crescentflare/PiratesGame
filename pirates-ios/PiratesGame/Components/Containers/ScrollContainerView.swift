@@ -41,7 +41,7 @@ class ScrollContainerView: UniVerticalScrollContainer, AppEventObserver {
                 if recycling && Inflators.viewlet.canRecycle(object: scrollContainer.contentView, attributes: checkItem) {
                     if let item = checkItem {
                         if let view = scrollContainer.contentView {
-                            Inflators.viewlet.inflate(onObject: view, attributes: item)
+                            Inflators.viewlet.inflate(onObject: view, attributes: item, binder: binder)
                             ViewletUtil.applyLayoutAttributes(convUtil: convUtil, view: view, attributes: item)
                             ViewletUtil.bindRef(view: view, attributes: item, binder: binder)
                         }
