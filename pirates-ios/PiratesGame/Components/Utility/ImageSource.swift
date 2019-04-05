@@ -80,18 +80,17 @@ class ImageSource {
                 for paramItem in paramItems {
                     let paramSet = paramItem.split(separator: "=").map(String.init)
                     if paramSet.count == 2 {
-                        parameters[paramSet[0].urlDecode()] = paramSet[1].urlDecode()
-                    }
-                }
-            }
-            
-            // Convert other sources parameter to objects
-            if let otherSourcesStringList = parameters["otherSources"] as? String {
-                parameters.removeValue(forKey: "otherSources")
-                let otherSourcesStringArray = otherSourcesStringList.split(separator: ",").map(String.init)
-                for otherSourcesString in otherSourcesStringArray {
-                    if let otherSource = ImageSource(string: otherSourcesString) {
-                        otherSources.append(otherSource)
+                        let key = paramSet[0].urlDecode()
+                        if key == "otherSources" {
+                            let otherSourcesStringArray = paramSet[1].split(separator: ",").map(String.init)
+                            for otherSourcesString in otherSourcesStringArray {
+                                if let otherSource = ImageSource(string: otherSourcesString.urlDecode()) {
+                                    otherSources.append(otherSource)
+                                }
+                            }
+                        } else {
+                            parameters[key] = paramSet[1].urlDecode()
+                        }
                     }
                 }
             }
