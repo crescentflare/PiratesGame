@@ -62,7 +62,9 @@ object ImageViewlet {
         if (imageView != null) {
             if (source != null) {
                 source.onlinePath?.let {
+                    imageView.colorFilter = null
                     Picasso.get().load(it).into(imageView)
+                    return true
                 } ?: run {
                     val drawable = source.getDrawable(imageView.context)
                     if (drawable != null) {

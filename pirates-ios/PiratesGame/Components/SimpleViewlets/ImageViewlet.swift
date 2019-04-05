@@ -78,6 +78,7 @@ class ImageViewlet {
         if let onlinePath = source?.onlinePath {
             if let imageUrl = URL(string: onlinePath) {
                 imageView?.internalImageView.sd_setImage(with: imageUrl)
+                return true
             }
         } else if var image = source?.getImage() {
             let tintColor = source?.tintColor
