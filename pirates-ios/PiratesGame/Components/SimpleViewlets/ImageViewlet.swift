@@ -75,8 +75,8 @@ class ImageViewlet {
     
     @discardableResult
     static func applyImageSource(imageView: UniImageView?, source: ImageSource?) -> Bool {
-        if let onlinePath = source?.onlinePath {
-            if let imageUrl = URL(string: onlinePath) {
+        if let onlineUri = source?.onlineUri {
+            if let imageUrl = URL(string: onlineUri) {
                 imageView?.internalImageView.sd_setImage(with: imageUrl)
                 return true
             }

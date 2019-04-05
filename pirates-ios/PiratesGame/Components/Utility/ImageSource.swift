@@ -17,6 +17,14 @@ enum ImageSourceType: String {
     
 }
 
+enum ImageSourceCaching: String {
+    
+    case unknown = "unknown"
+    case always = "always"
+    case never = "never"
+    
+}
+
 enum ImageSourceGenerateType: String {
     
     case unknown = "unknown"
@@ -77,6 +85,17 @@ class ImageSource {
                 }
             }
             
+            // Convert other sources parameter to objects
+            if let otherSourcesStringList = parameters["otherSources"] as? String {
+                parameters.removeValue(forKey: "otherSources")
+                let otherSourcesStringArray = otherSourcesStringList.split(separator: ",").map(String.init)
+                for otherSourcesString in otherSourcesStringArray {
+                    if let otherSource = ImageSource(string: otherSourcesString) {
+                        otherSources.append(otherSource)
+                    }
+                }
+            }
+            
             // Finally set path to the remaining string
             pathComponents = checkString.split(separator: "/").map(String.init)
         } else {
@@ -108,29 +127,25 @@ class ImageSource {
     // MARK: Extract values
     // --
     
-    var fullURI: String {
-        get {
-            var uri = "\(type)://\(fullPath)"
-            if parameters.count > 0 {
-                var firstParam = true
-                for key in parameters.keys {
-                    if let value = Inflators.viewlet.convUtil.asString(value: parameters[key]) {
-                        uri += firstParam ? "?" : "&"
-                        uri += key.urlEncode() + "=" + value.urlEncode()
-                        firstParam = false
-                    }
-                }
-            }
-            return uri
-        }
-    }
-
     var fullPath: String {
         get {
             return pathComponents.joined(separator: "/")
         }
     }
     
+    var onlineUri: String? {
+        get {
+            if type == .onlineImage || type == .secureOnlineImage {
+                var uri = "\(type)://\(fullPath)"
+                if let paramString = getParameterString(ignoreParams: ["caching", "threePatch", "ninePatch"], ignoreOtherSources: true) {
+                    uri += "?" + paramString
+                }
+                return uri
+            }
+            return nil
+        }
+    }
+
     var tintColor: UIColor? {
         get {
             if let colorizeString = parameters["colorize"] {
@@ -152,12 +167,55 @@ class ImageSource {
         }
     }
     
-    var onlinePath: String? {
+
+    // --
+    // MARK: Caching
+    // --
+
+    var caching: ImageSourceCaching {
         get {
-            return type == .onlineImage || type == .secureOnlineImage ? fullURI : nil
+            return ImageSourceCaching(rawValue: Inflators.viewlet.convUtil.asString(value: parameters["caching"]) ?? "") ?? .unknown
         }
     }
+    
+    var cacheKey: String {
+        get {
+            var uri = "\(type)://\(fullPath)"
+            if let paramString = getParameterString(ignoreParams: ["caching", "threePatch", "ninePatch"]) {
+                uri += "?" + paramString
+            }
+            return uri
+        }
+    }
+    
 
+    // --
+    // MARK: Conversion
+    // --
+
+    var uri: String {
+        get {
+            var uri = "\(type)://\(fullPath)"
+            if let paramString = getParameterString() {
+                uri += "?" + paramString
+            }
+            return uri
+        }
+    }
+    
+    var dictionary: [String: Any] {
+        get {
+            var dictionary: [String: Any] = ["type": type.rawValue, "path": fullPath]
+            for (key, value) in parameters {
+                dictionary[key] = value
+            }
+            if otherSources.count > 0 {
+                dictionary["otherSources"] = otherSources.map { $0.dictionary }
+            }
+            return dictionary
+        }
+    }
+    
     
     // --
     // MARK: Helper
@@ -204,6 +262,43 @@ class ImageSource {
             default:
                 break
             }
+        }
+        return nil
+    }
+    
+    private func getParameterString(ignoreParams: [String] = [], ignoreOtherSources: Bool = false) -> String? {
+        if parameters.count > 0 {
+            var parameterString = ""
+            for key in parameters.keys {
+                var ignore = false
+                for ignoreParam in ignoreParams {
+                    if key == ignoreParam {
+                        ignore = true
+                        break
+                    }
+                }
+                if !ignore, let value = Inflators.viewlet.convUtil.asString(value: parameters[key]) {
+                    if parameterString.count > 0 {
+                        parameterString += "&"
+                    }
+                    parameterString += key.urlEncode() + "=" + value.urlEncode()
+                }
+            }
+            if otherSources.count > 0 && !ignoreOtherSources {
+                var otherSourceString = ""
+                for otherSource in otherSources {
+                    let otherSourceURI = otherSource.uri
+                    if otherSourceString.count > 0 {
+                        otherSourceString += ","
+                    }
+                    otherSourceString += otherSourceURI.urlEncode()
+                }
+                if parameterString.count > 0 {
+                    parameterString += "&"
+                }
+                parameterString += "otherSources=" + otherSourceString
+            }
+            return parameterString
         }
         return nil
     }
