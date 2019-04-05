@@ -1,9 +1,7 @@
 package com.crescentflare.piratesgame.components.utility
 
 import android.content.Context
-import android.graphics.*
 import android.graphics.drawable.Animatable
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import android.widget.ProgressBar
@@ -93,7 +91,16 @@ class ImageSource {
             for (paramItem in paramItems) {
                 val paramSet = paramItem.split("=")
                 if (paramSet.size == 2) {
-                    parameters[paramSet[0].urlDecode()] = paramSet[1].urlDecode()
+                    val key = paramSet[0].urlDecode()
+                    if (key == "otherSources") {
+                        val otherSourcesStringArray = paramSet[1].split(",")
+                        for (otherSourcesString in otherSourcesStringArray) {
+                            val otherSource = ImageSource(otherSourcesString.urlDecode())
+                            otherSources.add(otherSource)
+                        }
+                    } else {
+                        parameters[key] = paramSet[1].urlDecode()
+                    }
                 }
             }
         }
@@ -130,25 +137,20 @@ class ImageSource {
     // Extract values
     // --
 
-    val fullURI: String
-        get() {
-            var uri = "$type://$fullPath"
-            if (parameters.isNotEmpty()) {
-                var firstParam = true
-                for (key in parameters.keys) {
-                    val stringValue = Inflators.viewlet.mapUtil.optionalString(parameters, key, null)
-                    if (stringValue != null) {
-                        uri += if (firstParam) "?" else "&"
-                        uri += key.urlEncode() + "=" + stringValue.urlEncode()
-                        firstParam = false
-                    }
-                }
-            }
-            return uri
-        }
-
     val fullPath: String
         get() = pathComponents.joinToString("/")
+
+    val onlineUri: String?
+        get() {
+            if (type == Type.OnlineImage || type == Type.SecureOnlineImage) {
+                var uri = "$type://$fullPath"
+                getParameterString(listOf("caching", "threePatch", "ninePatch"), true).let {
+                    uri += "?$it"
+                }
+                return uri
+            }
+            return null
+        }
 
     val tintColor: Int
         get() = Inflators.viewlet.mapUtil.optionalColor(parameters.toMap(), "colorize", 0)
@@ -159,8 +161,46 @@ class ImageSource {
     val ninePatch: Int
         get() = Inflators.viewlet.mapUtil.optionalDimension(parameters.toMap(), "ninePatch", -1)
 
-    val onlinePath: String?
-        get() = if (type == Type.OnlineImage || type == Type.SecureOnlineImage) fullURI else null
+
+    // --
+    // Caching
+    // --
+
+    val caching: Caching
+        get() = Caching.fromString(Inflators.viewlet.mapUtil.optionalString(parameters.toMap(), "caching", ""))
+
+    val cacheKey: String
+        get() {
+            var uri = "$type://$fullPath"
+            getParameterString(listOf("caching", "threePatch", "ninePatch")).let {
+                uri += "?$it"
+            }
+            return uri
+        }
+
+
+    // --
+    // Conversion
+    // --
+
+    val uri: String
+        get() {
+            var uri = "$type://$fullPath"
+            getParameterString().let {
+                uri += "?$it"
+            }
+            return uri
+        }
+
+    val map: Map<String, Any>
+        get() {
+            val map = mutableMapOf<String, Any>(Pair("type", type.toString()), Pair("path", fullPath))
+            map.putAll(parameters)
+            if (otherSources.isNotEmpty()) {
+                map["otherSources"] = otherSources.map { it.map }
+            }
+            return map
+        }
 
 
     // --
@@ -210,6 +250,44 @@ class ImageSource {
         return null
     }
 
+    private fun getParameterString(ignoreParams: List<String> = emptyList(), ignoreOtherSources: Boolean = false): String? {
+        if (parameters.isNotEmpty()) {
+            var parameterString = ""
+            for (key in parameters.keys) {
+                var ignore = false
+                for (ignoreParam in ignoreParams) {
+                    if (key == ignoreParam) {
+                        ignore = true
+                        break
+                    }
+                }
+                val stringValue = Inflators.viewlet.mapUtil.optionalString(parameters, key, null)
+                if (!ignore && stringValue != null) {
+                    if (parameterString.isNotEmpty()) {
+                        parameterString += "&"
+                    }
+                    parameterString += key.urlEncode() + "=" + stringValue.urlEncode()
+                }
+            }
+            if (otherSources.isNotEmpty() && !ignoreOtherSources) {
+                var otherSourceString = ""
+                for (otherSource in otherSources) {
+                    val otherSourceURI = otherSource.uri
+                    if (otherSourceString.isNotEmpty()) {
+                        otherSourceString += ","
+                    }
+                    otherSourceString += otherSourceURI.urlEncode()
+                }
+                if (parameterString.isNotEmpty()) {
+                    parameterString += "&"
+                }
+                parameterString += "otherSources=$otherSourceString"
+            }
+            return parameterString
+        }
+        return null
+    }
+
 
     // --
     // Type enums
@@ -250,6 +328,32 @@ class ImageSource {
 
             fun fromString(string: String?): GenerateType {
                 for (enum in GenerateType.values()) {
+                    if (enum.value == string) {
+                        return enum
+                    }
+                }
+                return Unknown
+            }
+
+        }
+
+    }
+
+
+    // --
+    // Caching enum
+    // --
+
+    enum class Caching(val value: String) {
+
+        Unknown("unknown"),
+        Always("always"),
+        Never("never");
+
+        companion object {
+
+            fun fromString(string: String?): Caching {
+                for (enum in Caching.values()) {
                     if (enum.value == string) {
                         return enum
                     }

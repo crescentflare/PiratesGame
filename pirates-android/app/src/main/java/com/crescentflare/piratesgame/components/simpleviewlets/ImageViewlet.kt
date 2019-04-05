@@ -61,7 +61,7 @@ object ImageViewlet {
     fun applyImageSource(imageView: UniImageView?, source: ImageSource?): Boolean {
         if (imageView != null) {
             if (source != null) {
-                source.onlinePath?.let {
+                source.onlineUri?.let {
                     imageView.colorFilter = null
                     Picasso.get().load(it).into(imageView)
                     return true
