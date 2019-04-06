@@ -19,10 +19,14 @@ import com.crescentflare.piratesgame.infrastructure.inflator.Inflators
 class ImageSource {
 
     // --
-    // Static: factory method
+    // Statics
     // --
 
     companion object {
+
+        // --
+        // Static: factory method
+        // --
 
         fun fromObject(value: Any?): ImageSource? {
             if (value is String) {
@@ -35,6 +39,13 @@ class ImageSource {
             }
             return null
         }
+
+
+        // --
+        // Static: cache
+        // --
+
+        private val cachedDrawables = mutableMapOf<String, Drawable>()
 
     }
 
@@ -143,7 +154,7 @@ class ImageSource {
     val onlineUri: String?
         get() {
             if (type == Type.OnlineImage || type == Type.SecureOnlineImage) {
-                var uri = "$type://$fullPath"
+                var uri = "${type.value}://$fullPath"
                 getParameterString(listOf("caching", "threePatch", "ninePatch"), true).let {
                     uri += "?$it"
                 }
@@ -171,7 +182,7 @@ class ImageSource {
 
     val cacheKey: String
         get() {
-            var uri = "$type://$fullPath"
+            var uri = "${type.value}://$fullPath"
             getParameterString(listOf("caching", "threePatch", "ninePatch")).let {
                 uri += "?$it"
             }
@@ -185,7 +196,7 @@ class ImageSource {
 
     val uri: String
         get() {
-            var uri = "$type://$fullPath"
+            var uri = "${type.value}://$fullPath"
             getParameterString().let {
                 uri += "?$it"
             }
@@ -194,7 +205,7 @@ class ImageSource {
 
     val map: Map<String, Any>
         get() {
-            val map = mutableMapOf<String, Any>(Pair("type", type.toString()), Pair("path", fullPath))
+            val map = mutableMapOf<String, Any>(Pair("type", type.value), Pair("path", fullPath))
             map.putAll(parameters)
             if (otherSources.isNotEmpty()) {
                 map["otherSources"] = otherSources.map { it.map }
@@ -209,6 +220,12 @@ class ImageSource {
 
     fun getDrawable(context: Context): Drawable? {
         var result: Drawable? = null
+        if (caching == Caching.Always) {
+            val cachedDrawable = cachedDrawables.get(cacheKey)
+            if (cachedDrawable != null) {
+                return cachedDrawable
+            }
+        }
         if (type == Type.InternalImage) {
             val resourceId = context.resources.getIdentifier(fullPath, "drawable", context.packageName)
             if (resourceId > 0) {
@@ -234,6 +251,9 @@ class ImageSource {
                 result = generatedImage
             }
         }
+        if (caching == Caching.Always && result != null) {
+            cachedDrawables.put(cacheKey, result)
+        }
         return result
     }
 
@@ -253,7 +273,7 @@ class ImageSource {
     private fun getParameterString(ignoreParams: List<String> = emptyList(), ignoreOtherSources: Boolean = false): String? {
         if (parameters.isNotEmpty()) {
             var parameterString = ""
-            for (key in parameters.keys) {
+            for (key in parameters.keys.sorted()) {
                 var ignore = false
                 for (ignoreParam in ignoreParams) {
                     if (key == ignoreParam) {

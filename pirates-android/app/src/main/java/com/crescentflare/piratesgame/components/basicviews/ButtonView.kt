@@ -109,77 +109,36 @@ class ButtonView : UniButtonView, AppEventLabeledSender {
         // Static: background generators
         // --
 
-        var cachedPrimaryButtonDrawable: Drawable? = null
-        var cachedPrimaryHighlightButtonDrawable: Drawable? = null
-        var cachedSecondaryButtonDrawable: Drawable? = null
-        var cachedSecondaryHighlightButtonDrawable: Drawable? = null
-        var cachedInvertedButtonDrawable: Drawable? = null
-        var cachedInvertedHighlightButtonDrawable: Drawable? = null
-        var cachedDisabledButtonDrawable: Drawable? = null
-        var cachedDisabledInvertedButtonDrawable: Drawable? = null
-
         private fun getPrimaryButtonDrawable(context: Context): Drawable? {
-            if (cachedPrimaryButtonDrawable != null) {
-                return cachedPrimaryButtonDrawable
-            }
-            cachedPrimaryButtonDrawable = generateDrawableForButton(context, "\$secondary", "\$secondaryHighlight")
-            return cachedPrimaryButtonDrawable
+            return generateDrawableForButton(context, "\$secondary", "\$secondaryHighlight")
         }
 
         private fun getPrimaryHighlightButtonDrawable(context: Context): Drawable? {
-            if (cachedPrimaryHighlightButtonDrawable != null) {
-                return cachedPrimaryHighlightButtonDrawable
-            }
-            cachedPrimaryHighlightButtonDrawable = generateDrawableForButton(context, "\$secondaryHighlight")
-            return cachedPrimaryHighlightButtonDrawable
+            return generateDrawableForButton(context, "\$secondaryHighlight")
         }
 
         private fun getSecondaryButtonDrawable(context: Context): Drawable? {
-            if (cachedSecondaryButtonDrawable != null) {
-                return cachedSecondaryButtonDrawable
-            }
-            cachedSecondaryButtonDrawable = generateDrawableForButton(context, "\$primary", "\$primaryHighlight")
-            return cachedSecondaryButtonDrawable
+            return generateDrawableForButton(context, "\$primary", "\$primaryHighlight")
         }
 
         private fun getSecondaryHighlightButtonDrawable(context: Context): Drawable? {
-            if (cachedSecondaryHighlightButtonDrawable != null) {
-                return cachedSecondaryHighlightButtonDrawable
-            }
-            cachedSecondaryHighlightButtonDrawable = generateDrawableForButton(context, "\$primaryHighlight")
-            return cachedSecondaryHighlightButtonDrawable
+            return generateDrawableForButton(context, "\$primaryHighlight")
         }
 
         private fun getInvertedButtonDrawable(context: Context): Drawable? {
-            if (cachedInvertedButtonDrawable != null) {
-                return cachedInvertedButtonDrawable
-            }
-            cachedInvertedButtonDrawable = generateDrawableForButton(context, "\$inverted", "\$invertedHighlight")
-            return cachedInvertedButtonDrawable
+            return generateDrawableForButton(context, "\$inverted", "\$invertedHighlight")
         }
 
         private fun getInvertedHighlightButtonDrawable(context: Context): Drawable? {
-            if (cachedInvertedHighlightButtonDrawable != null) {
-                return cachedInvertedHighlightButtonDrawable
-            }
-            cachedInvertedHighlightButtonDrawable = generateDrawableForButton(context, "\$invertedHighlight")
-            return cachedInvertedHighlightButtonDrawable
+            return generateDrawableForButton(context, "\$invertedHighlight")
         }
 
         private fun getDisabledButtonDrawable(context: Context): Drawable? {
-            if (cachedDisabledButtonDrawable != null) {
-                return cachedDisabledButtonDrawable
-            }
-            cachedDisabledButtonDrawable = generateDrawableForButton(context, "\$disabled", "\$disabledHighlight")
-            return cachedDisabledButtonDrawable
+            return generateDrawableForButton(context, "\$disabled", "\$disabledHighlight")
         }
 
         private fun getDisabledInvertedButtonDrawable(context: Context): Drawable? {
-            if (cachedDisabledInvertedButtonDrawable != null) {
-                return cachedDisabledInvertedButtonDrawable
-            }
-            cachedDisabledInvertedButtonDrawable = generateDrawableForButton(context, "\$disabledInverted", "\$disabledInvertedHighlight")
-            return cachedDisabledInvertedButtonDrawable
+            return generateDrawableForButton(context, "\$disabledInverted", "\$disabledInvertedHighlight")
         }
 
         private fun generateDrawableForButton(context: Context, colorDefinition: String, edgeColorDefinition: String? = null): Drawable? {
@@ -194,6 +153,7 @@ class ButtonView : UniButtonView, AppEventLabeledSender {
                     Pair("imageWidth", 64),
                     Pair("imageHeight", buttonHeight),
                     Pair("color", edgeColorDefinition),
+                    Pair("caching", "always"),
                     Pair("otherSources", listOf(mapOf(
                         Pair("type", "generate"),
                         Pair("name", "filledOval"),
@@ -211,7 +171,8 @@ class ButtonView : UniButtonView, AppEventLabeledSender {
                     Pair("height", buttonHeight * 1.625),
                     Pair("imageWidth", 64),
                     Pair("imageHeight", buttonHeight),
-                    Pair("color", colorDefinition)
+                    Pair("color", colorDefinition),
+                    Pair("caching", "always")
                 )
                 drawable = ImageSource(attributes).getDrawable(context)
             }
