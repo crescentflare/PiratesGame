@@ -170,6 +170,8 @@ class ImageSource {
     // --
     // MARK: Caching
     // --
+    
+    private static var cachedImages = [String: UIImage]()
 
     var caching: ImageSourceCaching {
         get {
@@ -222,6 +224,9 @@ class ImageSource {
 
     func getImage() -> UIImage? {
         var result: UIImage?
+        if caching == .always, let cachedImage = ImageSource.cachedImages[cacheKey] {
+            return cachedImage
+        }
         if type == .internalImage {
             let bundle = Bundle(for: ImageSource.self)
             let path = fullPath
@@ -246,6 +251,9 @@ class ImageSource {
                 result = generatedImage
             }
         }
+        if caching == .always, let imageResult = result {
+            ImageSource.cachedImages[cacheKey] = imageResult
+        }
         return result
     }
     
@@ -268,7 +276,7 @@ class ImageSource {
     private func getParameterString(ignoreParams: [String] = [], ignoreOtherSources: Bool = false) -> String? {
         if parameters.count > 0 {
             var parameterString = ""
-            for key in parameters.keys {
+            for key in parameters.keys.sorted() {
                 var ignore = false
                 for ignoreParam in ignoreParams {
                     if key == ignoreParam {

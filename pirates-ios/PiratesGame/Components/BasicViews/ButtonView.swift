@@ -240,6 +240,7 @@ class ButtonView: UniButtonView, AppEventLabeledSender {
                 "imageWidth": 64,
                 "imageHeight": Float(AppDimensions.buttonHeight),
                 "color": edgeColorDefinition,
+                "caching": "always",
                 "otherSources": [
                     [
                         "type": "generate",
@@ -259,7 +260,8 @@ class ButtonView: UniButtonView, AppEventLabeledSender {
             "height": Float(AppDimensions.buttonHeight) * 1.625,
             "imageWidth": 64,
             "imageHeight": Float(AppDimensions.buttonHeight),
-            "color": colorDefinition
+            "color": colorDefinition,
+            "caching": "always"
         ]
         return ImageSource(dict: attributes).getImage()?.stretchableImage(withLeftCapWidth: 12, topCapHeight: 0)
     }
