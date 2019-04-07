@@ -1,32 +1,24 @@
 package com.crescentflare.piratesgame.page.activities
 
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import com.crescentflare.jsoninflator.binder.InflatorMapBinder
-import com.crescentflare.piratesgame.R
-import com.crescentflare.piratesgame.components.navigationbars.TransparentNavigationBar
-import com.crescentflare.piratesgame.components.containers.FrameContainerView
-import com.crescentflare.piratesgame.components.navigationbars.SolidNavigationBar
-import com.crescentflare.piratesgame.components.utility.ViewletUtil
 import com.crescentflare.piratesgame.infrastructure.appconfig.CustomAppConfigManager
-import com.crescentflare.piratesgame.infrastructure.coreextensions.localized
 import com.crescentflare.piratesgame.infrastructure.events.AppEvent
 import com.crescentflare.piratesgame.infrastructure.events.AppEventObserver
 import com.crescentflare.piratesgame.infrastructure.events.AppEventType
 import com.crescentflare.piratesgame.infrastructure.tools.EventReceiverTool
+import com.crescentflare.piratesgame.page.modules.ControllerModule
 import com.crescentflare.piratesgame.page.modules.shared.AlertModule
-import com.crescentflare.piratesgame.page.modules.splash.SplashLoaderModule
+import com.crescentflare.piratesgame.page.modules.shared.NavigationModule
 import com.crescentflare.piratesgame.page.storage.Page
+import com.crescentflare.piratesgame.page.storage.PageCache
 import com.crescentflare.piratesgame.page.storage.PageLoader
 import com.crescentflare.piratesgame.page.storage.PageLoaderContinuousCompletion
-import com.crescentflare.piratesgame.page.modules.ControllerModule
-import com.crescentflare.piratesgame.page.modules.shared.NavigationModule
-import com.crescentflare.piratesgame.page.storage.PageCache
 
 /**
  * Activity: a game level
  */
-class LevelActivity : ComponentActivity(), AppEventObserver, PageLoaderContinuousCompletion {
+class LevelActivity : NavigationActivity(), AppEventObserver, PageLoaderContinuousCompletion {
 
     // --
     // Members
@@ -35,7 +27,6 @@ class LevelActivity : ComponentActivity(), AppEventObserver, PageLoaderContinuou
     private val pageJson = "level.json"
     private var pageLoader: PageLoader? = null
     private var hotReloadPageUrl = ""
-    private val containerView by lazy { FrameContainerView(this) }
     private var modules = mutableListOf<ControllerModule>()
 
 
@@ -44,21 +35,7 @@ class LevelActivity : ComponentActivity(), AppEventObserver, PageLoaderContinuou
     // --
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Set action bar
         super.onCreate(savedInstanceState)
-        val actionBar = SolidNavigationBar(this)
-        val navigationBar = SolidNavigationBar(this)
-        actionBar.setBackgroundColor(ContextCompat.getColor(this, R.color.primary))
-        actionBar.title = title.toString()
-        actionBarView = actionBar
-        navigationBar.setBackgroundColor(ContextCompat.getColor(this, R.color.primary))
-        navigationBarView = navigationBar
-
-        // Set container
-        containerView.eventObserver = this
-        view = containerView
-
-        // Add modules
         modules.add(AlertModule())
         modules.add(NavigationModule())
         for (module in modules) {
@@ -138,14 +115,7 @@ class LevelActivity : ComponentActivity(), AppEventObserver, PageLoaderContinuou
 
     override fun didUpdatePage(page: Page) {
         val binder = InflatorMapBinder()
-        val inflateLayout = mapOf(
-            Pair("viewlet", "frameContainer"),
-            Pair("width", "stretchToParent"),
-            Pair("height", "stretchToParent"),
-            Pair("recycling", true),
-            Pair("items", listOf(page.layout))
-        )
-        ViewletUtil.assertInflateOn(containerView, inflateLayout, binder)
+        inflateLayout(page.layout, binder)
         for (module in modules) {
             module.onPageUpdated(page, binder)
         }

@@ -11,51 +11,27 @@ import android.view.View
 import android.view.WindowManager
 import com.crescentflare.dynamicappconfig.activity.ManageAppConfigActivity
 import com.crescentflare.dynamicappconfig.manager.AppConfigStorage
+import com.crescentflare.jsoninflator.binder.InflatorBinder
 import com.crescentflare.piratesgame.R
 import com.crescentflare.piratesgame.components.utility.NavigationBarComponent
 import com.crescentflare.piratesgame.infrastructure.events.AppEvent
 import com.crescentflare.piratesgame.infrastructure.events.AppEventObserver
-import com.crescentflare.piratesgame.page.views.ComponentActivityView
+import com.crescentflare.piratesgame.components.containers.NavigationContainerView
+import com.crescentflare.piratesgame.components.utility.ViewletUtil
+import com.crescentflare.piratesgame.infrastructure.inflator.Inflators
 
 /**
  * Page activity: the base class providing an easy way to set up navigation bar components
  */
-abstract class ComponentActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
+abstract class NavigationActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
 
     // --
     // Members
     // --
 
-    var view: View?
-        get() = activityView.contentView
-        set(contentView) {
-            activityView.contentView = contentView
-        }
-
-    var actionBarView: View?
-        get() = activityView.actionBarView
-        set(actionBarView) {
-            activityView.actionBarView = actionBarView
-            updateStatusBar()
-            if (actionBarView != null && AppConfigStorage.instance.isInitialized) {
-                actionBarView.setOnLongClickListener {
-                    ManageAppConfigActivity.startWithResult(this, 0)
-                    true
-                }
-            }
-        }
-
-    var navigationBarView: View?
-        get() = activityView.navigationBarView
-        set(navigationBarView) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { // Ignore on older Android versions
-                activityView.navigationBarView = navigationBarView
-            }
-        }
-
     private val swipeRefreshEvents = mutableListOf<AppEvent>()
     private val swipeRefreshView by lazy { SwipeRefreshLayout(this) }
-    private val activityView by lazy { ComponentActivityView(this) }
+    private val activityView by lazy { NavigationContainerView(this) }
 
 
     // --
@@ -103,6 +79,44 @@ abstract class ComponentActivity : AppCompatActivity(), SwipeRefreshLayout.OnRef
 
 
     // --
+    // Inflation
+    // --
+
+    protected fun inflateLayout(layout: Map<String, Any>?, binder: InflatorBinder) {
+        // First inflate
+        var inflateLayout = (layout ?: emptyMap()).toMutableMap()
+        if (Inflators.viewlet.findInflatableNameInAttributes(layout) != "navigationContainer") {
+            inflateLayout = mutableMapOf(
+                Pair("viewlet", "navigationContainer"),
+                Pair("recycling", true),
+                Pair("content", layout ?: emptyMap()),
+                Pair("topBar", mapOf(
+                    Pair("viewlet", "transparentNavigationBar"),
+                    Pair("width", "stretchToParent")
+                ))
+            )
+        } else if (!inflateLayout.containsKey("topBar")) {
+            inflateLayout["topBar"] = mapOf(
+                Pair("viewlet", "transparentNavigationBar"),
+                Pair("width", "stretchToParent")
+            )
+        }
+        ViewletUtil.assertInflateOn(activityView, inflateLayout, binder)
+        activityView.eventObserver = this as? AppEventObserver
+
+        // Update for possible bar changes
+        val topBarView = activityView.topBarView
+        updateStatusBar()
+        if (topBarView != null && AppConfigStorage.instance.isInitialized) {
+            topBarView.setOnLongClickListener {
+                ManageAppConfigActivity.startWithResult(this, 0)
+                true
+            }
+        }
+    }
+
+
+    // --
     // Handle swipe to refresh
     // --
 
@@ -136,7 +150,7 @@ abstract class ComponentActivity : AppCompatActivity(), SwipeRefreshLayout.OnRef
     // --
 
     private fun updateStatusBar() {
-        val lightStatusIcons = (actionBarView as? NavigationBarComponent)?.lightContent ?: true
+        val lightStatusIcons = (activityView.topBarView as? NavigationBarComponent)?.lightContent ?: true
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val decor = window.decorView
             if (!lightStatusIcons) {

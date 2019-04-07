@@ -6,7 +6,7 @@
 import UIKit
 import JsonInflator
 
-class SplashViewController: ComponentViewController, AppEventObserver, PageLoaderContinuousCompletion {
+class SplashViewController: NavigationViewController, AppEventObserver, PageLoaderContinuousCompletion {
 
     // --
     // MARK: Outlets
@@ -15,7 +15,6 @@ class SplashViewController: ComponentViewController, AppEventObserver, PageLoade
     private let pageJson = "splash.json"
     private var pageLoader: PageLoader?
     private var hotReloadPageUrl = ""
-    private let containerView = FrameContainerView()
     private var modules = [ControllerModule]()
 
 
@@ -24,17 +23,8 @@ class SplashViewController: ComponentViewController, AppEventObserver, PageLoade
     // --
     
     override func viewDidLoad() {
-        // Set navigation bar
+        // Add modules
         super.viewDidLoad()
-        let navigationBar = TransparentNavigationBar()
-        navigationBar.isLightContent = true
-        navigationBarView = navigationBar
-        
-        // Set container
-        contentView = containerView
-        containerView.eventObserver = self
-        
-        // Add module
         modules.append(AlertModule())
         modules.append(NavigationModule())
         modules.append(SplashLoaderModule())
@@ -101,14 +91,7 @@ class SplashViewController: ComponentViewController, AppEventObserver, PageLoade
     
     func didUpdatePage(page: Page) {
         let binder = InflatorDictBinder()
-        let inflateLayout: [String: Any] = [
-            "viewlet": "frameContainer",
-            "width": "stretchToParent",
-            "height": "stretchToParent",
-            "recycling": true,
-            "items": [page.layout]
-        ]
-        ViewletUtil.assertInflateOn(view: containerView, attributes: inflateLayout, binder: binder)
+        inflateLayout(layout: page.layout, binder: binder)
         for module in modules {
             module.didUpdatePage(page: page, binder: binder)
         }

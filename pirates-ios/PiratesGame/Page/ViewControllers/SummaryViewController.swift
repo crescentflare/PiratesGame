@@ -6,7 +6,7 @@
 import UIKit
 import JsonInflator
 
-class SummaryViewController: ComponentViewController, AppEventObserver, PageLoaderContinuousCompletion {
+class SummaryViewController: NavigationViewController, AppEventObserver, PageLoaderContinuousCompletion {
 
     // --
     // MARK: Outlets
@@ -15,7 +15,6 @@ class SummaryViewController: ComponentViewController, AppEventObserver, PageLoad
     private let pageJson = "summary.json"
     private var pageLoader: PageLoader?
     private var hotReloadPageUrl = ""
-    private let containerView = FrameContainerView()
     private var modules = [ControllerModule]()
 
 
@@ -24,18 +23,8 @@ class SummaryViewController: ComponentViewController, AppEventObserver, PageLoad
     // --
     
     override func viewDidLoad() {
-        // Set navigation bar
+        // Add modules
         super.viewDidLoad()
-        let navigationBar = SolidNavigationBar()
-        navigationBar.backgroundColor = AppColors.primary
-        navigationBar.title = "GLOBAL_APP_NAME".localized()
-        navigationBarView = navigationBar
-        
-        // Set container
-        contentView = containerView
-        containerView.eventObserver = self
-        
-        // Add module
         modules.append(AlertModule())
         modules.append(NavigationModule())
         for module in modules {
@@ -101,14 +90,7 @@ class SummaryViewController: ComponentViewController, AppEventObserver, PageLoad
     
     func didUpdatePage(page: Page) {
         let binder = InflatorDictBinder()
-        let inflateLayout: [String: Any] = [
-            "viewlet": "frameContainer",
-            "width": "stretchToParent",
-            "height": "stretchToParent",
-            "recycling": true,
-            "items": [page.layout]
-        ]
-        ViewletUtil.assertInflateOn(view: containerView, attributes: inflateLayout, binder: binder)
+        inflateLayout(layout: page.layout, binder: binder)
         for module in modules {
             module.didUpdatePage(page: page, binder: binder)
         }

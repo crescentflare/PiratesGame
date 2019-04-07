@@ -2,27 +2,24 @@ package com.crescentflare.piratesgame.page.activities
 
 import android.os.Bundle
 import com.crescentflare.jsoninflator.binder.InflatorMapBinder
-import com.crescentflare.piratesgame.components.navigationbars.TransparentNavigationBar
-import com.crescentflare.piratesgame.components.containers.FrameContainerView
-import com.crescentflare.piratesgame.components.utility.ViewletUtil
 import com.crescentflare.piratesgame.infrastructure.appconfig.CustomAppConfigManager
 import com.crescentflare.piratesgame.infrastructure.events.AppEvent
 import com.crescentflare.piratesgame.infrastructure.events.AppEventObserver
 import com.crescentflare.piratesgame.infrastructure.events.AppEventType
 import com.crescentflare.piratesgame.infrastructure.tools.EventReceiverTool
+import com.crescentflare.piratesgame.page.modules.ControllerModule
 import com.crescentflare.piratesgame.page.modules.shared.AlertModule
+import com.crescentflare.piratesgame.page.modules.shared.NavigationModule
 import com.crescentflare.piratesgame.page.modules.splash.SplashLoaderModule
 import com.crescentflare.piratesgame.page.storage.Page
+import com.crescentflare.piratesgame.page.storage.PageCache
 import com.crescentflare.piratesgame.page.storage.PageLoader
 import com.crescentflare.piratesgame.page.storage.PageLoaderContinuousCompletion
-import com.crescentflare.piratesgame.page.modules.ControllerModule
-import com.crescentflare.piratesgame.page.modules.shared.NavigationModule
-import com.crescentflare.piratesgame.page.storage.PageCache
 
 /**
  * Activity: the splash screen, loading assets
  */
-class SplashActivity : ComponentActivity(), AppEventObserver, PageLoaderContinuousCompletion {
+class SplashActivity : NavigationActivity(), AppEventObserver, PageLoaderContinuousCompletion {
 
     // --
     // Members
@@ -31,7 +28,6 @@ class SplashActivity : ComponentActivity(), AppEventObserver, PageLoaderContinuo
     private val pageJson = "splash.json"
     private var pageLoader: PageLoader? = null
     private var hotReloadPageUrl = ""
-    private val containerView by lazy { FrameContainerView(this) }
     private var modules = mutableListOf<ControllerModule>()
 
 
@@ -40,18 +36,7 @@ class SplashActivity : ComponentActivity(), AppEventObserver, PageLoaderContinuo
     // --
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Set action bar
         super.onCreate(savedInstanceState)
-        val actionBar = TransparentNavigationBar(this)
-        actionBar.lightContent = true
-        actionBarView = actionBar
-        navigationBarView = TransparentNavigationBar(this)
-
-        // Set container
-        containerView.eventObserver = this
-        view = containerView
-
-        // Add modules
         modules.add(AlertModule())
         modules.add(NavigationModule())
         modules.add(SplashLoaderModule())
@@ -132,14 +117,7 @@ class SplashActivity : ComponentActivity(), AppEventObserver, PageLoaderContinuo
 
     override fun didUpdatePage(page: Page) {
         val binder = InflatorMapBinder()
-        val inflateLayout = mapOf(
-            Pair("viewlet", "frameContainer"),
-            Pair("width", "stretchToParent"),
-            Pair("height", "stretchToParent"),
-            Pair("recycling", true),
-            Pair("items", listOf(page.layout))
-        )
-        ViewletUtil.assertInflateOn(containerView, inflateLayout, binder)
+        inflateLayout(page.layout, binder)
         for (module in modules) {
             module.onPageUpdated(page, binder)
         }

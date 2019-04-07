@@ -1,22 +1,37 @@
 {
   "dataSets": {
     "layout": {
-      "viewlet": "level",
+      "viewlet": "navigationContainer",
       "width": "stretchToParent",
       "height": "stretchToParent",
-      "backgroundColor": "#63a6c7",
-      "tileMap": [
-        " #  #",
-        "   E ",
-        "# ###",
-        "    #",
-        "# # #",
-        " P   ",
-        "## ##",
-        " # # "
-      ],
-      "waveSpawnInterval": 0.2,
-      "tapEvent": "navigate://back"
+      "recycling": true,
+      "topBar": {
+        "viewlet": "solidNavigationBar",
+        "backgroundColor": "$primary",
+        "localizedTitle": "GLOBAL_APP_NAME"
+      },
+      "bottomBar": {
+        "viewlet": "solidNavigationBar",
+        "backgroundColor": "$primary"
+      },
+      "content": {
+        "viewlet": "level",
+        "width": "stretchToParent",
+        "height": "stretchToParent",
+        "backgroundColor": "#63a6c7",
+        "tileMap": [
+          " #  #",
+          "   E ",
+          "# ###",
+          "    #",
+          "# # #",
+          " P   ",
+          "## ##",
+          " # # "
+        ],
+        "waveSpawnInterval": 0.2,
+        "tapEvent": "navigate://back"
+      }
     }
   }
 }

@@ -6,7 +6,7 @@ import android.os.Build
 import android.util.AttributeSet
 import android.view.View
 import com.crescentflare.piratesgame.components.utility.ViewletUtil
-import com.crescentflare.piratesgame.page.views.ComponentActivityView
+import com.crescentflare.piratesgame.components.containers.NavigationContainerView
 import com.crescentflare.unilayout.views.UniView
 import com.crescentflare.jsoninflator.JsonInflatable
 import com.crescentflare.jsoninflator.binder.InflatorBinder
@@ -97,9 +97,9 @@ class SpacerViewlet : UniView {
 
         // Apply sizes taken from standard controls
         if (takeHeight == TakeSize.TopSafeArea) {
-            height += getComponentView()?.safeInsets?.top ?: 0
+            height += getNavigationContainerView()?.safeInsets?.top ?: 0
         } else if (takeHeight == TakeSize.BottomSafeArea) {
-            height += getComponentView()?.safeInsets?.bottom ?: 0
+            height += getNavigationContainerView()?.safeInsets?.bottom ?: 0
         }
 
         // Apply limits and return result
@@ -121,13 +121,13 @@ class SpacerViewlet : UniView {
     // Helper
     // --
 
-    private fun getComponentView(): ComponentActivityView? {
+    private fun getNavigationContainerView(): NavigationContainerView? {
         var checkParent: View? = this
         for (i in 1..32) { // Maximum of 32 iterations
             if (checkParent == null) {
                 return null
             }
-            if (checkParent is ComponentActivityView) {
+            if (checkParent is NavigationContainerView) {
                 return checkParent
             }
             checkParent = checkParent.parent as? View

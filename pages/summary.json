@@ -1,44 +1,59 @@
 {
   "dataSets": {
     "layout": {
-      "viewlet": "frameContainer",
+      "viewlet": "navigationContainer",
       "width": "stretchToParent",
       "height": "stretchToParent",
-      "backgroundColor": "#ffffff",
       "recycling": true,
-      "items": [
-        {
-          "viewlet": "scrollContainer",
-          "width": "stretchToParent",
-          "height": "stretchToParent",
-          "fillContent": true,
-          "recycling": true,
-          "item": {
-            "viewlet": "linearContainer",
+      "topBar": {
+        "viewlet": "solidNavigationBar",
+        "backgroundColor": "$primary",
+        "localizedTitle": "GLOBAL_APP_NAME"
+      },
+      "bottomBar": {
+        "viewlet": "solidNavigationBar",
+        "backgroundColor": "$primary"
+      },
+      "content": {
+        "viewlet": "frameContainer",
+        "width": "stretchToParent",
+        "height": "stretchToParent",
+        "backgroundColor": "#ffffff",
+        "recycling": true,
+        "items": [
+          {
+            "viewlet": "scrollContainer",
             "width": "stretchToParent",
-            "padding": [ 16, 16, 16, 16 ],
+            "height": "stretchToParent",
+            "fillContent": true,
             "recycling": true,
-            "items": [
-              {
-                "viewlet": "text",
-                "width": "stretchToParent",
-                "text": "TODO: this screen will contain a summary of the player's state.\n\nTest a level tilemap with water animation below"
-              },
-              {
-                "viewlet": "button",
-                "width": "stretchToParent",
-                "marginSpacing": 16,
-                "text": "Level test",
-                "tapEvent": "navigate://level?type=present"
-              },
-              {
-                "viewlet": "spacer",
-                "takeHeight": "bottomSafeArea"
-              }
-            ]
+            "item": {
+              "viewlet": "linearContainer",
+              "width": "stretchToParent",
+              "padding": [ 16, 16, 16, 16 ],
+              "recycling": true,
+              "items": [
+                {
+                  "viewlet": "text",
+                  "width": "stretchToParent",
+                  "text": "TODO: this screen will contain a summary of the player's state.\n\nTest a level tilemap with water animation below"
+                },
+                {
+                  "viewlet": "button",
+                  "width": "stretchToParent",
+                  "marginSpacing": 16,
+                  "text": "Level test",
+                  "tapEvent": "navigate://level?type=present"
+                },
+                {
+                  "viewlet": "spacer",
+                  "takeHeight": "bottomSafeArea"
+                }
+              ]
+            }
           }
-        }
-      ]
+        ]
+      }
     }
   }
 }

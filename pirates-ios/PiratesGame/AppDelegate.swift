@@ -92,16 +92,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Inflators.viewlet.register(name: "publisherLogo", inflatable: PublisherLogo.viewlet())
         
         // Containers
-        Inflators.viewlet.register(name: "scrollContainer", inflatable: ScrollContainerView.viewlet())
         Inflators.viewlet.register(name: "frameContainer", inflatable: FrameContainerView.viewlet())
         Inflators.viewlet.register(name: "linearContainer", inflatable: LinearContainerView.viewlet())
+        Inflators.viewlet.register(name: "navigationContainer", inflatable: NavigationContainerView.viewlet())
+        Inflators.viewlet.register(name: "scrollContainer", inflatable: ScrollContainerView.viewlet())
         
         // Game views
         Inflators.viewlet.register(name: "level", inflatable: LevelView.viewlet())
         
         // Navigation bars
-        Inflators.viewlet.register(name: "transparentNavigationBar", inflatable: TransparentNavigationBar.viewlet())
         Inflators.viewlet.register(name: "solidNavigationBar", inflatable: SolidNavigationBar.viewlet())
+        Inflators.viewlet.register(name: "transparentNavigationBar", inflatable: TransparentNavigationBar.viewlet())
 
         // Simple viewlets
         Inflators.viewlet.register(name: "image", inflatable: ImageViewlet.viewlet())

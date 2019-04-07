@@ -1,58 +1,74 @@
 {
   "dataSets": {
     "layout": {
-      "viewlet": "frameContainer",
+      "viewlet": "navigationContainer",
       "width": "stretchToParent",
       "height": "stretchToParent",
       "backgroundColor": "#000000",
-      "recycling": true,
-      "items": [
-        {
-          "viewlet": "splashAnimation",
-          "width": "stretchToParent",
-          "height": "stretchToParent",
-          "gradientColor": "#0000a0",
-          "backgroundImage": "app://background_loading",
-          "autoAnimation": true,
-          "on": true,
-          "setOnEvent": "splashLoader://start"
-        },
-        {
-          "viewlet": "linearContainer",
-          "width": "stretchToParent",
-          "gravity": "bottom",
-          "recycling": true,
-          "items": [
-            {
-              "refId": "loadingBar",
-              "viewlet": "splashLoadingBar",
-              "width": "stretchToParent",
-              "maxWidth": "$splashMaxWidth",
-              "margin": [ "$splashMargin", 0, "$splashMargin", 0 ],
-              "gravity": "center",
-              "visibility": "hidden",
-              "autoAnimation": true,
-              "progress": 0
-            },
-            {
-              "refId": "loadingText",
-              "viewlet": "text",
-              "width": "stretchToParent",
-              "maxWidth": "$splashMaxWidth",
-              "padding": [ "$splashMargin", 4, "$splashMargin", 10 ],
-              "gravity": "center",
-              "localizedText": "SPLASH_LOADING_TEXT",
-              "textColor": "$textInverted",
-              "textAlignment": "center",
-              "visibility": "hidden"
-            },
-            {
-              "viewlet": "spacer",
-              "takeHeight": "bottomSafeArea"
-            }
-          ]
-        }
-      ]
+      "recycling": "true",
+      "topBar": {
+        "viewlet": "transparentNavigationBar",
+        "width": "stretchToParent",
+        "lightContent": true
+      },
+      "bottomBar": {
+        "viewlet": "transparentNavigationBar",
+        "width": "stretchToParent"
+      },
+      "content": {
+        "viewlet": "frameContainer",
+        "width": "stretchToParent",
+        "height": "stretchToParent",
+        "backgroundColor": "#000000",
+        "recycling": true,
+        "items": [
+          {
+            "viewlet": "splashAnimation",
+            "width": "stretchToParent",
+            "height": "stretchToParent",
+            "gradientColor": "#0000a0",
+            "backgroundImage": "app://background_loading",
+            "autoAnimation": true,
+            "on": true,
+            "setOnEvent": "splashLoader://start"
+          },
+          {
+            "viewlet": "linearContainer",
+            "width": "stretchToParent",
+            "gravity": "bottom",
+            "recycling": true,
+            "items": [
+              {
+                "refId": "loadingBar",
+                "viewlet": "splashLoadingBar",
+                "width": "stretchToParent",
+                "maxWidth": "$splashMaxWidth",
+                "margin": [ "$splashMargin", 0, "$splashMargin", 0 ],
+                "gravity": "center",
+                "visibility": "hidden",
+                "autoAnimation": true,
+                "progress": 0
+              },
+              {
+                "refId": "loadingText",
+                "viewlet": "text",
+                "width": "stretchToParent",
+                "maxWidth": "$splashMaxWidth",
+                "padding": [ "$splashMargin", 4, "$splashMargin", 10 ],
+                "gravity": "center",
+                "localizedText": "SPLASH_LOADING_TEXT",
+                "textColor": "$textInverted",
+                "textAlignment": "center",
+                "visibility": "hidden"
+              },
+              {
+                "viewlet": "spacer",
+                "takeHeight": "bottomSafeArea"
+              }
+            ]
+          }
+        ]
+      }
     }
   }
 }

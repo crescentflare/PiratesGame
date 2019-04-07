@@ -57,7 +57,7 @@ class ScrollContainerView : UniVerticalScrollContainer, AppEventObserver {
                         // Set content view
                         val result = Inflators.viewlet.inflate(obj.context, item, obj, binder)
                         if (result is View && item != null) {
-                            obj.addView(result)
+                            obj.contentView = result
                             ViewletUtil.applyLayoutAttributes(mapUtil, result, item)
                             ViewletUtil.bindRef(mapUtil, result, item, binder)
                         }
