@@ -33,6 +33,12 @@ class SolidNavigationBar: FrameContainerView, NavigationBarComponent {
         }
     }
     
+    override var padding: UIEdgeInsets {
+        didSet {
+            super.padding = UIEdgeInsets(top: statusBarInset, left: padding.left, bottom: padding.bottom, right: padding.right)
+        }
+    }
+    
 
     // --
     // MARK: Viewlet integration
