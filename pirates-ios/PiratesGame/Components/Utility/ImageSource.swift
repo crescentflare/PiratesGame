@@ -103,8 +103,9 @@ class ImageSource {
     }
     
     init(dict: [String: Any]) {
-        type = ImageSourceType(rawValue: Inflators.viewlet.convUtil.asString(value: dict["type"]) ?? "unknown") ?? .unknown
-        if let path = Inflators.viewlet.convUtil.asString(value: dict["path"]) ?? Inflators.viewlet.convUtil.asString(value: dict["name"]) {
+        let convUtil = Inflators.viewlet.convUtil
+        type = ImageSourceType(rawValue: convUtil.asString(value: dict["type"]) ?? "unknown") ?? .unknown
+        if let path = convUtil.asString(value: dict["path"]) ?? convUtil.asString(value: dict["name"]) {
             pathComponents = path.split(separator: "/").map(String.init)
         }
         if let otherSources = dict["otherSources"] as? [Any] {
@@ -135,7 +136,7 @@ class ImageSource {
     var onlineUri: String? {
         get {
             if type == .onlineImage || type == .secureOnlineImage {
-                var uri = "\(type)://\(fullPath)"
+                var uri = "\(type.rawValue)://\(fullPath)"
                 if let paramString = getParameterString(ignoreParams: ["caching", "threePatch", "ninePatch"], ignoreOtherSources: true) {
                     uri += "?" + paramString
                 }
@@ -181,7 +182,7 @@ class ImageSource {
     
     var cacheKey: String {
         get {
-            var uri = "\(type)://\(fullPath)"
+            var uri = "\(type.rawValue)://\(fullPath)"
             if let paramString = getParameterString(ignoreParams: ["caching", "threePatch", "ninePatch"]) {
                 uri += "?" + paramString
             }
@@ -196,7 +197,7 @@ class ImageSource {
 
     var uri: String {
         get {
-            var uri = "\(type)://\(fullPath)"
+            var uri = "\(type.rawValue)://\(fullPath)"
             if let paramString = getParameterString() {
                 uri += "?" + paramString
             }
