@@ -103,16 +103,10 @@ class NavigationModule: ControllerModule {
             // Determine which view controller to navigate to
             var openViewController: UIViewController?
             switch event.fullPath {
-            case "splash":
-                openViewController = SplashViewController()
-            case "summary":
-                openViewController = SummaryViewController()
-            case "level":
-                openViewController = LevelViewController()
             default:
-                break
+                openViewController = PageViewController(pageJson: "\(event.fullPath).json")
             }
-            
+
             // Handle navigation
             if let openViewController = openViewController {
                 let navigationType = NavigationType(rawValue: event.parameters["type"] ?? "") ?? .push

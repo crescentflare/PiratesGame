@@ -1,24 +1,38 @@
 //
-//  LevelViewController.swift
-//  View controller: a game level
+//  PageViewController.swift
+//  View controller: a generic view controller that can be used together with json inflation
 //
 
 import UIKit
 import JsonInflator
 
-class LevelViewController: NavigationViewController, AppEventObserver, PageLoaderContinuousCompletion {
+class PageViewController: NavigationViewController, AppEventObserver, PageLoaderContinuousCompletion {
 
     // --
     // MARK: Outlets
     // --
     
-    private let pageJson = "level.json"
+    private let pageJson: String
     private var pageLoader: PageLoader?
     private var hotReloadPageUrl = ""
     private var modules = [ControllerModule]()
     private var isResumed = false
 
 
+    // --
+    // MARK: Initialization
+    // --
+
+    init(pageJson: String) {
+        self.pageJson = pageJson
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
     // --
     // MARK: Lifecycle
     // --
