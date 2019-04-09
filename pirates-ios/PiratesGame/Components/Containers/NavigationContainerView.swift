@@ -71,7 +71,7 @@ class NavigationContainerView: UIView, AppEventObserver {
                     // First empty content
                     navigationContainer.topBarView = nil
                     
-                    // Set content item
+                    // Set bar item
                     if let item = topBarItem {
                         if let view = Inflators.viewlet.inflate(attributes: item, parent: navigationContainer, binder: binder) as? UIView {
                             navigationContainer.topBarView = view
@@ -80,7 +80,31 @@ class NavigationContainerView: UIView, AppEventObserver {
                         }
                     }
                 }
-
+                
+                // Update bottom bar
+                let bottomBarItem = Inflators.viewlet.attributesForNestedInflatable(attributes["bottomBar"])
+                if recycling && Inflators.viewlet.canRecycle(object: navigationContainer.bottomBarView, attributes: contentItem) {
+                    if let item = bottomBarItem {
+                        if let view = navigationContainer.bottomBarView {
+                            Inflators.viewlet.inflate(onObject: view, attributes: item, binder: binder)
+                            ViewletUtil.applyLayoutAttributes(convUtil: convUtil, view: view, attributes: item)
+                            ViewletUtil.bindRef(view: view, attributes: item, binder: binder)
+                        }
+                    }
+                } else {
+                    // First empty content
+                    navigationContainer.bottomBarView = nil
+                    
+                    // Set bar item
+                    if let item = bottomBarItem {
+                        if let view = Inflators.viewlet.inflate(attributes: item, parent: navigationContainer, binder: binder) as? UIView {
+                            navigationContainer.bottomBarView = view
+                            ViewletUtil.applyLayoutAttributes(convUtil: convUtil, view: view, attributes: item)
+                            ViewletUtil.bindRef(view: view, attributes: item, binder: binder)
+                        }
+                    }
+                }
+                
                 // Generic view properties
                 ViewletUtil.applyGenericViewAttributes(convUtil: convUtil, view: navigationContainer, attributes: attributes)
                 
@@ -137,38 +161,53 @@ class NavigationContainerView: UIView, AppEventObserver {
         }
     }
     
-
+    var bottomBarView: UIView? {
+        didSet {
+            oldValue?.removeFromSuperview()
+            if let bottomBarView = bottomBarView {
+                addSubview(bottomBarView)
+            }
+        }
+    }
+    
+    
     // --
     // MARK: Interaction
     // --
-
+    
     func observedEvent(_ event: AppEvent, sender: Any?) {
         eventObserver?.observedEvent(event, sender: sender)
     }
-
+    
     
     // --
     // MARK: Custom layout
     // --
-
+    
     override func layoutSubviews() {
-        var reducedHeight: CGFloat = 0
+        var topInset: CGFloat = 0
+        var bottomInset: CGFloat = 0
         if let topBarView = topBarView {
             let barHeight = topBarHeight()
             (topBarView as? NavigationBarComponent)?.statusBarInset = min(UIApplication.shared.statusBarFrame.width, UIApplication.shared.statusBarFrame.height)
             UniLayout.setFrame(view: topBarView, frame: CGRect(x: 0, y: 0, width: bounds.width, height: barHeight))
-            reducedHeight = (topBarView as? NavigationBarComponent)?.isTranslucent ?? false ? 0 : barHeight
+            topInset = (topBarView as? NavigationBarComponent)?.isTranslucent ?? false ? 0 : barHeight
+        }
+        if let bottomBarView = bottomBarView {
+            let barHeight = bottomBarHeight()
+            UniLayout.setFrame(view: bottomBarView, frame: CGRect(x: 0, y: bounds.height - barHeight, width: bounds.width, height: barHeight))
+            bottomInset = (bottomBarView as? NavigationBarComponent)?.isTranslucent ?? false ? 0 : barHeight
         }
         if let contentView = contentView {
-            UniLayout.setFrame(view: contentView, frame: CGRect(x: 0, y: reducedHeight, width: bounds.width, height: bounds.height - reducedHeight))
+            UniLayout.setFrame(view: contentView, frame: CGRect(x: 0, y: topInset, width: bounds.width, height: bounds.height - topInset - bottomInset))
         }
     }
-
-
+    
+    
     // --
     // MARK: Helper
     // --
-
+    
     func topBarHeight() -> CGFloat {
         var height: CGFloat = 0
         height += min(UIApplication.shared.statusBarFrame.width, UIApplication.shared.statusBarFrame.height)
@@ -177,6 +216,13 @@ class NavigationContainerView: UIView, AppEventObserver {
             height += navigationController.navigationBar.frame.height
         }
         return height
+    }
+    
+    func bottomBarHeight() -> CGFloat {
+        if #available(iOS 11.0, *) {
+            return safeAreaInsets.bottom
+        }
+        return 0
     }
     
 }
