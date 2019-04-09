@@ -17,6 +17,31 @@ class AlertModule: ControllerModule {
 
     
     // --
+    // MARK: Inflator integration
+    // --
+    
+    class func inflatable() -> JsonInflatable {
+        return InflatorClass()
+    }
+    
+    private class InflatorClass: JsonInflatable {
+        
+        func create() -> Any {
+            return AlertModule()
+        }
+        
+        func update(convUtil: InflatorConvUtil, object: Any, attributes: [String: Any], parent: Any?, binder: InflatorBinder?) -> Bool {
+            return object is AlertModule
+        }
+        
+        func canRecycle(convUtil: InflatorConvUtil, object: Any, attributes: [String: Any]) -> Bool {
+            return object is AlertModule
+        }
+        
+    }
+
+
+    // --
     // MARK: Initialization
     // --
     
@@ -24,11 +49,24 @@ class AlertModule: ControllerModule {
         // No implementation
     }
 
+
+    // --
+    // MARK: Lifecycle
+    // --
+
     func didCreate(viewController: UIViewController) {
         self.viewController = viewController
     }
     
+    func didPause() {
+        // No implementation
+    }
+    
+    func didResume() {
+        // No implementation
+    }
 
+    
     // --
     // MARK: Page updates
     // --

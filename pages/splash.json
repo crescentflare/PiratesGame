@@ -1,4 +1,15 @@
 {
+  "modules": [
+    {
+      "module": "alert"
+    },
+    {
+      "module": "navigation"
+    },
+    {
+      "module": "splashLoader"
+    }
+  ],
   "dataSets": {
     "layout": {
       "viewlet": "navigationContainer",

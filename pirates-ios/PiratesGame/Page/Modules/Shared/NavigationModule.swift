@@ -25,6 +25,31 @@ class NavigationModule: ControllerModule {
 
     
     // --
+    // MARK: Inflator integration
+    // --
+    
+    class func inflatable() -> JsonInflatable {
+        return InflatorClass()
+    }
+    
+    private class InflatorClass: JsonInflatable {
+        
+        func create() -> Any {
+            return NavigationModule()
+        }
+        
+        func update(convUtil: InflatorConvUtil, object: Any, attributes: [String: Any], parent: Any?, binder: InflatorBinder?) -> Bool {
+            return object is NavigationModule
+        }
+        
+        func canRecycle(convUtil: InflatorConvUtil, object: Any, attributes: [String: Any]) -> Bool {
+            return object is NavigationModule
+        }
+        
+    }
+    
+    
+    // --
     // MARK: Initialization
     // --
     
@@ -32,10 +57,23 @@ class NavigationModule: ControllerModule {
         // No implementation
     }
 
+
+    // --
+    // MARK: Lifecycle
+    // --
+    
     func didCreate(viewController: UIViewController) {
         self.viewController = viewController
     }
     
+    func didPause() {
+        // No implementation
+    }
+    
+    func didResume() {
+        // No implementation
+    }
+
 
     // --
     // MARK: Page updates

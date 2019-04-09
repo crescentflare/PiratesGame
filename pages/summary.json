@@ -1,4 +1,12 @@
 {
+  "modules": [
+    {
+      "module": "alert"
+    },
+    {
+      "module": "navigation"
+    }
+  ],
   "dataSets": {
     "layout": {
       "viewlet": "navigationContainer",

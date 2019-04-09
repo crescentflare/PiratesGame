@@ -44,12 +44,42 @@ class SplashLoaderModule: ControllerModule {
 
     
     // --
+    // MARK: Inflator integration
+    // --
+    
+    class func inflatable() -> JsonInflatable {
+        return InflatorClass()
+    }
+    
+    private class InflatorClass: JsonInflatable {
+        
+        func create() -> Any {
+            return SplashLoaderModule()
+        }
+        
+        func update(convUtil: InflatorConvUtil, object: Any, attributes: [String: Any], parent: Any?, binder: InflatorBinder?) -> Bool {
+            return object is SplashLoaderModule
+        }
+        
+        func canRecycle(convUtil: InflatorConvUtil, object: Any, attributes: [String: Any]) -> Bool {
+            return object is SplashLoaderModule
+        }
+        
+    }
+
+
+    // --
     // MARK: Initialization
     // --
     
     init() {
         // No implementation
     }
+
+
+    // --
+    // MARK: Lifecycle
+    // --
 
     func didCreate(viewController: UIViewController) {
         // Keep reference to the view controller
@@ -61,7 +91,15 @@ class SplashLoaderModule: ControllerModule {
         }))
     }
     
+    func didPause() {
+        // No implementation
+    }
+    
+    func didResume() {
+        // No implementation
+    }
 
+    
     // --
     // MARK: Page updates
     // --

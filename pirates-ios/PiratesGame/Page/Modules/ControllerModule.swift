@@ -11,6 +11,8 @@ protocol ControllerModule: class {
     var eventType: String { get }
     
     func didCreate(viewController: UIViewController)
+    func didPause()
+    func didResume()
     func didUpdatePage(page: Page, binder: InflatorDictBinder)
     func catchEvent(_ event: AppEvent, sender: Any?) -> Bool
 

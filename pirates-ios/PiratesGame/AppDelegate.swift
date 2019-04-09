@@ -30,7 +30,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             updateConfigurationValues()
         #endif
 
-        // Component registration
+        // Configure framework
+        registerModules()
         registerViewlets()
         
         // Launch view controller
@@ -67,8 +68,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     // --
-    // MARK: Viewlet registration
+    // MARK: Inflatable registration
     // --
+    
+    func registerModules() {
+        // Enable platform specific attributes
+        Inflators.viewlet.setMergeSubAttributes(["ios"])
+        Inflators.viewlet.setExcludeAttributes(["android"])
+        
+        // Modules
+        Inflators.module.register(name: "alert", inflatable: AlertModule.inflatable())
+        Inflators.module.register(name: "navigation", inflatable: NavigationModule.inflatable())
+        Inflators.module.register(name: "splashLoader", inflatable: SplashLoaderModule.inflatable())
+    }
 
     func registerViewlets() {
         // Enable platform specific attributes
