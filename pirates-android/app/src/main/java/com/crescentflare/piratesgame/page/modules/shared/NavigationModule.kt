@@ -8,9 +8,7 @@ import com.crescentflare.jsoninflator.binder.InflatorBinder
 import com.crescentflare.jsoninflator.binder.InflatorMapBinder
 import com.crescentflare.jsoninflator.utility.InflatorMapUtil
 import com.crescentflare.piratesgame.infrastructure.events.AppEvent
-import com.crescentflare.piratesgame.page.activities.LevelActivity
-import com.crescentflare.piratesgame.page.activities.SplashActivity
-import com.crescentflare.piratesgame.page.activities.SummaryActivity
+import com.crescentflare.piratesgame.page.activities.PageActivity
 import com.crescentflare.piratesgame.page.modules.ControllerModule
 import com.crescentflare.piratesgame.page.storage.Page
 import java.lang.ref.WeakReference
@@ -96,22 +94,19 @@ class NavigationModule: ControllerModule {
                 }
 
                 // Determine which activity to navigate to
-                val openActivityClass = when(event.fullPath) {
-                    "splash" -> SplashActivity::class.java
-                    "summary" -> SummaryActivity::class.java
-                    "level" -> LevelActivity::class.java
-                    else -> null
+                val openIntent: Intent? = when(event.fullPath) {
+                    else -> PageActivity.newInstance(context, "${event.fullPath}.json")
                 }
 
                 // Handle navigation
-                if (openActivityClass != null) {
+                if (openIntent != null) {
                     val navigationType = NavigationType.fromString(event.parameters["type"])
                     when (navigationType) {
                         NavigationType.Push -> {
-                            context.startActivity(Intent(context, openActivityClass))
+                            context.startActivity(openIntent)
                         }
                         NavigationType.Replace -> {
-                            context.startActivity(Intent(context, openActivityClass))
+                            context.startActivity(openIntent)
                             context.finish()
                         }
                     }

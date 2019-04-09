@@ -1,5 +1,7 @@
 package com.crescentflare.piratesgame.page.activities
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import com.crescentflare.jsoninflator.binder.InflatorMapBinder
 import com.crescentflare.piratesgame.infrastructure.appconfig.CustomAppConfigManager
@@ -9,27 +11,52 @@ import com.crescentflare.piratesgame.infrastructure.events.AppEventType
 import com.crescentflare.piratesgame.infrastructure.inflator.Inflators
 import com.crescentflare.piratesgame.infrastructure.tools.EventReceiverTool
 import com.crescentflare.piratesgame.page.modules.ControllerModule
-import com.crescentflare.piratesgame.page.modules.shared.AlertModule
-import com.crescentflare.piratesgame.page.modules.shared.NavigationModule
 import com.crescentflare.piratesgame.page.storage.Page
 import com.crescentflare.piratesgame.page.storage.PageCache
 import com.crescentflare.piratesgame.page.storage.PageLoader
 import com.crescentflare.piratesgame.page.storage.PageLoaderContinuousCompletion
 
 /**
- * Activity: the main screen showing the summary of the player state
+ * Page activity: a generic activity that can be used together with json inflation
  */
-class SummaryActivity : NavigationActivity(), AppEventObserver, PageLoaderContinuousCompletion {
+class PageActivity : NavigationActivity(), AppEventObserver, PageLoaderContinuousCompletion {
+
+    // --
+    // Statics: new instance
+    // --
+
+    companion object {
+
+        val pageParam = "page"
+
+        fun newInstance(context: Context, pageJson: String): Intent {
+            val intent = Intent(context, PageActivity::class.java)
+            intent.putExtra(pageParam, pageJson)
+            return intent
+        }
+
+    }
+
 
     // --
     // Members
     // --
 
-    private val pageJson = "summary.json"
+    private var pageJson = "splash.json" // Default, when launching the app
     private var pageLoader: PageLoader? = null
     private var hotReloadPageUrl = ""
     private var modules = mutableListOf<ControllerModule>()
     private var isResumed = false
+
+
+    // --
+    // Initialization
+    // --
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        pageJson = intent.getStringExtra(pageParam) ?: pageJson
+    }
 
 
     // --

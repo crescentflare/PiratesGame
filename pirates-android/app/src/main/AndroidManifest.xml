@@ -14,25 +14,14 @@
         android:theme="@style/AppTheme.NoActionBar">
 
         <activity
-            android:name=".page.activities.SplashActivity"
+            android:name=".page.activities.PageActivity"
             android:label="@string/global_app_name"
-            android:configChanges="orientation|screenSize"
-            android:theme="@style/AppTheme.Fullscreen">
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
-        <activity
-                android:name=".page.activities.SummaryActivity"
-                android:label="@string/global_app_name"
-                android:configChanges="orientation|screenSize"/>
-
-        <activity
-                android:name=".page.activities.LevelActivity"
-                android:label="@string/global_app_name"
-                android:configChanges="orientation|screenSize"/>
 
         <activity android:name="com.crescentflare.dynamicappconfig.activity.ManageAppConfigActivity"/>
         <activity android:name="com.crescentflare.dynamicappconfig.activity.EditAppConfigActivity"/>
