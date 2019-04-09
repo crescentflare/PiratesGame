@@ -13,6 +13,8 @@ interface ControllerModule {
     val eventType: String
 
     fun onCreate(context: Context)
+    fun onResume()
+    fun onPause()
     fun onPageUpdated(page: Page, binder: InflatorMapBinder)
     fun catchEvent(event: AppEvent, sender: Any?): Boolean
 

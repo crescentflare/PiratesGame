@@ -6,6 +6,7 @@ import com.crescentflare.piratesgame.infrastructure.appconfig.CustomAppConfigMan
 import com.crescentflare.piratesgame.infrastructure.events.AppEvent
 import com.crescentflare.piratesgame.infrastructure.events.AppEventObserver
 import com.crescentflare.piratesgame.infrastructure.events.AppEventType
+import com.crescentflare.piratesgame.infrastructure.inflator.Inflators
 import com.crescentflare.piratesgame.infrastructure.tools.EventReceiverTool
 import com.crescentflare.piratesgame.page.modules.ControllerModule
 import com.crescentflare.piratesgame.page.modules.shared.AlertModule
@@ -29,21 +30,7 @@ class SplashActivity : NavigationActivity(), AppEventObserver, PageLoaderContinu
     private var pageLoader: PageLoader? = null
     private var hotReloadPageUrl = ""
     private var modules = mutableListOf<ControllerModule>()
-
-
-    // --
-    // Initialization
-    // --
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        modules.add(AlertModule())
-        modules.add(NavigationModule())
-        modules.add(SplashLoaderModule())
-        for (module in modules) {
-            module.onCreate(this)
-        }
-    }
+    private var isResumed = false
 
 
     // --
@@ -51,7 +38,14 @@ class SplashActivity : NavigationActivity(), AppEventObserver, PageLoaderContinu
     // --
 
     override fun onResume() {
+        // Update modules
         super.onResume()
+        isResumed = true
+        for (module in modules) {
+            module.onResume()
+        }
+
+        // Check for page and event updates
         val wasHotReloadPageUrl = hotReloadPageUrl
         if (CustomAppConfigManager.currentConfig().devServerUrl.isNotEmpty() && CustomAppConfigManager.currentConfig().enablePageHotReload) {
             hotReloadPageUrl = CustomAppConfigManager.currentConfig().devServerUrl
@@ -72,7 +66,14 @@ class SplashActivity : NavigationActivity(), AppEventObserver, PageLoaderContinu
     }
 
     override fun onPause() {
+        // Update modules
         super.onPause()
+        isResumed = false
+        for (module in modules) {
+            module.onPause()
+        }
+
+        // Stop page and event updates
         EventReceiverTool.removeObserver(this)
         stopContinuousPageLoad()
     }
@@ -116,10 +117,60 @@ class SplashActivity : NavigationActivity(), AppEventObserver, PageLoaderContinu
     }
 
     override fun didUpdatePage(page: Page) {
+        // Update modules
+        updateModules(page.modules)
+
+        // Update layout
         val binder = InflatorMapBinder()
         inflateLayout(page.layout, binder)
         for (module in modules) {
             module.onPageUpdated(page, binder)
+        }
+    }
+
+
+    // --
+    // Helper
+    // --
+
+    private fun updateModules(moduleItems: Any?) {
+        // Check if modules are the same before and after the update, then they can be updated instead of re-created
+        var canRecycle = false
+        val items = Inflators.module.attributesForNestedInflatableList(moduleItems)
+        if (items.size == modules.size) {
+            canRecycle = true
+            for (i in items.indices) {
+                if (!Inflators.module.canRecycle(modules[i], items[i])) {
+                    canRecycle = false
+                    break
+                }
+            }
+        }
+
+        // Update modules
+        if (canRecycle) {
+            var moduleIndex = 0
+            for (item in items) {
+                if (moduleIndex < modules.size) {
+                    val module = modules[moduleIndex]
+                    Inflators.module.inflateOn(module, item, null, null)
+                    moduleIndex++
+                }
+            }
+        } else {
+            // First clear all modules
+            modules.clear()
+
+            // Add modules
+            for (item in items) {
+                val result = Inflators.module.inflate(this, item, null, null)
+                if (result is ControllerModule) {
+                    if (isResumed) {
+                        result.onResume()
+                    }
+                    modules.add(result)
+                }
+            }
         }
     }
 

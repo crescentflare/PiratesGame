@@ -24,6 +24,9 @@ import com.crescentflare.piratesgame.components.simpleviewlets.TextViewlet
 import com.crescentflare.piratesgame.components.styling.AppFonts
 import com.crescentflare.piratesgame.infrastructure.appconfig.CustomAppConfigManager
 import com.crescentflare.piratesgame.infrastructure.inflator.Inflators
+import com.crescentflare.piratesgame.page.modules.shared.AlertModule
+import com.crescentflare.piratesgame.page.modules.shared.NavigationModule
+import com.crescentflare.piratesgame.page.modules.splash.SplashLoaderModule
 
 
 /**
@@ -46,6 +49,7 @@ class BaseApplication : Application(), AppConfigStorage.ChangedConfigListener {
 
         // Configure framework
         AppFonts.setContext(this)
+        registerModules()
         registerViewlets()
     }
 
@@ -60,8 +64,19 @@ class BaseApplication : Application(), AppConfigStorage.ChangedConfigListener {
 
 
     // --
-    // Viewlet registration
+    // Inflatable registration
     // --
+
+    private fun registerModules() {
+        // Enable platform specific attributes
+        Inflators.module.setMergeSubAttributes(listOf("android"))
+        Inflators.module.setExcludeAttributes(listOf("ios"))
+
+        // Modules
+        Inflators.module.register("alert", AlertModule.inflatable)
+        Inflators.module.register("navigation", NavigationModule.inflatable)
+        Inflators.module.register("splashLoader", SplashLoaderModule.inflatable)
+    }
 
     private fun registerViewlets() {
         // Enable platform specific attributes

@@ -50,6 +50,11 @@ class Page {
     // Extract data
     // --
 
+    val modules: List<Map<String, Any>>?
+        get() {
+            return optionalObjectMapList(loadedData, "modules")
+        }
+
     val layout: Map<String, Any>?
         get() {
             val dataSetMap = mapUtil.asStringObjectMap(loadedData["dataSets"])
@@ -61,5 +66,16 @@ class Page {
             }
             return null
         }
+
+
+    // --
+    // Helper
+    // --
+
+    @Suppress("unchecked_cast")
+    private fun optionalObjectMapList(map: Map<String, Any>, key: String): List<Map<String, Any>>? {
+        val objectList = mapUtil.optionalObjectList(map, key)
+        return if (objectList.size > 0 && mapUtil.asStringObjectMap(objectList[0]) == null) null else objectList as List<Map<String, Any>>
+    }
 
 }

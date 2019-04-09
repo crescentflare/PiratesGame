@@ -5,7 +5,10 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
+import com.crescentflare.jsoninflator.JsonInflatable
+import com.crescentflare.jsoninflator.binder.InflatorBinder
 import com.crescentflare.jsoninflator.binder.InflatorMapBinder
+import com.crescentflare.jsoninflator.utility.InflatorMapUtil
 import com.crescentflare.piratesgame.components.compoundviews.SplashLoadingBar
 import com.crescentflare.piratesgame.infrastructure.events.AppEvent
 import com.crescentflare.piratesgame.infrastructure.events.AppEventObserver
@@ -18,6 +21,33 @@ import java.lang.ref.WeakReference
  * Splash module: handles loading and updating the loading bar component
  */
 class SplashLoaderModule: ControllerModule {
+
+    // --
+    // Static: inflatable integration
+    // --
+
+    companion object {
+
+        val inflatable: JsonInflatable = object : JsonInflatable {
+
+            override fun create(context: Context): Any {
+                val module = SplashLoaderModule()
+                module.onCreate(context)
+                return module
+            }
+
+            override fun update(mapUtil: InflatorMapUtil, obj: Any, attributes: Map<String, Any>, parent: Any?, binder: InflatorBinder?): Boolean {
+                return obj is SplashLoaderModule
+            }
+
+            override fun canRecycle(mapUtil: InflatorMapUtil, obj: Any, attributes: Map<String, Any>): Boolean {
+                return obj is SplashLoaderModule
+            }
+
+        }
+
+    }
+
 
     // --
     // Members
@@ -33,7 +63,7 @@ class SplashLoaderModule: ControllerModule {
 
 
     // --
-    // Initialization
+    // Lifecycle
     // --
 
     override fun onCreate(context: Context) {
@@ -44,6 +74,14 @@ class SplashLoaderModule: ControllerModule {
         loadingTasks.add(LoadingTask {
             // Template for a loading task
         })
+    }
+
+    override fun onResume() {
+        // No implementation
+    }
+
+    override fun onPause() {
+        // No implementation
     }
 
 
