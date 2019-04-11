@@ -7,15 +7,23 @@ import UIKit
 import UniLayout
 import JsonInflator
 
+enum NavigationContainerViewScrollPaddingType: String {
+    
+    case none = "none"
+    case topAndBottom = "topAndBottom"
+    case statusAndBottom = "statusAndBottom"
+    
+}
+
 class NavigationContainerView: UIView, AppEventObserver {
     
     // --
     // MARK: Members
     // --
-
+    
     weak var viewController: NavigationViewController?
-
-
+    
+    
     // --
     // MARK: Viewlet integration
     // --
@@ -105,6 +113,11 @@ class NavigationContainerView: UIView, AppEventObserver {
                     }
                 }
                 
+                // Linked scroll container
+                let linkedScrollContainer = (binder as? InflatorDictBinder)?.findByReference(convUtil.asString(value: attributes["linkedScrollContainer"]) ?? "")
+                navigationContainer.linkedScrollContainer = linkedScrollContainer as? ScrollContainerView
+                navigationContainer.automaticScrollPadding = NavigationContainerViewScrollPaddingType(rawValue: convUtil.asString(value: attributes["automaticScrollPadding"]) ?? "") ?? .none
+                
                 // Generic view properties
                 ViewletUtil.applyGenericViewAttributes(convUtil: convUtil, view: navigationContainer, attributes: attributes)
                 
@@ -122,12 +135,12 @@ class NavigationContainerView: UIView, AppEventObserver {
         }
         
     }
-
-
+    
+    
     // --
     // MARK: Initialization
     // --
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
@@ -136,13 +149,13 @@ class NavigationContainerView: UIView, AppEventObserver {
         super.init(coder: aDecoder)
     }
     
-
+    
     // --
     // MARK: Configurable values
     // --
     
     weak var eventObserver: AppEventObserver?
-
+    
     var contentView: UIView? {
         didSet {
             oldValue?.removeFromSuperview()
@@ -151,13 +164,14 @@ class NavigationContainerView: UIView, AppEventObserver {
             }
         }
     }
-
+    
     var topBarView: UIView? {
         didSet {
             oldValue?.removeFromSuperview()
             if let topBarView = topBarView {
                 addSubview(topBarView)
             }
+            updateLinkedScrollPadding()
         }
     }
     
@@ -167,6 +181,19 @@ class NavigationContainerView: UIView, AppEventObserver {
             if let bottomBarView = bottomBarView {
                 addSubview(bottomBarView)
             }
+            updateLinkedScrollPadding()
+        }
+    }
+    
+    weak var linkedScrollContainer: ScrollContainerView? {
+        didSet {
+            updateLinkedScrollPadding()
+        }
+    }
+    
+    var automaticScrollPadding: NavigationContainerViewScrollPaddingType = .none {
+        didSet {
+            updateLinkedScrollPadding()
         }
     }
     
@@ -181,12 +208,30 @@ class NavigationContainerView: UIView, AppEventObserver {
     
     
     // --
+    // MARK: Handle insets
+    // --
+    
+    private func updateLinkedScrollPadding() {
+        if let linkedScrollContainer = linkedScrollContainer {
+            if automaticScrollPadding != .none {
+                linkedScrollContainer.extraTopInset = automaticScrollPadding == .statusAndBottom ? statusBarHeight() : topBarHeight()
+                linkedScrollContainer.extraBottomInset = bottomBarHeight()
+            } else {
+                linkedScrollContainer.extraTopInset = 0
+                linkedScrollContainer.extraBottomInset = 0
+            }
+        }
+    }
+    
+    
+    // --
     // MARK: Custom layout
     // --
     
     override func layoutSubviews() {
         var topInset: CGFloat = 0
         var bottomInset: CGFloat = 0
+        updateLinkedScrollPadding()
         if let topBarView = topBarView {
             let barHeight = topBarHeight()
             (topBarView as? NavigationBarComponent)?.statusBarInset = min(UIApplication.shared.statusBarFrame.width, UIApplication.shared.statusBarFrame.height)
@@ -207,6 +252,10 @@ class NavigationContainerView: UIView, AppEventObserver {
     // --
     // MARK: Helper
     // --
+    
+    func statusBarHeight() -> CGFloat {
+        return min(UIApplication.shared.statusBarFrame.width, UIApplication.shared.statusBarFrame.height)
+    }
     
     func topBarHeight() -> CGFloat {
         var height: CGFloat = 0

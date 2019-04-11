@@ -8,7 +8,7 @@ import UniLayout
 import JsonInflator
 
 class SolidNavigationBar: FrameContainerView, NavigationBarComponent {
-
+    
     // --
     // MARK: Layout JSON
     // --
@@ -21,8 +21,8 @@ class SolidNavigationBar: FrameContainerView, NavigationBarComponent {
     // --
     
     private var titleView: UniTextView?
-
-
+    
+    
     // --
     // MARK: Members
     // --
@@ -39,7 +39,7 @@ class SolidNavigationBar: FrameContainerView, NavigationBarComponent {
         }
     }
     
-
+    
     // --
     // MARK: Viewlet integration
     // --
@@ -75,12 +75,12 @@ class SolidNavigationBar: FrameContainerView, NavigationBarComponent {
         }
         
     }
-
-
+    
+    
     // --
     // MARK: Initialization
     // --
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -97,11 +97,11 @@ class SolidNavigationBar: FrameContainerView, NavigationBarComponent {
         titleView = binder.findByReference("title") as? UniTextView
     }
     
-
+    
     // --
     // MARK: Configurable values
     // --
-
+    
     var isLightContent: Bool {
         get {
             let whiteColor = UIColor.white
@@ -129,8 +129,8 @@ class SolidNavigationBar: FrameContainerView, NavigationBarComponent {
             titleView?.textColor = isLightContent ? AppColors.textInverted : AppColors.text
         }
     }
-
-
+    
+    
     // --
     // MARK: Helper
     // --
@@ -153,5 +153,5 @@ class SolidNavigationBar: FrameContainerView, NavigationBarComponent {
         }
         return lightForegroundColor
     }
-
+    
 }

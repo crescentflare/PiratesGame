@@ -8,7 +8,7 @@ import UniLayout
 import JsonInflator
 
 class TransparentNavigationBar: UniView, NavigationBarComponent {
-
+    
     // --
     // MARK: Members
     // --
@@ -19,7 +19,7 @@ class TransparentNavigationBar: UniView, NavigationBarComponent {
         }
     }
     
-
+    
     // --
     // MARK: Viewlet integration
     // --
@@ -38,7 +38,7 @@ class TransparentNavigationBar: UniView, NavigationBarComponent {
             if let navigationBar = object as? TransparentNavigationBar {
                 // Bar properties
                 navigationBar.isLightContent = convUtil.asBool(value: attributes["lightContent"]) ?? false
-
+                
                 // Generic view properties
                 ViewletUtil.applyGenericViewAttributes(convUtil: convUtil, view: navigationBar, attributes: attributes)
                 return true
@@ -51,12 +51,12 @@ class TransparentNavigationBar: UniView, NavigationBarComponent {
         }
         
     }
-
-
+    
+    
     // --
     // MARK: Initialization
     // --
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -70,13 +70,13 @@ class TransparentNavigationBar: UniView, NavigationBarComponent {
     fileprivate func setup() {
     }
     
-
+    
     // --
     // MARK: Configurable values
     // --
-
+    
     var isLightContent: Bool = false
     
     var statusBarInset: CGFloat = 0
-
+    
 }

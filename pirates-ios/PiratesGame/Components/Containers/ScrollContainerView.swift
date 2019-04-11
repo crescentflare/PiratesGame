@@ -52,7 +52,7 @@ class ScrollContainerView: UniVerticalScrollContainer, AppEventObserver {
                     
                     // Set content item
                     if let item = checkItem {
-                        if let view = Inflators.viewlet.inflate(attributes: item, parent: scrollContainer, binder: binder) as? UIView {
+                        if let view = Inflators.viewlet.inflate(attributes: item, parent: object, binder: binder) as? UIView {
                             scrollContainer.contentView = view
                             ViewletUtil.applyLayoutAttributes(convUtil: convUtil, view: view, attributes: item)
                             ViewletUtil.bindRef(view: view, attributes: item, binder: binder)
@@ -65,7 +65,7 @@ class ScrollContainerView: UniVerticalScrollContainer, AppEventObserver {
                 
                 // Event handling
                 scrollContainer.pullToRefreshEvent = AppEvent(value: attributes["pullToRefreshEvent"])
-
+                
                 // Forward event observer
                 if let eventObserver = parent as? AppEventObserver {
                     scrollContainer.eventObserver = eventObserver
@@ -106,9 +106,9 @@ class ScrollContainerView: UniVerticalScrollContainer, AppEventObserver {
     // --
     // MARK: Configurable values
     // --
-
+    
     weak var eventObserver: AppEventObserver?
-
+    
     var pullToRefreshEvent: AppEvent? {
         didSet {
             if pullToRefreshEvent != nil && refreshControlView == nil {
@@ -137,11 +137,46 @@ class ScrollContainerView: UniVerticalScrollContainer, AppEventObserver {
     func observedEvent(_ event: AppEvent, sender: Any?) {
         eventObserver?.observedEvent(event, sender: sender)
     }
-
+    
     @objc func pulledToRefresh(_ refreshControl: UIRefreshControl) {
         if let event = pullToRefreshEvent {
             eventObserver?.observedEvent(event, sender: self)
         }
     }
-
+    
+    
+    // --
+    // MARK: Extra inset handling
+    // --
+    
+    private var originalTopPadding: CGFloat = 0
+    private var originalBottomPadding: CGFloat = 0
+    
+    var extraTopInset: CGFloat = 0 {
+        didSet {
+            if extraTopInset != oldValue {
+                padding = UIEdgeInsets(top: originalTopPadding, left: padding.left, bottom: originalBottomPadding, right: padding.right)
+                scrollIndicatorInsets = UIEdgeInsets(top: extraTopInset, left: 0, bottom: extraBottomInset, right: 0)
+            }
+        }
+    }
+    
+    var extraBottomInset: CGFloat = 0 {
+        didSet {
+            if extraBottomInset != oldValue {
+                padding = UIEdgeInsets(top: originalTopPadding, left: padding.left, bottom: originalBottomPadding, right: padding.right)
+                scrollIndicatorInsets = UIEdgeInsets(top: extraTopInset, left: 0, bottom: extraBottomInset, right: 0)
+            }
+        }
+    }
+    
+    override var padding: UIEdgeInsets {
+        set {
+            originalTopPadding = newValue.top
+            originalBottomPadding = newValue.bottom
+            super.padding = UIEdgeInsets(top: newValue.top + extraTopInset, left: newValue.left, bottom: newValue.bottom + extraBottomInset, right: newValue.right)
+        }
+        get { return super.padding }
+    }
+    
 }
