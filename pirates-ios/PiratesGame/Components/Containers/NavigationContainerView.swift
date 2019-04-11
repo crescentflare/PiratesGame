@@ -67,7 +67,7 @@ class NavigationContainerView: UIView, AppEventObserver {
                 
                 // Update top bar
                 let topBarItem = Inflators.viewlet.attributesForNestedInflatable(attributes["topBar"])
-                if recycling && Inflators.viewlet.canRecycle(object: navigationContainer.topBarView, attributes: contentItem) {
+                if recycling && Inflators.viewlet.canRecycle(object: navigationContainer.topBarView, attributes: topBarItem) {
                     if let item = topBarItem {
                         if let view = navigationContainer.topBarView {
                             Inflators.viewlet.inflate(onObject: view, attributes: item, binder: binder)
@@ -91,7 +91,7 @@ class NavigationContainerView: UIView, AppEventObserver {
                 
                 // Update bottom bar
                 let bottomBarItem = Inflators.viewlet.attributesForNestedInflatable(attributes["bottomBar"])
-                if recycling && Inflators.viewlet.canRecycle(object: navigationContainer.bottomBarView, attributes: contentItem) {
+                if recycling && Inflators.viewlet.canRecycle(object: navigationContainer.bottomBarView, attributes: bottomBarItem) {
                     if let item = bottomBarItem {
                         if let view = navigationContainer.bottomBarView {
                             Inflators.viewlet.inflate(onObject: view, attributes: item, binder: binder)
@@ -213,11 +213,14 @@ class NavigationContainerView: UIView, AppEventObserver {
     
     private func updateLinkedScrollPadding() {
         if let linkedScrollContainer = linkedScrollContainer {
-            if automaticScrollPadding != .none {
+            if automaticScrollPadding != .none && (topBarView as? NavigationBarComponent)?.isTranslucent ?? false {
                 linkedScrollContainer.extraTopInset = automaticScrollPadding == .statusAndBottom ? statusBarHeight() : topBarHeight()
-                linkedScrollContainer.extraBottomInset = bottomBarHeight()
             } else {
                 linkedScrollContainer.extraTopInset = 0
+            }
+            if automaticScrollPadding != .none && (bottomBarView as? NavigationBarComponent)?.isTranslucent ?? false {
+                linkedScrollContainer.extraBottomInset = bottomBarHeight()
+            } else {
                 linkedScrollContainer.extraBottomInset = 0
             }
         }

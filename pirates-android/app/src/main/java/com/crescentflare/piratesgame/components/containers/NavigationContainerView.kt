@@ -260,11 +260,14 @@ class NavigationContainerView: ViewGroup, AppEventObserver {
 
     private fun updateLinkedScrollPadding() {
         linkedScrollContainer?.let {
-            if (automaticScrollPadding != ScrollPaddingType.None) {
+            if (automaticScrollPadding != ScrollPaddingType.None && !solidTopBar) {
                 it.extraTopInset = if (automaticScrollPadding == ScrollPaddingType.StatusAndBottom) transparentStatusBarHeight else safeInsets.top
-                it.extraBottomInset = safeInsets.bottom
             } else {
                 it.extraTopInset = 0
+            }
+            if (automaticScrollPadding != ScrollPaddingType.None && !solidBottomBar) {
+                it.extraBottomInset = safeInsets.bottom
+            } else {
                 it.extraBottomInset = 0
             }
         }
