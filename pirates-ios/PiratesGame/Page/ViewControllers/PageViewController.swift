@@ -38,7 +38,34 @@ class PageViewController: NavigationViewController, AppEventObserver, PageLoader
     // --
     
     override func viewDidLoad() {
+        // Apply placeholder when not loading locally
         super.viewDidLoad()
+        if !CustomAppConfigManager.currentConfig().devServerUrl.isEmpty && CustomAppConfigManager.currentConfig().enablePageHotReload {
+            let dummyBinder = InflatorDictBinder()
+            let layout: [String: Any] = [
+                "viewlet": "navigationContainer",
+                "backgroundColor": "#ffffff",
+                "recycling": true,
+                "topBar": [
+                    "viewlet": "transparentNavigationBar",
+                    "width": "stretchToParent",
+                    "backgroundColor": "#80000000",
+                    "lightContent": true
+                ],
+                "content": [
+                    "viewlet": "frameContainer",
+                    "width": "stretchToParent",
+                    "height": "stretchToParent",
+                    "items": [[
+                        "viewlet": "spinner",
+                        "gravity": "center"
+                    ]]
+                ]
+            ]
+            inflateLayout(layout: layout, binder: dummyBinder)
+        }
+        
+        // Start loading
         startContinuousPageLoad()
     }
     

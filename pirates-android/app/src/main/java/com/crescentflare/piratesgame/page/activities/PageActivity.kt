@@ -54,8 +54,40 @@ class PageActivity : NavigationActivity(), AppEventObserver, PageLoaderContinuou
     // --
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Determine page to load
         super.onCreate(savedInstanceState)
         pageJson = intent.getStringExtra(pageParam) ?: pageJson
+
+        // Apply placeholder when not loading locally
+        if (CustomAppConfigManager.currentConfig().devServerUrl.isNotEmpty() && CustomAppConfigManager.currentConfig().enablePageHotReload) {
+            val dummyBinder = InflatorMapBinder()
+            val layout = mutableMapOf(
+                Pair("viewlet", "navigationContainer"),
+                Pair("backgroundColor", "#ffffff"),
+                Pair("recycling", true),
+                Pair("topBar", mapOf(
+                    Pair("viewlet", "transparentNavigationBar"),
+                    Pair("width", "stretchToParent"),
+                    Pair("statusBarColor", "#80000000"),
+                    Pair("lightContent", true)
+                )),
+                Pair("bottomBar", mapOf(
+                    Pair("viewlet", "transparentNavigationBar"),
+                    Pair("width", "stretchToParent"),
+                    Pair("backgroundColor", "#80000000")
+                )),
+                Pair("content", mapOf(
+                    Pair("viewlet", "frameContainer"),
+                    Pair("width", "stretchToParent"),
+                    Pair("height", "stretchToParent"),
+                    Pair("items", listOf(mapOf(
+                        Pair("viewlet", "spinner"),
+                        Pair("gravity", "center")
+                    )))
+                ))
+            )
+            inflateLayout(layout, dummyBinder)
+        }
     }
 
 
