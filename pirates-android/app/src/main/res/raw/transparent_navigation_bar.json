@@ -1,0 +1,11 @@
+{
+  "viewlet": "frameContainer",
+  "items": [
+    {
+      "refId": "statusContainer",
+      "viewlet": "view",
+      "width": "stretchToParent",
+      "height": 0
+    }
+  ]
+}

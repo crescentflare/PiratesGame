@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.crescentflare.jsoninflator.JsonInflatable
 import com.crescentflare.jsoninflator.binder.InflatorBinder
+import com.crescentflare.jsoninflator.binder.InflatorMapBinder
 import com.crescentflare.jsoninflator.utility.InflatorMapUtil
 import com.crescentflare.piratesgame.R
 import com.crescentflare.piratesgame.components.utility.NavigationBarComponent
@@ -105,6 +106,11 @@ class NavigationContainerView: ViewGroup, AppEventObserver {
                         }
                     }
 
+                    // Linked scroll container
+                    val linkedScrollContainer = (binder as? InflatorMapBinder)?.findByReference(mapUtil.optionalString(attributes, "linkedScrollContainer", null) ?: "")
+                    obj.linkedScrollContainer = linkedScrollContainer as? ScrollContainerView
+                    obj.automaticScrollPadding = ScrollPaddingType.fromString(mapUtil.optionalString(attributes, "automaticScrollPadding", null))
+
                     // Generic view properties
                     ViewletUtil.applyGenericViewAttributes(mapUtil, obj, attributes)
 
@@ -129,6 +135,7 @@ class NavigationContainerView: ViewGroup, AppEventObserver {
     // --
 
     private var eventObserverReference : WeakReference<AppEventObserver>? = null
+    private var linkedScrollContainerReference : WeakReference<ScrollContainerView>? = null
     private val actionBarHeight: Int
     private var solidTopBar = false
     private var solidBottomBar = false
@@ -140,17 +147,17 @@ class NavigationContainerView: ViewGroup, AppEventObserver {
 
     @JvmOverloads
     constructor(
-        context: Context,
-        attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0)
+            context: Context,
+            attrs: AttributeSet? = null,
+            defStyleAttr: Int = 0)
             : super(context, attrs, defStyleAttr)
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     constructor(
-        context: Context,
-        attrs: AttributeSet?,
-        defStyleAttr: Int,
-        defStyleRes: Int)
+            context: Context,
+            attrs: AttributeSet?,
+            defStyleAttr: Int,
+            defStyleRes: Int)
             : super(context, attrs, defStyleAttr, defStyleRes)
 
     init {
@@ -193,6 +200,7 @@ class NavigationContainerView: ViewGroup, AppEventObserver {
                 addView(field)
             }
             solidTopBar = field != null && !((field as? NavigationBarComponent)?.translucent == true)
+            updateLinkedScrollPadding()
         }
 
     var bottomBarView: View? = null
@@ -206,7 +214,25 @@ class NavigationContainerView: ViewGroup, AppEventObserver {
                     addView(field)
                 }
                 solidBottomBar = field != null && !((field as? NavigationBarComponent)?.translucent == true)
+                updateLinkedScrollPadding()
             }
+        }
+
+    var linkedScrollContainer: ScrollContainerView?
+        get() = linkedScrollContainerReference?.get()
+        set(newValue) {
+            linkedScrollContainerReference = if (newValue != null) {
+                WeakReference(newValue)
+            } else {
+                null
+            }
+            updateLinkedScrollPadding()
+        }
+
+    var automaticScrollPadding: ScrollPaddingType = ScrollPaddingType.None
+        set(newValue) {
+            field = newValue
+            updateLinkedScrollPadding()
         }
 
 
@@ -232,6 +258,18 @@ class NavigationContainerView: ViewGroup, AppEventObserver {
     private val transparentNavigationBarHeight: Int
         get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Resources.getSystem().displayMetrics.widthPixels < Resources.getSystem().displayMetrics.heightPixels) rootWindowInsets.stableInsetBottom else 0
 
+    private fun updateLinkedScrollPadding() {
+        linkedScrollContainer?.let {
+            if (automaticScrollPadding != ScrollPaddingType.None) {
+                it.extraTopInset = if (automaticScrollPadding == ScrollPaddingType.StatusAndBottom) transparentStatusBarHeight else safeInsets.top
+                it.extraBottomInset = safeInsets.bottom
+            } else {
+                it.extraTopInset = 0
+                it.extraBottomInset = 0
+            }
+        }
+    }
+
 
     // --
     // Custom layout
@@ -242,6 +280,7 @@ class NavigationContainerView: ViewGroup, AppEventObserver {
         val height = MeasureSpec.getSize(heightMeasureSpec)
         val widthMode = MeasureSpec.getMode(widthMeasureSpec)
         val heightMode = MeasureSpec.getMode(heightMeasureSpec)
+        updateLinkedScrollPadding()
         if (widthMode == MeasureSpec.EXACTLY && heightMode == MeasureSpec.EXACTLY) {
             val totalTopBarHeight = actionBarHeight + transparentStatusBarHeight
             val bottomBarHeight = transparentNavigationBarHeight
@@ -262,6 +301,7 @@ class NavigationContainerView: ViewGroup, AppEventObserver {
         val bottomBarHeight = transparentNavigationBarHeight
         val topContentInset = if (solidTopBar) totalTopBarHeight else 0
         val bottomContentInset = if (solidBottomBar) bottomBarHeight else 0
+        updateLinkedScrollPadding()
         (topBarView as? NavigationBarComponent)?.statusBarInset = transparentStatusBarHeight
         topBarView?.layout(0, 0, right - left, totalTopBarHeight)
         bottomBarView?.layout(0, bottom - top - bottomBarHeight, right - left, bottom - top)
@@ -276,6 +316,32 @@ class NavigationContainerView: ViewGroup, AppEventObserver {
     private fun getActionBarHeight(): Int {
         val typedValue = TypedValue()
         return if (context.theme.resolveAttribute(R.attr.actionBarSize, typedValue, true)) TypedValue.complexToDimensionPixelSize(typedValue.data, Resources.getSystem().displayMetrics) else 0
+    }
+
+
+    // --
+    // Automatic padding enum
+    // --
+
+    enum class ScrollPaddingType(val value: String) {
+
+        None("none"),
+        TopAndBottom("topAndBottom"),
+        StatusAndBottom("statusAndBottom");
+
+        companion object {
+
+            fun fromString(string: String?): ScrollPaddingType {
+                for (enum in ScrollPaddingType.values()) {
+                    if (enum.value == string) {
+                        return enum
+                    }
+                }
+                return None
+            }
+
+        }
+
     }
 
 }

@@ -210,4 +210,38 @@ class ScrollContainerView : UniVerticalScrollContainer, AppEventObserver {
         eventObserver?.observedEvent(event, sender)
     }
 
+
+    // --
+    // Extra inset handling
+    // --
+
+    private var originalTopPadding = 0
+    private var originalBottomPadding = 0
+
+    var extraTopInset: Int = 0
+        set(newValue) {
+            val changed = field != newValue
+            field = newValue
+            if (changed) {
+                setPadding(paddingLeft, originalTopPadding, paddingRight, originalBottomPadding)
+                requestLayout()
+            }
+        }
+
+    var extraBottomInset: Int = 0
+        set(newValue) {
+            val changed = field != newValue
+            field = newValue
+            if (changed) {
+                setPadding(paddingLeft, originalTopPadding, paddingRight, originalBottomPadding)
+                requestLayout()
+            }
+        }
+
+    override fun setPadding(left: Int, top: Int, right: Int, bottom: Int) {
+        originalTopPadding = top
+        originalBottomPadding = bottom
+        super.setPadding(left, top + extraTopInset, right, bottom + extraBottomInset)
+    }
+
 }

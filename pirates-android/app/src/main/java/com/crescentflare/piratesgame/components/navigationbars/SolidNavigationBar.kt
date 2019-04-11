@@ -36,7 +36,7 @@ class SolidNavigationBar : FrameContainerView, NavigationBarComponent {
         // Static: reference to layout resource
         // --
 
-        const val layoutResource = R.raw.solid_navigation_bar
+        private const val layoutResource = R.raw.solid_navigation_bar
 
 
         // --
