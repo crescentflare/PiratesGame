@@ -30,6 +30,22 @@ enum ImageScaleType: String {
 
 }
 
+fileprivate struct AlamofireScalingFilter: ImageFilter {
+
+    public let scale: CGFloat
+    
+    public init(scale: CGFloat) {
+        self.scale = scale
+    }
+    
+    public var filter: (Image) -> Image {
+        return { image in
+            return image.af_imageScaled(to: CGSize(width: image.size.width * self.scale, height: image.size.height * self.scale))
+        }
+    }
+    
+}
+
 class ImageViewlet {
     
     // --
@@ -77,7 +93,11 @@ class ImageViewlet {
     static func applyImageSource(imageView: UniImageView?, source: ImageSource?) -> Bool {
         if let onlineUri = source?.onlineUri {
             if let imageUrl = URL(string: onlineUri) {
-                imageView?.internalImageView.af_setImage(withURL: imageUrl)
+                var filter: ImageFilter?
+                if source?.type == .devServerImage {
+                    filter = AlamofireScalingFilter(scale: UIScreen.main.scale / 4)
+                }
+                imageView?.internalImageView.af_setImage(withURL: imageUrl, filter: filter)
                 return true
             }
         } else if var image = source?.getImage() {

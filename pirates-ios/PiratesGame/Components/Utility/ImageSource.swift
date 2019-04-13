@@ -11,6 +11,7 @@ enum ImageSourceType: String {
     case unknown = "unknown"
     case onlineImage = "http"
     case secureOnlineImage = "https"
+    case devServerImage = "devserver"
     case internalImage = "app"
     case systemImage = "system"
     case generate = "generate"
@@ -135,8 +136,15 @@ class ImageSource {
     
     var onlineUri: String? {
         get {
-            if type == .onlineImage || type == .secureOnlineImage {
+            if type == .onlineImage || type == .secureOnlineImage || type == .devServerImage {
                 var uri = "\(type.rawValue)://\(fullPath)"
+                if type == .devServerImage {
+                    uri = CustomAppConfigManager.currentConfig().devServerUrl
+                    if !uri.hasPrefix("http") {
+                        uri = "http://\(uri)"
+                    }
+                    uri = "\(uri)/pageimages/\(fullPath)"
+                }
                 if let paramString = getParameterString(ignoreParams: ["caching", "threePatch", "ninePatch"], ignoreOtherSources: true) {
                     uri += "?" + paramString
                 }
