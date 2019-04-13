@@ -6,7 +6,7 @@
 import UIKit
 import UniLayout
 import JsonInflator
-import SDWebImage
+import AlamofireImage
 
 enum ImageScaleType: String {
     
@@ -77,7 +77,7 @@ class ImageViewlet {
     static func applyImageSource(imageView: UniImageView?, source: ImageSource?) -> Bool {
         if let onlineUri = source?.onlineUri {
             if let imageUrl = URL(string: onlineUri) {
-                imageView?.internalImageView.sd_setImage(with: imageUrl)
+                imageView?.internalImageView.af_setImage(withURL: imageUrl)
                 return true
             }
         } else if var image = source?.getImage() {

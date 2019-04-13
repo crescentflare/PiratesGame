@@ -17,7 +17,7 @@ def app_pods
   pod 'AlamofireObjectMapper', '~> 5.2.0'
   pod 'lottie-ios', '~> 2.5.0'
 
-  pod 'SDWebImage', '~> 4.0'
+  pod 'AlamofireImage', '~> 3.5'
 end
 
 target :PiratesGame do
