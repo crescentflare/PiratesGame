@@ -145,7 +145,7 @@ class ImageSource {
                     }
                     uri = "\(uri)/pageimages/\(fullPath)"
                 }
-                if let paramString = getParameterString(ignoreParams: ["caching", "threePatch", "ninePatch"], ignoreOtherSources: true) {
+                if let paramString = getParameterString(ignoreParams: ["caching", "colorize", "threePatch", "ninePatch"], ignoreOtherSources: true) {
                     uri += "?" + paramString
                 }
                 return uri
@@ -191,7 +191,7 @@ class ImageSource {
     var cacheKey: String {
         get {
             var uri = "\(type.rawValue)://\(fullPath)"
-            if let paramString = getParameterString(ignoreParams: ["caching", "threePatch", "ninePatch"]) {
+            if let paramString = getParameterString(ignoreParams: ["caching", "colorize", "threePatch", "ninePatch"]) {
                 uri += "?" + paramString
             }
             return uri

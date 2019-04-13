@@ -64,6 +64,7 @@
 		049C3B4D223A9FCE00856808 /* FilledOvalGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049C3B4A223A9FCE00856808 /* FilledOvalGenerator.swift */; };
 		04AA27752236AC6E0007FCAB /* SolidNavigationBar.json in Resources */ = {isa = PBXBuildFile; fileRef = 04AA27742236AC6E0007FCAB /* SolidNavigationBar.json */; };
 		04BA4485224413AC0095B8F0 /* LevelEntitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BA4484224413AC0095B8F0 /* LevelEntitiesView.swift */; };
+		04CB48AF22621AEF00FD1770 /* TappableImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CB48AE22621AEF00FD1770 /* TappableImageView.swift */; };
 		04DD4DA4223AE90900BD5AA4 /* LevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD4DA3223AE90900BD5AA4 /* LevelView.swift */; };
 		04E0FA21223E8F88006017D3 /* LevelWaveAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0FA20223E8F87006017D3 /* LevelWaveAnimationView.swift */; };
 		04E0FA23223E9025006017D3 /* LevelTileMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0FA22223E9025006017D3 /* LevelTileMapView.swift */; };
@@ -130,6 +131,7 @@
 		049C3B4A223A9FCE00856808 /* FilledOvalGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilledOvalGenerator.swift; sourceTree = "<group>"; };
 		04AA27742236AC6E0007FCAB /* SolidNavigationBar.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SolidNavigationBar.json; sourceTree = "<group>"; };
 		04BA4484224413AC0095B8F0 /* LevelEntitiesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelEntitiesView.swift; sourceTree = "<group>"; };
+		04CB48AE22621AEF00FD1770 /* TappableImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TappableImageView.swift; sourceTree = "<group>"; };
 		04DD4DA3223AE90900BD5AA4 /* LevelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelView.swift; sourceTree = "<group>"; };
 		04E0FA20223E8F87006017D3 /* LevelWaveAnimationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelWaveAnimationView.swift; sourceTree = "<group>"; };
 		04E0FA22223E9025006017D3 /* LevelTileMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelTileMapView.swift; sourceTree = "<group>"; };
@@ -209,6 +211,7 @@
 			children = (
 				043DF1752235511A00F686B1 /* ButtonView.swift */,
 				041558CD2232A200001158FA /* GradientView.swift */,
+				04CB48AE22621AEF00FD1770 /* TappableImageView.swift */,
 			);
 			path = BasicViews;
 			sourceTree = "<group>";
@@ -631,6 +634,7 @@
 				041558FC2232A42C001158FA /* String+MD5.swift in Sources */,
 				041558E22232A200001158FA /* SpacerViewlet.swift in Sources */,
 				049BCA43225615BA001BCEED /* StrokedPathGenerator.swift in Sources */,
+				04CB48AF22621AEF00FD1770 /* TappableImageView.swift in Sources */,
 				041559172232AA0F001158FA /* NavigationViewController.swift in Sources */,
 				041559122232A510001158FA /* Page.swift in Sources */,
 				04E0FA21223E8F88006017D3 /* LevelWaveAnimationView.swift in Sources */,

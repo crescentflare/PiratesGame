@@ -30,17 +30,23 @@ enum ImageScaleType: String {
 
 }
 
-fileprivate struct AlamofireScalingFilter: ImageFilter {
+fileprivate struct AlamofireViewletFilter: ImageFilter {
 
-    public let scale: CGFloat
+    private let scale: CGFloat
+    private let withRenderingTemplate: Bool
     
-    public init(scale: CGFloat) {
+    public init(scale: CGFloat = 1, withRenderingTemplate: Bool = false) {
         self.scale = scale
+        self.withRenderingTemplate = withRenderingTemplate
     }
     
     public var filter: (Image) -> Image {
         return { image in
-            return image.af_imageScaled(to: CGSize(width: image.size.width * self.scale, height: image.size.height * self.scale))
+            let result = self.scale == 1 ? image : image.af_imageScaled(to: CGSize(width: image.size.width * self.scale, height: image.size.height * self.scale))
+            if self.withRenderingTemplate {
+                return result.withRenderingMode(.alwaysTemplate)
+            }
+            return result
         }
     }
     
@@ -91,13 +97,17 @@ class ImageViewlet {
     
     @discardableResult
     static func applyImageSource(imageView: UniImageView?, source: ImageSource?) -> Bool {
+        return applyImageSource(imageView: imageView?.internalImageView, source: source)
+    }
+    
+    @discardableResult
+    static func applyImageSource(imageView: UIImageView?, source: ImageSource?) -> Bool {
         if let onlineUri = source?.onlineUri {
             if let imageUrl = URL(string: onlineUri) {
-                var filter: ImageFilter?
-                if source?.type == .devServerImage {
-                    filter = AlamofireScalingFilter(scale: UIScreen.main.scale / 4)
-                }
-                imageView?.internalImageView.af_setImage(withURL: imageUrl, filter: filter)
+                let tintColor = source?.tintColor
+                let filter = AlamofireViewletFilter(scale: source?.type == .devServerImage ? UIScreen.main.scale / 4 : 1, withRenderingTemplate: tintColor != nil)
+                imageView?.af_setImage(withURL: imageUrl, filter: filter)
+                imageView?.tintColor = tintColor ?? UIColor.clear
                 return true
             }
         } else if var image = source?.getImage() {

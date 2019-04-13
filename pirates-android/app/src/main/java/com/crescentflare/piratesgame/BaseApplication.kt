@@ -6,6 +6,7 @@ import com.crescentflare.jsoninflator.utility.InflatorResourceColorLookup
 import com.crescentflare.jsoninflator.utility.InflatorResourceDimensionLookup
 import com.crescentflare.piratesgame.components.basicviews.ButtonView
 import com.crescentflare.piratesgame.components.basicviews.GradientView
+import com.crescentflare.piratesgame.components.basicviews.TappableImageView
 import com.crescentflare.piratesgame.components.complexviews.PublisherLogo
 import com.crescentflare.piratesgame.components.compoundviews.SplashAnimation
 import com.crescentflare.piratesgame.components.compoundviews.SplashLoadingBar
@@ -91,6 +92,7 @@ class BaseApplication : Application(), AppConfigStorage.ChangedConfigListener {
         Inflators.viewlet.register("button", ButtonView.viewlet)
         Inflators.viewlet.registerAttributeSet("button", "default", ButtonView.defaultStyle())
         Inflators.viewlet.register("gradient", GradientView.viewlet)
+        Inflators.viewlet.register("tappableImage", TappableImageView.viewlet)
 
         // Compound views
         Inflators.viewlet.register("splashAnimation", SplashAnimation.viewlet)

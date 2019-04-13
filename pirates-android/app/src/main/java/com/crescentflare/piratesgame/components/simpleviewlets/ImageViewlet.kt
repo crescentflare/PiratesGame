@@ -64,12 +64,16 @@ object ImageViewlet {
         if (imageView != null) {
             if (source != null) {
                 source.onlineUri?.let {
-                    imageView.colorFilter = null
                     if (source.type == ImageSource.Type.DevServerImage) {
                         val scale = Resources.getSystem().displayMetrics.density / 4f // Place xxxhdpi images in the dev server
                         Glide.with(imageView).load(it).apply(RequestOptions().sizeMultiplier(scale)).into(imageView)
                     } else {
                         Glide.with(imageView).load(it).into(imageView)
+                    }
+                    if (source.tintColor != 0) {
+                        imageView.colorFilter = PorterDuffColorFilter(source.tintColor, PorterDuff.Mode.SRC_IN)
+                    } else {
+                        imageView.colorFilter = null
                     }
                     return true
                 } ?: run {

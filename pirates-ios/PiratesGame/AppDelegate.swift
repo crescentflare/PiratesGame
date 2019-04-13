@@ -95,7 +95,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Inflators.viewlet.register(name: "button", inflatable: ButtonView.viewlet())
         Inflators.viewlet.registerAttributeSet(inflatableName: "button", setName: "default", setAttributes: ButtonView.defaultStyle)
         Inflators.viewlet.register(name: "gradient", inflatable: GradientView.viewlet())
-        
+        Inflators.viewlet.register(name: "tappableImage", inflatable: TappableImageView.viewlet())
+
         // Compound views
         Inflators.viewlet.register(name: "splashAnimation", inflatable: SplashAnimation.viewlet())
         Inflators.viewlet.register(name: "splashLoadingBar", inflatable: SplashLoadingBar.viewlet())
