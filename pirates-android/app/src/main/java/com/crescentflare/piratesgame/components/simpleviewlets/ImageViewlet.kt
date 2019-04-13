@@ -5,6 +5,7 @@ import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
+import com.bumptech.glide.Glide
 import com.crescentflare.piratesgame.components.utility.CustomNinePatchDrawable
 import com.crescentflare.piratesgame.components.utility.CustomThreePatchDrawable
 import com.crescentflare.piratesgame.components.utility.ImageSource
@@ -13,7 +14,6 @@ import com.crescentflare.unilayout.views.UniImageView
 import com.crescentflare.jsoninflator.JsonInflatable
 import com.crescentflare.jsoninflator.binder.InflatorBinder
 import com.crescentflare.jsoninflator.utility.InflatorMapUtil
-import com.squareup.picasso.Picasso
 
 
 /**
@@ -63,7 +63,7 @@ object ImageViewlet {
             if (source != null) {
                 source.onlineUri?.let {
                     imageView.colorFilter = null
-                    Picasso.get().load(it).into(imageView)
+                    Glide.with(imageView).load(it).into(imageView)
                     return true
                 } ?: run {
                     val drawable = source.getDrawable(imageView.context)
