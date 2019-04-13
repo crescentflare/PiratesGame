@@ -5,6 +5,7 @@ import android.graphics.drawable.Animatable
 import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import android.widget.ProgressBar
+import com.crescentflare.piratesgame.infrastructure.appconfig.CustomAppConfigManager
 import com.crescentflare.piratesgame.infrastructure.coreextensions.urlDecode
 import com.crescentflare.piratesgame.infrastructure.coreextensions.urlEncode
 import com.crescentflare.piratesgame.infrastructure.imagegenerators.FilledOvalGenerator
@@ -153,8 +154,15 @@ class ImageSource {
 
     val onlineUri: String?
         get() {
-            if (type == Type.OnlineImage || type == Type.SecureOnlineImage) {
+            if (type == Type.OnlineImage || type == Type.SecureOnlineImage || type == Type.DevServerImage) {
                 var uri = "${type.value}://$fullPath"
+                if (type == Type.DevServerImage) {
+                    uri = CustomAppConfigManager.currentConfig().devServerUrl
+                    if (!uri.startsWith("http")) {
+                        uri = "http://$uri"
+                    }
+                    uri = "$uri/pageimages/$fullPath"
+                }
                 getParameterString(listOf("caching", "threePatch", "ninePatch"), true).let {
                     uri += "?$it"
                 }
@@ -318,6 +326,7 @@ class ImageSource {
         Unknown("unknown"),
         OnlineImage("http"),
         SecureOnlineImage("https"),
+        DevServerImage("devserver"),
         InternalImage("app"),
         SystemImage("system"),
         Generate("generate");

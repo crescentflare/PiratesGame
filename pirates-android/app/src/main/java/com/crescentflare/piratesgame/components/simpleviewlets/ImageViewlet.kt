@@ -1,11 +1,13 @@
 package com.crescentflare.piratesgame.components.simpleviewlets
 
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.crescentflare.piratesgame.components.utility.CustomNinePatchDrawable
 import com.crescentflare.piratesgame.components.utility.CustomThreePatchDrawable
 import com.crescentflare.piratesgame.components.utility.ImageSource
@@ -63,7 +65,12 @@ object ImageViewlet {
             if (source != null) {
                 source.onlineUri?.let {
                     imageView.colorFilter = null
-                    Glide.with(imageView).load(it).into(imageView)
+                    if (source.type == ImageSource.Type.DevServerImage) {
+                        val scale = Resources.getSystem().displayMetrics.density / 4f // Place xxxhdpi images in the dev server
+                        Glide.with(imageView).load(it).apply(RequestOptions().sizeMultiplier(scale)).into(imageView)
+                    } else {
+                        Glide.with(imageView).load(it).into(imageView)
+                    }
                     return true
                 } ?: run {
                     val drawable = source.getDrawable(imageView.context)
