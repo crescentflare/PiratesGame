@@ -136,7 +136,8 @@ class NavigationContainerView: ViewGroup, AppEventObserver {
 
     private var eventObserverReference : WeakReference<AppEventObserver>? = null
     private var linkedScrollContainerReference : WeakReference<ScrollContainerView>? = null
-    private val actionBarHeight: Int
+    private var actionBarHeight: Int
+    private var actionBarCalculatedForWidth: Int
     private var solidTopBar = false
     private var solidBottomBar = false
 
@@ -162,6 +163,7 @@ class NavigationContainerView: ViewGroup, AppEventObserver {
 
     init {
         actionBarHeight = getActionBarHeight()
+        actionBarCalculatedForWidth = Resources.getSystem().displayMetrics.widthPixels
     }
 
 
@@ -283,6 +285,10 @@ class NavigationContainerView: ViewGroup, AppEventObserver {
         val height = MeasureSpec.getSize(heightMeasureSpec)
         val widthMode = MeasureSpec.getMode(widthMeasureSpec)
         val heightMode = MeasureSpec.getMode(heightMeasureSpec)
+        if (Resources.getSystem().displayMetrics.widthPixels != actionBarCalculatedForWidth) {
+            actionBarCalculatedForWidth = Resources.getSystem().displayMetrics.widthPixels
+            actionBarHeight = getActionBarHeight()
+        }
         updateLinkedScrollPadding()
         if (widthMode == MeasureSpec.EXACTLY && heightMode == MeasureSpec.EXACTLY) {
             val totalTopBarHeight = actionBarHeight + transparentStatusBarHeight
