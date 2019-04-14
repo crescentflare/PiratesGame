@@ -71,6 +71,7 @@ class ImageViewlet {
         func update(convUtil: InflatorConvUtil, object: Any, attributes: [String: Any], parent: Any?, binder: InflatorBinder?) -> Bool {
             if let imageView = object as? UniImageView {
                 // Image
+                imageView.clipsToBounds = true
                 ImageViewlet.applyImageSource(imageView: imageView, source: ImageSource(value: attributes["source"]))
                 
                 // Scale factor

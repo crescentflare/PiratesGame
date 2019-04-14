@@ -128,7 +128,7 @@ object ImageViewlet {
 
     enum class ScaleType(val value: String) {
 
-        FitCenter("fitCenter"),
+        Center("center"),
         Stretch("stretch"),
         ScaleFit("scaleFit"),
         ScaleCrop("scaleCrop");
@@ -136,9 +136,9 @@ object ImageViewlet {
         fun toImageViewScaleType(): ImageView.ScaleType {
             return when(this) {
                 Stretch -> ImageView.ScaleType.FIT_XY
-                ScaleFit -> ImageView.ScaleType.CENTER_INSIDE
+                ScaleFit -> ImageView.ScaleType.FIT_CENTER
                 ScaleCrop -> ImageView.ScaleType.CENTER_CROP
-                else -> ImageView.ScaleType.FIT_CENTER
+                else -> ImageView.ScaleType.CENTER_INSIDE
             }
         }
 
@@ -150,7 +150,7 @@ object ImageViewlet {
                         return enum
                     }
                 }
-                return FitCenter
+                return Center
             }
 
         }
