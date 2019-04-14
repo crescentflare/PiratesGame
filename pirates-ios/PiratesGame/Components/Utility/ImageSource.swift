@@ -314,7 +314,9 @@ class ImageSource {
                 }
                 parameterString += "otherSources=" + otherSourceString
             }
-            return parameterString
+            if parameterString.count > 0 {
+                return parameterString
+            }
         }
         return nil
     }

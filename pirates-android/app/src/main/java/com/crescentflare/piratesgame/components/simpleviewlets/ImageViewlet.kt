@@ -2,20 +2,24 @@ package com.crescentflare.piratesgame.components.simpleviewlets
 
 import android.content.Context
 import android.content.res.Resources
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
+import com.crescentflare.jsoninflator.JsonInflatable
+import com.crescentflare.jsoninflator.binder.InflatorBinder
+import com.crescentflare.jsoninflator.utility.InflatorMapUtil
 import com.crescentflare.piratesgame.components.utility.CustomNinePatchDrawable
 import com.crescentflare.piratesgame.components.utility.CustomThreePatchDrawable
 import com.crescentflare.piratesgame.components.utility.ImageSource
 import com.crescentflare.piratesgame.components.utility.ViewletUtil
 import com.crescentflare.unilayout.views.UniImageView
-import com.crescentflare.jsoninflator.JsonInflatable
-import com.crescentflare.jsoninflator.binder.InflatorBinder
-import com.crescentflare.jsoninflator.utility.InflatorMapUtil
 
 
 /**
@@ -64,11 +68,31 @@ object ImageViewlet {
         if (imageView != null) {
             if (source != null) {
                 source.onlineUri?.let {
+                    val skipMemoryCache = source.caching == ImageSource.Caching.Never
+                    val diskCacheStrategy = if (source.caching == ImageSource.Caching.Never) DiskCacheStrategy.NONE else DiskCacheStrategy.AUTOMATIC
                     if (source.type == ImageSource.Type.DevServerImage) {
                         val scale = Resources.getSystem().displayMetrics.density / 4f // Place xxxhdpi images in the dev server
-                        Glide.with(imageView).load(it).apply(RequestOptions().sizeMultiplier(scale)).into(imageView)
+                        Glide.with(imageView.context)
+                            .`as`(Drawable::class.java)
+                            .load(it)
+                            .diskCacheStrategy(diskCacheStrategy)
+                            .skipMemoryCache(skipMemoryCache)
+                            .into(object : CustomTarget<Drawable>() {
+                            override fun onLoadCleared(placeholder: Drawable?) {
+                                // No implementation
+                            }
+
+                            override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                                if (resource is BitmapDrawable) {
+                                    val scaledBitmap = Bitmap.createScaledBitmap(resource.bitmap, (resource.bitmap.width * scale).toInt(), (resource.bitmap.height * scale).toInt(), true)
+                                    imageView.setImageDrawable(BitmapDrawable(imageView.resources, scaledBitmap))
+                                } else {
+                                    imageView.setImageDrawable(resource)
+                                }
+                            }
+                        })
                     } else {
-                        Glide.with(imageView).load(it).into(imageView)
+                        Glide.with(imageView).load(it).diskCacheStrategy(diskCacheStrategy).skipMemoryCache(skipMemoryCache).into(imageView)
                     }
                     if (source.tintColor != 0) {
                         imageView.colorFilter = PorterDuffColorFilter(source.tintColor, PorterDuff.Mode.SRC_IN)

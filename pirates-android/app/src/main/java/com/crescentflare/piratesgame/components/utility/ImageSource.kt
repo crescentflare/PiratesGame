@@ -311,7 +311,9 @@ class ImageSource {
                 }
                 parameterString += "otherSources=$otherSourceString"
             }
-            return parameterString
+            if (parameterString.length > 0) {
+                return parameterString
+            }
         }
         return null
     }

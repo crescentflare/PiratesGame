@@ -107,6 +107,10 @@ class ImageViewlet {
             if let imageUrl = URL(string: onlineUri) {
                 let tintColor = source?.tintColor
                 let filter = AlamofireViewletFilter(scale: source?.type == .devServerImage ? UIScreen.main.scale / 4 : 1, withRenderingTemplate: tintColor != nil)
+                if source?.caching == .never {
+                    let identifier = "\(onlineUri)-\(filter.identifier)"
+                    _ = UIImageView.af_sharedImageDownloader.imageCache?.removeImage(withIdentifier: identifier)
+                }
                 imageView?.af_setImage(withURL: imageUrl, filter: filter)
                 imageView?.tintColor = tintColor ?? UIColor.clear
                 return true
