@@ -1,0 +1,798 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Pirate game page schema",
+  "description": "Defines the format of a JSON page for the pirate game",
+  "type": "object",
+  "properties": {
+    "metaData": {
+      "description": "A JSON object defining a free-form format of additional properties on the page",
+      "type": "object"
+    },
+    "modules": {
+      "description": "A number of controller modules for page logic",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/module"
+      }
+    },
+    "dataSets": {
+      "description": "A number of data sets in the page, including the layout",
+      "type": "object",
+      "properties": {
+        "layout": {
+          "description": "The layout of the page which is inflated in the view",
+          "$ref": "#/definitions/viewlet"
+        }
+      },
+      "required": [
+        "layout"
+      ]
+    }
+  },
+  "required": [
+    "dataSets"
+  ],
+  "definitions": {
+    "layoutDimension": {
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": [
+            "stretchToParent",
+            "fitContent"
+          ]
+        },
+        {
+          "type": "string",
+          "pattern": "^\\$.+$"
+        },
+        {
+          "type": "number"
+        },
+        {
+          "type": "string",
+          "pattern": "^-?\\d*\\.?\\d+(dp|sp|px|wp|hp|vw|vh|maxp|minp|vmin|vmax)$"
+        }
+      ]
+    },
+    "dimension": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^\\$.+$"
+        },
+        {
+          "type": "number"
+        },
+        {
+          "type": "string",
+          "pattern": "^-?\\d*\\.?\\d+(dp|sp|px|wp|hp|vw|vh|maxp|minp|vmin|vmax)$"
+        }
+      ]
+    },
+    "color": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^\\$.+$"
+        },
+        {
+          "type": "string",
+          "pattern": "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$"
+        },
+        {
+          "type": "string",
+          "pattern": "^(h|H)\\d+\\s*((s|S)\\d+)?\\s*((v|V)\\d+)?\\s*((l|L)\\d+)?\\s*((a|A)\\d+)?\\s*$"
+        }
+      ]
+    },
+    "gravity": {
+      "type": "string",
+      "enum": [
+        "left",
+        "right",
+        "top",
+        "bottom",
+        "center",
+        "centerHorizontal",
+        "centerVertical"
+      ]
+    },
+    "horizontalGravity": {
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": [
+            "left",
+            "center",
+            "right"
+          ]
+        },
+        {
+          "type": "number"
+        }
+      ]
+    },
+    "verticalGravity": {
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": [
+            "top",
+            "center",
+            "bottom"
+          ]
+        },
+        {
+          "type": "number"
+        }
+      ]
+    },
+    "appEvent": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^(.*):\\/\\/.+$"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "description": "The type of event to fire",
+              "type": "string",
+              "enum": [
+                "navigate",
+                "http",
+                "https",
+                "alert"
+              ]
+            },
+            "path": {
+              "description": "A path, name or subtype of the event",
+              "type": "string"
+            },
+            "name": {
+              "description": "A path, name or subtype of the event",
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "imageSource": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^(app|system|http|https|generate):\\/\\/.+$"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "description": "The type of image source to load",
+              "type": "string",
+              "enum": [
+                "app",
+                "system",
+                "http",
+                "https",
+                "generate"
+              ]
+            },
+            "path": {
+              "description": "A path or name of the image or generator",
+              "type": "string"
+            },
+            "name": {
+              "description": "A path or name of the image or generator",
+              "type": "string"
+            },
+            "otherSources": {
+              "description": "An array of other image sources to overlay",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/imageSource"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "module": {
+      "type": "object",
+      "properties": {
+        "module": {
+          "description": "The module, a small piece of controller logic for the page",
+          "type": "string",
+          "enum": [
+            "alert",
+            "navigation",
+            "splashLoader"
+          ]
+        }
+      },
+      "required": [
+        "module"
+      ]
+    },
+    "viewlet": {
+      "type": "object",
+      "properties": {
+        "viewlet": {
+          "description": "The viewlet, a type of view component",
+          "type": "string",
+          "enum": [
+            "view",
+            "image",
+            "spacer",
+            "spinner",
+            "text",
+            "button",
+            "gradient",
+            "tappableImage",
+            "frameContainer",
+            "linearContainer",
+            "navigationContainer",
+            "scrollContainer",
+            "bottomNavigationBar",
+            "simpleNavigationBar"
+          ]
+        },
+        "refId": {
+          "description": "A unique identifier, used to refer to the viewlet from the source code or modules",
+          "type": "string"
+        },
+        "width": {
+          "description": "The width of the view, determined by layout or with a fixed size",
+          "$ref": "#/definitions/layoutDimension"
+        },
+        "height": {
+          "description": "The height of the view, determined by layout or with a fixed size",
+          "$ref": "#/definitions/layoutDimension"
+        },
+        "minWidth": {
+          "description": "The minimum width of the view",
+          "$ref": "#/definitions/dimension"
+        },
+        "maxWidth": {
+          "description": "The maximum width of the view",
+          "$ref": "#/definitions/dimension"
+        },
+        "minHeight": {
+          "description": "The minimum height of the view",
+          "$ref": "#/definitions/dimension"
+        },
+        "maxHeight": {
+          "description": "The maximum height of the view",
+          "$ref": "#/definitions/dimension"
+        },
+        "weight": {
+          "description": "The weight of the view, used to size items in the remaining size of a linear container",
+          "type": "number"
+        },
+        "padding": {
+          "description": "A list of padding values in the order of left, top, right and bottom",
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {
+            "$ref": "#/definitions/dimension"
+          }
+        },
+        "paddingLeft": {
+          "description": "The left padding inside the view",
+          "$ref": "#/definitions/dimension"
+        },
+        "paddingTop": {
+          "description": "The top padding inside the view",
+          "$ref": "#/definitions/dimension"
+        },
+        "paddingRight": {
+          "description": "The right padding inside the view",
+          "$ref": "#/definitions/dimension"
+        },
+        "paddingBottom": {
+          "description": "The bottom padding inside the view",
+          "$ref": "#/definitions/dimension"
+        },
+        "margin": {
+          "description": "A list of margin values in the order of left, top, right and bottom",
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {
+            "$ref": "#/definitions/dimension"
+          }
+        },
+        "marginLeft": {
+          "description": "The left margin of the view",
+          "$ref": "#/definitions/dimension"
+        },
+        "marginTop": {
+          "description": "The top margin of the view",
+          "$ref": "#/definitions/dimension"
+        },
+        "marginRight": {
+          "description": "The right margin of the view",
+          "$ref": "#/definitions/dimension"
+        },
+        "marginBottom": {
+          "description": "The bottom margin of the view",
+          "$ref": "#/definitions/dimension"
+        },
+        "marginSpacing": {
+          "description": "The margin to the top or left of the view if it's not the first visible item in a linear container",
+          "$ref": "#/definitions/dimension"
+        },
+        "gravity": {
+          "description": "The gravity is the alignment to position a view within its container",
+          "$ref": "#/definitions/gravity"
+        },
+        "horizontalGravity": {
+          "description": "The gravity is the alignment to position a view within its container",
+          "$ref": "#/definitions/horizontalGravity"
+        },
+        "verticalGravity": {
+          "description": "The gravity is the alignment to position a view within its container",
+          "$ref": "#/definitions/verticalGravity"
+        },
+        "visibility": {
+          "description": "Determines the visibility of the view",
+          "type": "string",
+          "enum": [
+            "visible",
+            "hidden",
+            "invisible"
+          ],
+          "default": "visible"
+        },
+        "disabled": {
+          "description": "Disabled interaction on the view",
+          "type": "boolean"
+        },
+        "backgroundColor": {
+          "description": "The color behind the content of the view",
+          "$ref": "#/definitions/color"
+        },
+        "recycling": {
+          "description": "Recycle or replace sub items on refresh",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "viewlet"
+      ],
+      "anyOf": [
+        {
+          "if": {
+            "properties": {
+              "viewlet": {
+                "const": "image"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "source": {
+                "description": "An internal or external image source",
+                "$ref": "#/definitions/imageSource"
+              },
+              "scaleType": {
+                "description": "Determines how the image scales within its frame",
+                "type": "string",
+                "enum": [
+                  "center",
+                  "stretch",
+                  "scaleFit",
+                  "scaleCrop"
+                ],
+                "default": "center"
+              }
+            }
+          },
+          "else": {}
+        },
+        {
+          "if": {
+            "properties": {
+              "viewlet": {
+                "const": "spacer"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "takeWidth": {
+                "description": "Takes an amount of space for its width",
+                "type": "string",
+                "enum": [
+                  "none",
+                  "topSafeArea",
+                  "bottomSafeArea"
+                ],
+                "default": "none"
+              },
+              "takeHeight": {
+                "description": "Takes an amount of space for its height",
+                "type": "string",
+                "enum": [
+                  "none",
+                  "topSafeArea",
+                  "bottomSafeArea"
+                ],
+                "default": "none"
+              }
+            }
+          },
+          "else": {}
+        },
+        {
+          "if": {
+            "properties": {
+              "viewlet": {
+                "const": "spinner"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "colorStyle": {
+                "description": "The visual style of the spinner",
+                "type": "string",
+                "enum": [
+                  "normal",
+                  "inverted"
+                ],
+                "default": "standard"
+              }
+            }
+          },
+          "else": {}
+        },
+        {
+          "if": {
+            "properties": {
+              "viewlet": {
+                "const": "text"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "localizedText": {
+                "description": "The localized string key of the text",
+                "type": "string"
+              },
+              "text": {
+                "description": "The text",
+                "type": "string"
+              },
+              "localizedMarkdownText": {
+                "description": "The localized string key of the text, the localized text is in markdown format",
+                "type": "string"
+              },
+              "markdownText": {
+                "description": "The text, formatted as markdown",
+                "type": "string"
+              },
+              "textColor": {
+                "description": "The color of the text",
+                "$ref": "#/definitions/color"
+              },
+              "textSize": {
+                "description": "The size of the text",
+                "$ref": "#/definitions/dimension"
+              },
+              "font": {
+                "description": "The font of the text",
+                "type": "string",
+                "enum": [
+                  "normal",
+                  "italics",
+                  "bold",
+                  "boldItalics",
+                  "titleBold"
+                ],
+                "default": "normal"
+              },
+              "maxLines": {
+                "description": "The maximum amount of lines of the text, 0 = no limitation",
+                "type": "integer",
+                "default": 0
+              },
+              "textAlignment": {
+                "description": "The horizontal alignment of the text within its frame",
+                "type": "string",
+                "enum": [
+                  "left",
+                  "right",
+                  "center"
+                ],
+                "default": "left"
+              }
+            }
+          },
+          "else": {}
+        },
+        {
+          "if": {
+            "properties": {
+              "viewlet": {
+                "const": "button"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "localizedText": {
+                "description": "The localized string key of the button text",
+                "type": "string"
+              },
+              "text": {
+                "description": "The button text",
+                "type": "string"
+              },
+              "textSize": {
+                "description": "The size of the text",
+                "$ref": "#/definitions/dimension"
+              },
+              "colorStyle": {
+                "description": "The visual style and color of the button",
+                "type": "string",
+                "enum": [
+                  "primary",
+                  "primaryInverted",
+                  "secondary",
+                  "navigationBar",
+                  "navigationBarInverted"
+                ],
+                "default": "primary"
+              },
+              "tapEvent": {
+                "description": "Send an event when tapping on the button",
+                "$ref": "#/definitions/appEvent"
+              }
+            }
+          },
+          "else": {}
+        },
+        {
+          "if": {
+            "properties": {
+              "viewlet": {
+                "const": "gradient"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "startColor": {
+                "description": "The starting color of the gradient",
+                "$ref": "#/definitions/color"
+              },
+              "endColor": {
+                "description": "The ending color of the gradient",
+                "$ref": "#/definitions/color"
+              },
+              "angle": {
+                "description": "The angle of the linear gradient",
+                "type": "integer"
+              }
+            }
+          },
+          "else": {}
+        },
+        {
+          "if": {
+            "properties": {
+              "viewlet": {
+                "const": "tappableImage"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "source": {
+                "description": "An internal or external image source",
+                "$ref": "#/definitions/imageSource"
+              },
+              "highlightedSource": {
+                "description": "The image source of the highlighted state",
+                "$ref": "#/definitions/imageSource"
+              },
+              "highlightedColor": {
+                "description": "Colorize the image source when highlighted, specify this when not using a separate image",
+                "$ref": "#/definitions/color"
+              },
+              "tapEvent": {
+                "description": "Send an event when tapping on the inage",
+                "$ref": "#/definitions/appEvent"
+              }
+            }
+          },
+          "else": {}
+        },
+        {
+          "if": {
+            "properties": {
+              "viewlet": {
+                "const": "frameContainer"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "items": {
+                "description": "A list of viewlets in a container component",
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/viewlet"
+                },
+                "default": []
+              },
+              "tapEvent": {
+                "description": "Send an event when tapping on the container",
+                "$ref": "#/definitions/appEvent"
+              },
+              "containerName": {
+                "description": "The name of the container, useful when declaring a tap event on it",
+                "type": "string"
+              }
+            }
+          },
+          "else": {}
+        },
+        {
+          "if": {
+            "properties": {
+              "viewlet": {
+                "const": "linearContainer"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "items": {
+                "description": "A list of viewlets in a container component",
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/viewlet"
+                },
+                "default": []
+              },
+              "orientation": {
+                "description": "The orientation of a linear container viewlet, can be horizontal or vertical",
+                "type": "string",
+                "enum": [
+                  "horizontal",
+                  "vertical"
+                ],
+                "default": "vertical"
+              },
+              "tapEvent": {
+                "description": "Send an event when tapping on the container",
+                "$ref": "#/definitions/appEvent"
+              },
+              "containerName": {
+                "description": "The name of the container, useful when declaring a tap event on it",
+                "type": "string"
+              }
+            }
+          },
+          "else": {}
+        },
+        {
+          "if": {
+            "properties": {
+              "viewlet": {
+                "const": "navigationContainer"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "content": {
+                "description": "The main content outside of the navigation bars",
+                "$ref": "#/definitions/viewlet"
+              },
+              "topBar": {
+                "description": "The top navigation bar",
+                "$ref": "#/definitions/viewlet"
+              },
+              "bottomBar": {
+                "description": "The bottom navigation bar or iPhone X bottom safe area underlay",
+                "$ref": "#/definitions/viewlet"
+              },
+              "linkedScrollContainer": {
+                "description": "A refId to a scroll container that's linked to the navigation bar components, used to set padding and navigation bar effects",
+                "type": "string"
+              },
+              "automaticScrollPadding": {
+                "description": "Automatically apply padding to the linked scroll container, based on the size of the transparent navigation bar elements",
+                "type": "string",
+                "enum": [
+                  "none",
+                  "topAndBottom",
+                  "statusAndBottom"
+                ]
+              }
+            }
+          },
+          "else": {}
+        },
+        {
+          "if": {
+            "properties": {
+              "viewlet": {
+                "const": "scrollContainer"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "item": {
+                "description": "Child of the scroll container",
+                "type": "object"
+              },
+              "fillContent": {
+                "description": "Stretches the child to the scroll view size when it's smaller",
+                "type": "boolean"
+              },
+              "pullToRefreshEvent": {
+                "description": "Send an event when pulling to refresh",
+                "$ref": "#/definitions/appEvent"
+              }
+            }
+          },
+          "else": {}
+        },
+        {
+          "if": {
+            "properties": {
+              "viewlet": {
+                "const": "simpleNavigationBar"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "localizedTitle": {
+                "description": "The localized string key of the bar title",
+                "type": "string"
+              },
+              "title": {
+                "description": "The bar title",
+                "type": "string"
+              },
+              "backIcon": {
+                "description": "The icon for back navigation",
+                "$ref": "#/definitions/imageSource"
+              },
+              "menuActionIcon": {
+                "description": "An icon for a navigation menu action",
+                "$ref": "#/definitions/imageSource"
+              },
+              "localizedMenuActionText": {
+                "description": "A localized string key for a navigation menu action",
+                "type": "string"
+              },
+              "menuActionText": {
+                "description": "A text for a navigation menu action",
+                "type": "string"
+              },
+              "backEvent": {
+                "description": "Send an event when clicking on the back icon",
+                "$ref": "#/definitions/appEvent"
+              },
+              "menuActionEvent": {
+                "description": "Send an event when clicking on the menu action icon or text",
+                "$ref": "#/definitions/appEvent"
+              }
+            }
+          },
+          "else": {}
+        }
+      ]
+    }
+  }
+}
