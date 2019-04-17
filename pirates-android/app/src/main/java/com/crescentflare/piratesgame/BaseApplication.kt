@@ -15,8 +15,8 @@ import com.crescentflare.piratesgame.components.containers.LinearContainerView
 import com.crescentflare.piratesgame.components.containers.NavigationContainerView
 import com.crescentflare.piratesgame.components.containers.ScrollContainerView
 import com.crescentflare.piratesgame.components.game.LevelView
-import com.crescentflare.piratesgame.components.navigationbars.SolidNavigationBar
-import com.crescentflare.piratesgame.components.navigationbars.TransparentNavigationBar
+import com.crescentflare.piratesgame.components.navigationbars.BottomNavigationBar
+import com.crescentflare.piratesgame.components.navigationbars.SimpleNavigationBar
 import com.crescentflare.piratesgame.components.simpleviewlets.ImageViewlet
 import com.crescentflare.piratesgame.components.utility.ViewletUtil
 import com.crescentflare.piratesgame.components.simpleviewlets.SpacerViewlet
@@ -111,8 +111,8 @@ class BaseApplication : Application(), AppConfigStorage.ChangedConfigListener {
         Inflators.viewlet.register("level", LevelView.viewlet)
 
         // Navigation bars
-        Inflators.viewlet.register("solidNavigationBar", SolidNavigationBar.viewlet)
-        Inflators.viewlet.register("transparentNavigationBar", TransparentNavigationBar.viewlet)
+        Inflators.viewlet.register("bottomNavigationBar", BottomNavigationBar.viewlet)
+        Inflators.viewlet.register("simpleNavigationBar", SimpleNavigationBar.viewlet)
 
         // Simple viewlets
         Inflators.viewlet.register("image", ImageViewlet.viewlet)

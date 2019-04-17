@@ -209,6 +209,26 @@ object ViewletUtil {
 
 
     // --
+    // Color calculation
+    // --
+
+    fun colorIntensity(backgroundColor: Int): Double {
+        val colorComponents = doubleArrayOf(
+            (backgroundColor and 0xFF).toDouble() / 255.0,
+            (backgroundColor and 0xFF00 shr 8).toDouble() / 255.0,
+            (backgroundColor and 0xFF0000 shr 16).toDouble() / 255.0
+        )
+        for (i in colorComponents.indices) {
+            if (colorComponents[i] <= 0.03928) {
+                colorComponents[i] /= 12.92
+            }
+            colorComponents[i] = Math.pow((colorComponents[i] + 0.055) / 1.055, 2.4)
+        }
+        return 0.2126 * colorComponents[0] + 0.7152 * colorComponents[1] + 0.0722 * colorComponents[2]
+    }
+
+
+    // --
     // Easy localization with fallback
     // --
 

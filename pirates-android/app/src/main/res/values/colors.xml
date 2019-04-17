@@ -17,6 +17,10 @@
     <color name="textInverted">#ffffff</color>
     <color name="textDisabled">#9a9a9a</color>
 
+    <!-- Component: navigation bar -->
+    <color name="navigationBarHighlight">#80000000</color>
+    <color name="navigationBarHighlightInverted">#80000000</color>
+
     <!-- Android app styling -->
     <color name="colorPrimary">@color/primary</color>
     <color name="colorPrimaryDark">#003b46</color>

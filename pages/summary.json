@@ -14,12 +14,12 @@
       "height": "stretchToParent",
       "recycling": true,
       "topBar": {
-        "viewlet": "solidNavigationBar",
+        "viewlet": "simpleNavigationBar",
         "backgroundColor": "$primary",
         "localizedTitle": "GLOBAL_APP_NAME"
       },
       "bottomBar": {
-        "viewlet": "solidNavigationBar",
+        "viewlet": "bottomNavigationBar",
         "backgroundColor": "$primary"
       },
       "content": {

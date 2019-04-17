@@ -1,0 +1,99 @@
+{
+  "viewlet": "linearContainer",
+  "items": [
+    {
+      "refId": "statusContainer",
+      "viewlet": "view",
+      "width": "stretchToParent"
+    },
+    {
+      "refId": "barContainer",
+      "viewlet": "linearContainer",
+      "orientation": "horizontal",
+      "width": "stretchToParent",
+      "height": "stretchToParent",
+      "items": [
+        {
+          "viewlet": "frameContainer",
+          "height": "stretchToParent",
+          "items": [
+            {
+              "viewlet": "view",
+              "width": 16
+            },
+            {
+              "refId": "backIcon",
+              "viewlet": "tappableImage",
+              "paddingLeft": 16,
+              "paddingRight": 16,
+              "gravity": "centerVertical",
+              "visibility": "hidden"
+            },
+            {
+              "refId": "menuActionIconSpacer",
+              "viewlet": "image",
+              "paddingLeft": 16,
+              "paddingRight": 16,
+              "visibility": "hidden"
+            },
+            {
+              "refId": "menuActionTextSpacer",
+              "viewlet": "button",
+              "gravity": "centerVertical",
+              "colorStyle": "navigationBarInverted",
+              "font": "titleBold",
+              "textColor": "$textInverted",
+              "visibility": "hidden"
+            }
+          ]
+        },
+        {
+          "refId": "title",
+          "viewlet": "text",
+          "weight": 1,
+          "gravity": "centerVertical",
+          "font": "titleBold",
+          "textSize": "$subTitleText",
+          "textColor": "$textInverted",
+          "textAlignment": "center",
+          "maxLines": 1
+        },
+        {
+          "viewlet": "frameContainer",
+          "height": "stretchToParent",
+          "items": [
+            {
+              "viewlet": "view",
+              "width": 16
+            },
+            {
+              "refId": "backIconSpacer",
+              "viewlet": "image",
+              "paddingLeft": 16,
+              "paddingRight": 16,
+              "gravity": "centerVertical",
+              "visibility": "hidden"
+            },
+            {
+              "refId": "menuActionIcon",
+              "viewlet": "tappableImage",
+              "paddingLeft": 16,
+              "paddingRight": 16,
+              "gravity": "centerVertical",
+              "visibility": "hidden"
+            },
+            {
+              "refId": "menuActionText",
+              "viewlet": "button",
+              "height": "stretchToParent",
+              "colorStyle": "navigationBarInverted",
+              "font": "titleBold",
+              "textColor": "$textInverted",
+              "visibility": "hidden"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

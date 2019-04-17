@@ -91,13 +91,24 @@ abstract class NavigationActivity : AppCompatActivity(), SwipeRefreshLayout.OnRe
                 Pair("recycling", true),
                 Pair("content", layout ?: emptyMap()),
                 Pair("topBar", mapOf(
-                    Pair("viewlet", "transparentNavigationBar"),
+                    Pair("viewlet", "simpleNavigationBar"),
+                    Pair("width", "stretchToParent")
+                )),
+                Pair("bottomBar", mapOf(
+                    Pair("viewlet", "bottomNavigationBar"),
                     Pair("width", "stretchToParent")
                 ))
             )
-        } else if (!inflateLayout.containsKey("topBar")) {
+        }
+        if (!inflateLayout.containsKey("topBar")) {
             inflateLayout["topBar"] = mapOf(
-                Pair("viewlet", "transparentNavigationBar"),
+                Pair("viewlet", "simpleNavigationBar"),
+                Pair("width", "stretchToParent")
+            )
+        }
+        if (!inflateLayout.containsKey("bottomBar")) {
+            inflateLayout["bottomBar"] = mapOf(
+                Pair("viewlet", "bottomNavigationBar"),
                 Pair("width", "stretchToParent")
             )
         }
@@ -157,6 +168,15 @@ abstract class NavigationActivity : AppCompatActivity(), SwipeRefreshLayout.OnRe
                 decor.systemUiVisibility = decor.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
             } else {
                 decor.systemUiVisibility -= decor.systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            }
+        }
+        val lightNavigationIcons = (activityView.bottomBarView as? NavigationBarComponent)?.lightContent ?: true
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val decor = window.decorView
+            if (!lightNavigationIcons) {
+                decor.systemUiVisibility = decor.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+            } else {
+                decor.systemUiVisibility -= decor.systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
             }
         }
     }

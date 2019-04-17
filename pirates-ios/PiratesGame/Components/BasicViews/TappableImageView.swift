@@ -8,10 +8,16 @@ import UniLayout
 import JsonInflator
 
 class TappableImageView: FrameContainerView {
-
+    
     // --
     // MARK: Members
     // --
+    
+    var normalTintColor: UIColor? {
+        didSet {
+            updateState()
+        }
+    }
     
     private let normalImageView = UniImageView()
     private let highlightedImageView = UniImageView()
@@ -34,18 +40,18 @@ class TappableImageView: FrameContainerView {
         func update(convUtil: InflatorConvUtil, object: Any, attributes: [String: Any], parent: Any?, binder: InflatorBinder?) -> Bool {
             if let imageView = object as? TappableImageView {
                 // Apply image states
-                imageView.image = ImageSource(value: attributes["image"])
-                imageView.highlightedImage = ImageSource(value: attributes["highlightedImage"])
+                imageView.source = ImageSource(value: attributes["source"])
+                imageView.highlightedSource = ImageSource(value: attributes["highlightedSource"])
                 
                 // Apply separate colorization
                 imageView.highlightedColor = convUtil.asColor(value: attributes["highlightedColor"])
-
+                
                 // Generic view properties
                 ViewletUtil.applyGenericViewAttributes(convUtil: convUtil, view: imageView, attributes: attributes)
-
+                
                 // Event handling
                 imageView.tapEvent = AppEvent(value: attributes["tapEvent"])
-
+                
                 // Forward event observer
                 if let eventObserver = parent as? AppEventObserver {
                     imageView.eventObserver = eventObserver
@@ -60,12 +66,12 @@ class TappableImageView: FrameContainerView {
         }
         
     }
-
-
+    
+    
     // --
     // MARK: Initialization
     // --
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -87,56 +93,57 @@ class TappableImageView: FrameContainerView {
             imageView.layoutProperties.horizontalGravity = 0.5
             imageView.layoutProperties.verticalGravity = 0.5
         }
-
+        
         // Default state
         highlightedImageView.isHidden = true
     }
     
-
+    
     // --
     // MARK: Configurable values
     // --
     
-    var image: ImageSource? {
+    var source: ImageSource? {
         didSet {
-            ImageViewlet.applyImageSource(imageView: normalImageView, source: image)
+            ImageViewlet.applyImageSource(imageView: normalImageView, source: source)
+            normalTintColor = source?.tintColor
         }
     }
-
-    var highlightedImage: ImageSource? {
+    
+    var highlightedSource: ImageSource? {
         didSet {
-            ImageViewlet.applyImageSource(imageView: highlightedImageView, source: highlightedImage)
+            ImageViewlet.applyImageSource(imageView: highlightedImageView, source: highlightedSource)
             updateState()
         }
     }
     
     var highlightedColor: UIColor? {
         didSet {
-            highlightedImageView.internalImageView.tintColor = highlightedColor ?? highlightedImage?.tintColor
+            highlightedImageView.internalImageView.tintColor = highlightedColor ?? highlightedSource?.tintColor
             updateState()
         }
     }
-
-
+    
+    
     // --
     // MARK: Interaction
     // --
-
+    
     override var isHighlighted: Bool {
         didSet {
             updateState()
         }
     }
-   
-
+    
+    
     // --
     // MARK: Helper
     // --
     
     private func updateState() {
-        normalImageView.isHidden = isHighlighted && highlightedImage != nil
-        highlightedImageView.isHidden = !isHighlighted || highlightedImage == nil
-        normalImageView.internalImageView.tintColor = isHighlighted ? highlightedColor ?? image?.tintColor : image?.tintColor
+        normalImageView.isHidden = isHighlighted && highlightedSource != nil
+        highlightedImageView.isHidden = !isHighlighted || highlightedSource == nil
+        normalImageView.internalImageView.tintColor = isHighlighted ? highlightedColor ?? normalTintColor : normalTintColor
     }
-
+    
 }

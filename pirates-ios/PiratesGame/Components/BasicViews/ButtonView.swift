@@ -12,6 +12,8 @@ enum ButtonViewColorStyle: String {
     case primary = "primary"
     case primaryInverted = "primaryInverted"
     case secondary = "secondary"
+    case navigationBar = "navigationBar"
+    case navigationBarInverted = "navigationBarInverted"
     
 }
 
@@ -100,7 +102,6 @@ class ButtonView: UniButtonView, AppEventLabeledSender {
     
     fileprivate func setup() {
         setColorStyle(.primary)
-        padding = UIEdgeInsets(top: AppDimensions.buttonVerticalPadding, left: AppDimensions.buttonHorizontalPadding, bottom: AppDimensions.buttonVerticalPadding, right: AppDimensions.buttonHorizontalPadding)
         layoutProperties.minHeight = AppDimensions.buttonHeight
         titleLabel?.font = AppFonts.normal.font(ofSize: AppDimensions.buttonText)
         titleLabel?.numberOfLines = 0
@@ -125,6 +126,7 @@ class ButtonView: UniButtonView, AppEventLabeledSender {
     }
     
     func setColorStyle(_ colorStyle: ButtonViewColorStyle) {
+        // Determine colors
         var textColorSet = textColorsForPrimary()
         switch colorStyle {
         case .primary:
@@ -142,10 +144,24 @@ class ButtonView: UniButtonView, AppEventLabeledSender {
             setBackgroundImage(ButtonView.secondaryButtonImage, for: .normal)
             setBackgroundImage(ButtonView.secondaryHighlightButtonImage, for: .highlighted)
             setBackgroundImage(ButtonView.disabledButtonImage, for: .disabled)
+        case .navigationBar:
+            textColorSet = textColorsForNavigationBar()
+            setBackgroundImage(nil, for: .normal)
+            setBackgroundImage(nil, for: .highlighted)
+            setBackgroundImage(nil, for: .disabled)
+        case .navigationBarInverted:
+            textColorSet = textColorsForNavigationBarInverted()
+            setBackgroundImage(nil, for: .normal)
+            setBackgroundImage(nil, for: .highlighted)
+            setBackgroundImage(nil, for: .disabled)
         }
+        
+        // Apply title color and padding
+        let horizontalPadding = colorStyle == .navigationBar || colorStyle == .navigationBarInverted ? AppDimensions.buttonNavigationHorizontalPadding : AppDimensions.buttonHorizontalPadding
         setTitleColor(textColorSet[0], for: .normal)
         setTitleColor(textColorSet[1], for: .highlighted)
         setTitleColor(textColorSet[2], for: .disabled)
+        padding = UIEdgeInsets(top: AppDimensions.buttonVerticalPadding, left: horizontalPadding, bottom: AppDimensions.buttonVerticalPadding, right: horizontalPadding)
     }
     
 
@@ -182,6 +198,14 @@ class ButtonView: UniButtonView, AppEventLabeledSender {
         return [ AppColors.textInverted, AppColors.textInverted, AppColors.textDisabled ]
     }
     
+    private func textColorsForNavigationBar() -> [UIColor] {
+        return [ AppColors.text, AppColors.text.withAlphaComponent(0.5), AppColors.text.withAlphaComponent(0.5) ]
+    }
+
+    private func textColorsForNavigationBarInverted() -> [UIColor] {
+        return [ AppColors.textInverted, AppColors.textInverted.withAlphaComponent(0.5), AppColors.textInverted.withAlphaComponent(0.5) ]
+    }
+
     private static var primaryButtonImage: UIImage? {
         get {
             return imageForButton(colorDefinition: "$secondary", edgeColorDefinition: "$secondaryHighlight")

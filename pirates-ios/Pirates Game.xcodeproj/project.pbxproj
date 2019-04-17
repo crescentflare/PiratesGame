@@ -10,7 +10,6 @@
 		041558DC2232A200001158FA /* ScrollContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041558C72232A200001158FA /* ScrollContainerView.swift */; };
 		041558DD2232A200001158FA /* LinearContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041558C82232A200001158FA /* LinearContainerView.swift */; };
 		041558DE2232A200001158FA /* FrameContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041558C92232A200001158FA /* FrameContainerView.swift */; };
-		041558DF2232A200001158FA /* TransparentNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041558CB2232A200001158FA /* TransparentNavigationBar.swift */; };
 		041558E02232A200001158FA /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041558CD2232A200001158FA /* GradientView.swift */; };
 		041558E12232A200001158FA /* TextViewlet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041558CF2232A200001158FA /* TextViewlet.swift */; };
 		041558E22232A200001158FA /* SpacerViewlet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041558D02232A200001158FA /* SpacerViewlet.swift */; };
@@ -45,8 +44,10 @@
 		042DBC0122328EB6008831FE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 042DBC0022328EB6008831FE /* Assets.xcassets */; };
 		042DBC0422328EB6008831FE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 042DBC0222328EB6008831FE /* LaunchScreen.storyboard */; };
 		043DF17222353AED00F686B1 /* NavigationModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043DF17122353AED00F686B1 /* NavigationModule.swift */; };
-		043DF17422353EE300F686B1 /* SolidNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043DF17322353EE300F686B1 /* SolidNavigationBar.swift */; };
 		043DF1762235511A00F686B1 /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043DF1752235511A00F686B1 /* ButtonView.swift */; };
+		048DA9B022670AB6003141F5 /* SimpleNavigationBar.json in Resources */ = {isa = PBXBuildFile; fileRef = 048DA9AF22670AB6003141F5 /* SimpleNavigationBar.json */; };
+		048DA9B322670BF3003141F5 /* BottomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048DA9B122670BF3003141F5 /* BottomNavigationBar.swift */; };
+		048DA9B422670BF3003141F5 /* SimpleNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048DA9B222670BF3003141F5 /* SimpleNavigationBar.swift */; };
 		049357E4225A11D7008A5B5E /* NavigationContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049357E3225A11D7008A5B5E /* NavigationContainerView.swift */; };
 		049B63442232A8F700AFB13B /* Pages in Resources */ = {isa = PBXBuildFile; fileRef = 049B63432232A8F700AFB13B /* Pages */; };
 		049B634D2232BADC00AFB13B /* SplashAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049B634A2232BADC00AFB13B /* SplashAnimation.swift */; };
@@ -62,7 +63,6 @@
 		049C3B4B223A9FCE00856808 /* FilledRectGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049C3B48223A9FCE00856808 /* FilledRectGenerator.swift */; };
 		049C3B4C223A9FCE00856808 /* UIImageGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049C3B49223A9FCE00856808 /* UIImageGenerator.swift */; };
 		049C3B4D223A9FCE00856808 /* FilledOvalGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049C3B4A223A9FCE00856808 /* FilledOvalGenerator.swift */; };
-		04AA27752236AC6E0007FCAB /* SolidNavigationBar.json in Resources */ = {isa = PBXBuildFile; fileRef = 04AA27742236AC6E0007FCAB /* SolidNavigationBar.json */; };
 		04BA4485224413AC0095B8F0 /* LevelEntitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BA4484224413AC0095B8F0 /* LevelEntitiesView.swift */; };
 		04CB48AF22621AEF00FD1770 /* TappableImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CB48AE22621AEF00FD1770 /* TappableImageView.swift */; };
 		04DD4DA4223AE90900BD5AA4 /* LevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD4DA3223AE90900BD5AA4 /* LevelView.swift */; };
@@ -76,7 +76,6 @@
 		041558C72232A200001158FA /* ScrollContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollContainerView.swift; sourceTree = "<group>"; };
 		041558C82232A200001158FA /* LinearContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinearContainerView.swift; sourceTree = "<group>"; };
 		041558C92232A200001158FA /* FrameContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameContainerView.swift; sourceTree = "<group>"; };
-		041558CB2232A200001158FA /* TransparentNavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransparentNavigationBar.swift; sourceTree = "<group>"; };
 		041558CD2232A200001158FA /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		041558CF2232A200001158FA /* TextViewlet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextViewlet.swift; sourceTree = "<group>"; };
 		041558D02232A200001158FA /* SpacerViewlet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpacerViewlet.swift; sourceTree = "<group>"; };
@@ -113,8 +112,10 @@
 		042DBC0322328EB6008831FE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		042DBC0522328EB6008831FE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		043DF17122353AED00F686B1 /* NavigationModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationModule.swift; sourceTree = "<group>"; };
-		043DF17322353EE300F686B1 /* SolidNavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SolidNavigationBar.swift; sourceTree = "<group>"; };
 		043DF1752235511A00F686B1 /* ButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
+		048DA9AF22670AB6003141F5 /* SimpleNavigationBar.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SimpleNavigationBar.json; sourceTree = "<group>"; };
+		048DA9B122670BF3003141F5 /* BottomNavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomNavigationBar.swift; sourceTree = "<group>"; };
+		048DA9B222670BF3003141F5 /* SimpleNavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleNavigationBar.swift; sourceTree = "<group>"; };
 		049357E3225A11D7008A5B5E /* NavigationContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationContainerView.swift; sourceTree = "<group>"; };
 		049B63432232A8F700AFB13B /* Pages */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Pages; sourceTree = "<group>"; };
 		049B634A2232BADC00AFB13B /* SplashAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashAnimation.swift; sourceTree = "<group>"; };
@@ -129,7 +130,6 @@
 		049C3B48223A9FCE00856808 /* FilledRectGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilledRectGenerator.swift; sourceTree = "<group>"; };
 		049C3B49223A9FCE00856808 /* UIImageGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageGenerator.swift; sourceTree = "<group>"; };
 		049C3B4A223A9FCE00856808 /* FilledOvalGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilledOvalGenerator.swift; sourceTree = "<group>"; };
-		04AA27742236AC6E0007FCAB /* SolidNavigationBar.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SolidNavigationBar.json; sourceTree = "<group>"; };
 		04BA4484224413AC0095B8F0 /* LevelEntitiesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelEntitiesView.swift; sourceTree = "<group>"; };
 		04CB48AE22621AEF00FD1770 /* TappableImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TappableImageView.swift; sourceTree = "<group>"; };
 		04DD4DA3223AE90900BD5AA4 /* LevelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelView.swift; sourceTree = "<group>"; };
@@ -200,8 +200,8 @@
 		041558CA2232A200001158FA /* NavigationBars */ = {
 			isa = PBXGroup;
 			children = (
-				043DF17322353EE300F686B1 /* SolidNavigationBar.swift */,
-				041558CB2232A200001158FA /* TransparentNavigationBar.swift */,
+				048DA9B122670BF3003141F5 /* BottomNavigationBar.swift */,
+				048DA9B222670BF3003141F5 /* SimpleNavigationBar.swift */,
 			);
 			path = NavigationBars;
 			sourceTree = "<group>";
@@ -402,7 +402,7 @@
 		049B634F2232BBFC00AFB13B /* Layout */ = {
 			isa = PBXGroup;
 			children = (
-				04AA27742236AC6E0007FCAB /* SolidNavigationBar.json */,
+				048DA9AF22670AB6003141F5 /* SimpleNavigationBar.json */,
 				049B63502232BBFC00AFB13B /* SplashAnimation.json */,
 				049B63552232E9CB00AFB13B /* SplashLoadingBar.json */,
 			);
@@ -540,7 +540,7 @@
 				049B63562232E9CB00AFB13B /* SplashLoadingBar.json in Resources */,
 				049B635F2232FB7C00AFB13B /* primitive.ttf in Resources */,
 				049B63512232BBFD00AFB13B /* SplashAnimation.json in Resources */,
-				04AA27752236AC6E0007FCAB /* SolidNavigationBar.json in Resources */,
+				048DA9B022670AB6003141F5 /* SimpleNavigationBar.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -590,6 +590,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				043DF1762235511A00F686B1 /* ButtonView.swift in Sources */,
+				048DA9B422670BF3003141F5 /* SimpleNavigationBar.swift in Sources */,
 				041559142232A510001158FA /* ControllerModule.swift in Sources */,
 				049B634E2232BADC00AFB13B /* PublisherLogo.swift in Sources */,
 				042DBBFC22328EB4008831FE /* PageViewController.swift in Sources */,
@@ -600,14 +601,12 @@
 				041559022232A42C001158FA /* AppEventLabeledSender.swift in Sources */,
 				04E0FA23223E9025006017D3 /* LevelTileMapView.swift in Sources */,
 				041558E12232A200001158FA /* TextViewlet.swift in Sources */,
-				043DF17422353EE300F686B1 /* SolidNavigationBar.swift in Sources */,
 				041559052232A42C001158FA /* CustomAppConfigModel.swift in Sources */,
 				041558E72232A200001158FA /* AppFonts.swift in Sources */,
 				041558DE2232A200001158FA /* FrameContainerView.swift in Sources */,
 				041559112232A510001158FA /* PageCache.swift in Sources */,
 				041559042232A42C001158FA /* EventReceiverTool.swift in Sources */,
 				041559032232A42C001158FA /* AppEventObserver.swift in Sources */,
-				041558DF2232A200001158FA /* TransparentNavigationBar.swift in Sources */,
 				041558E32232A200001158FA /* ImageViewlet.swift in Sources */,
 				041558E42232A200001158FA /* SpinnerViewlet.swift in Sources */,
 				041558DD2232A200001158FA /* LinearContainerView.swift in Sources */,
@@ -631,6 +630,7 @@
 				041558DC2232A200001158FA /* ScrollContainerView.swift in Sources */,
 				041558EB2232A200001158FA /* NavigationBarComponent.swift in Sources */,
 				041559152232A510001158FA /* AlertModule.swift in Sources */,
+				048DA9B322670BF3003141F5 /* BottomNavigationBar.swift in Sources */,
 				041558FC2232A42C001158FA /* String+MD5.swift in Sources */,
 				041558E22232A200001158FA /* SpacerViewlet.swift in Sources */,
 				049BCA43225615BA001BCEED /* StrokedPathGenerator.swift in Sources */,

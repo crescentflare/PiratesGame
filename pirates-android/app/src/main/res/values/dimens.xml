@@ -8,6 +8,7 @@
 
     <!-- Component padding and spacing -->
     <dimen name="buttonHorizontalPadding">8dp</dimen>
+    <dimen name="buttonNavigationHorizontalPadding">16dp</dimen>
     <dimen name="buttonVerticalPadding">4dp</dimen>
     <dimen name="buttonHeight">40dp</dimen>
 

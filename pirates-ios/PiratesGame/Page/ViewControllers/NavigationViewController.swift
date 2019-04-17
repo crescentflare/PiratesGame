@@ -43,13 +43,24 @@ class NavigationViewController: UIViewController {
                 "recycling": true,
                 "content": layout ?? [:],
                 "topBar": [
-                    "viewlet": "transparentNavigationBar",
+                    "viewlet": "simpleNavigationBar",
+                    "width": "stretchToParent"
+                ],
+                "bottomBar": [
+                    "viewlet": "bottomNavigationBar",
                     "width": "stretchToParent"
                 ]
             ]
-        } else if inflateLayout["topBar"] == nil {
+        }
+        if inflateLayout["topBar"] == nil {
             inflateLayout["topBar"] = [
-                "viewlet": "transparentNavigationBar",
+                "viewlet": "simpleNavigationBar",
+                "width": "stretchToParent"
+            ]
+        }
+        if inflateLayout["bottomBar"] == nil {
+            inflateLayout["bottomBar"] = [
+                "viewlet": "bottomNavigationBar",
                 "width": "stretchToParent"
             ]
         }
@@ -73,6 +84,7 @@ class NavigationViewController: UIViewController {
         navigationBar?.backgroundColor = UIColor.clear
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isHidden = true
     }
     
 }

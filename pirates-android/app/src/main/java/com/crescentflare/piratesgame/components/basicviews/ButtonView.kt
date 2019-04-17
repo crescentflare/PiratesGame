@@ -215,8 +215,6 @@ class ButtonView : UniButtonView, AppEventLabeledSender {
             : super(context, attrs, defStyleAttr, defStyleRes)
 
     init {
-        val buttonHorizontalPadding = resources.getDimensionPixelSize(R.dimen.buttonHorizontalPadding)
-        val buttonVerticalPadding = resources.getDimensionPixelSize(R.dimen.buttonVerticalPadding)
         minHeight = 0
         minimumHeight = 0
         minWidth = 0
@@ -224,7 +222,6 @@ class ButtonView : UniButtonView, AppEventLabeledSender {
         gravity = Gravity.CENTER
         isAllCaps = false
         setColorStyle(ColorStyle.Primary)
-        setPadding(buttonHorizontalPadding, buttonVerticalPadding, buttonHorizontalPadding, buttonVerticalPadding)
         setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimensionPixelSize(R.dimen.buttonText).toFloat())
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             stateListAnimator = null
@@ -263,6 +260,7 @@ class ButtonView : UniButtonView, AppEventLabeledSender {
         }
 
     fun setColorStyle(colorStyle: ColorStyle) {
+        // Apply colors
         when (colorStyle) {
             ColorStyle.Primary -> {
                 background = createStateBackground(
@@ -300,7 +298,28 @@ class ButtonView : UniButtonView, AppEventLabeledSender {
                     ContextCompat.getColor(context, R.color.textDisabled)
                 ))
             }
+            ColorStyle.NavigationBar -> {
+                background = null
+                setTextColor(createStateTitleColor(
+                    ContextCompat.getColor(context, R.color.text),
+                    colorizeAlpha(ContextCompat.getColor(context, R.color.text), 128),
+                    colorizeAlpha(ContextCompat.getColor(context, R.color.text), 128)
+                ))
+            }
+            ColorStyle.NavigationBarInverted -> {
+                background = null
+                setTextColor(createStateTitleColor(
+                    ContextCompat.getColor(context, R.color.textInverted),
+                    colorizeAlpha(ContextCompat.getColor(context, R.color.textInverted), 128),
+                    colorizeAlpha(ContextCompat.getColor(context, R.color.textInverted), 128)
+                ))
+            }
         }
+
+        // Apply padding
+        val buttonHorizontalPadding = resources.getDimensionPixelSize(if (colorStyle == ColorStyle.NavigationBar || colorStyle == ColorStyle.NavigationBarInverted) R.dimen.buttonNavigationHorizontalPadding else R.dimen.buttonHorizontalPadding)
+        val buttonVerticalPadding = resources.getDimensionPixelSize(R.dimen.buttonVerticalPadding)
+        setPadding(buttonHorizontalPadding, buttonVerticalPadding, buttonHorizontalPadding, buttonVerticalPadding)
     }
 
 
@@ -345,6 +364,12 @@ class ButtonView : UniButtonView, AppEventLabeledSender {
         )
     }
 
+    private fun colorizeAlpha(color: Int, alpha: Int): Int {
+        val mainColor = color and 0xffffff
+        val applyAlpha = Math.min(alpha, 255).toLong()
+        return (applyAlpha shl 24).toInt() + mainColor
+    }
+
 
     // --
     // Color style enum
@@ -354,7 +379,9 @@ class ButtonView : UniButtonView, AppEventLabeledSender {
 
         Primary("primary"),
         PrimaryInverted("primaryInverted"),
-        Secondary("secondary");
+        Secondary("secondary"),
+        NavigationBar("navigationBar"),
+        NavigationBarInverted("navigationBarInverted");
 
         companion object {
 

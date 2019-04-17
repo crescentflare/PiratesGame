@@ -66,13 +66,13 @@ class PageActivity : NavigationActivity(), AppEventObserver, PageLoaderContinuou
                 Pair("backgroundColor", "#ffffff"),
                 Pair("recycling", true),
                 Pair("topBar", mapOf(
-                    Pair("viewlet", "transparentNavigationBar"),
+                    Pair("viewlet", "simpleNavigationBar"),
                     Pair("width", "stretchToParent"),
                     Pair("statusBarColor", "#80000000"),
                     Pair("lightContent", true)
                 )),
                 Pair("bottomBar", mapOf(
-                    Pair("viewlet", "transparentNavigationBar"),
+                    Pair("viewlet", "bottomNavigationBar"),
                     Pair("width", "stretchToParent"),
                     Pair("backgroundColor", "#80000000")
                 )),

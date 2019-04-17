@@ -47,10 +47,9 @@ class PageViewController: NavigationViewController, AppEventObserver, PageLoader
                 "backgroundColor": "#ffffff",
                 "recycling": true,
                 "topBar": [
-                    "viewlet": "transparentNavigationBar",
+                    "viewlet": "simpleNavigationBar",
                     "width": "stretchToParent",
-                    "backgroundColor": "#80000000",
-                    "lightContent": true
+                    "backgroundColor": "#80000000"
                 ],
                 "content": [
                     "viewlet": "frameContainer",

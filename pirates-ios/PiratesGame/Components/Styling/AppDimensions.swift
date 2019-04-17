@@ -49,6 +49,7 @@ class AppDimensions {
     // --
 
     class var buttonHorizontalPadding: CGFloat { get { return 8 } }
+    class var buttonNavigationHorizontalPadding: CGFloat { get { return 16 } }
     class var buttonVerticalPadding: CGFloat { get { return 4 } }
     class var buttonHeight: CGFloat { get { return 40 } }
 

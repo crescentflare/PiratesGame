@@ -15,7 +15,7 @@ enum NavigationContainerViewScrollPaddingType: String {
     
 }
 
-class NavigationContainerView: UIView, AppEventObserver {
+class NavigationContainerView: UniView, AppEventObserver {
     
     // --
     // MARK: Members

@@ -14,12 +14,14 @@
       "height": "stretchToParent",
       "recycling": true,
       "topBar": {
-        "viewlet": "solidNavigationBar",
+        "viewlet": "simpleNavigationBar",
         "backgroundColor": "$primary",
-        "localizedTitle": "GLOBAL_APP_NAME"
+        "localizedTitle": "GLOBAL_APP_NAME",
+        "menuActionText": "Quit",
+        "menuActionEvent": "navigate://back"
       },
       "bottomBar": {
-        "viewlet": "solidNavigationBar",
+        "viewlet": "bottomNavigationBar",
         "backgroundColor": "$primary"
       },
       "content": {
@@ -37,8 +39,7 @@
           "## ##",
           " # # "
         ],
-        "waveSpawnInterval": 0.2,
-        "tapEvent": "navigate://back"
+        "waveSpawnInterval": 0.2
       }
     }
   }

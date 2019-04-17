@@ -1,0 +1,113 @@
+{
+  "viewlet": "linearContainer",
+  "items": [
+    {
+      "refId": "statusContainer",
+      "viewlet": "view",
+      "width": "stretchToParent"
+    },
+    {
+      "refId": "barContainer",
+      "viewlet": "linearContainer",
+      "orientation": "horizontal",
+      "width": "stretchToParent",
+      "weight": 1,
+      "items": [
+        {
+          "viewlet": "frameContainer",
+          "height": "stretchToParent",
+          "items": [
+            {
+              "viewlet": "view",
+              "width": 16
+            },
+            {
+              "refId": "backIcon",
+              "viewlet": "frameContainer",
+              "width": 88,
+              "height": "stretchToParent",
+              "margin": [ -16, -16, 0, -16 ],
+              "visibility": "hidden",
+              "items": [
+                {
+                  "refId": "backIconImage",
+                  "viewlet": "image",
+                  "marginLeft": 36,
+                  "gravity": "centerVertical"
+                }
+              ]
+            },
+            {
+              "refId": "menuActionIconSpacer",
+              "viewlet": "view",
+              "width": 72,
+              "visibility": "hidden"
+            },
+            {
+              "refId": "menuActionTextSpacer",
+              "viewlet": "button",
+              "colorStyle": "navigationBarInverted",
+              "font": "titleBold",
+              "visibility": "hidden"
+            }
+          ]
+        },
+        {
+          "refId": "title",
+          "viewlet": "text",
+          "weight": 1,
+          "gravity": "centerVertical",
+          "font": "titleBold",
+          "textSize": "$subTitleText",
+          "textColor": "$textInverted",
+          "textAlignment": "center",
+          "maxLines": 1
+        },
+        {
+          "viewlet": "frameContainer",
+          "height": "stretchToParent",
+          "items": [
+            {
+              "viewlet": "view",
+              "width": 16
+            },
+            {
+              "refId": "backIconSpacer",
+              "viewlet": "view",
+              "width": 72,
+              "visibility": "hidden"
+            },
+            {
+              "refId": "menuActionIcon",
+              "viewlet": "frameContainer",
+              "width": 88,
+              "height": "stretchToParent",
+              "margin": [ 0, -16, -16, -16 ],
+              "visibility": "hidden",
+              "items": [
+                {
+                  "refId": "menuActionIconImage",
+                  "viewlet": "image",
+                  "marginRight": 36,
+                  "horizontalGravity": "right",
+                  "verticalGravity": "center"
+                }
+              ]
+            },
+            {
+              "refId": "menuActionText",
+              "viewlet": "button",
+              "height": "stretchToParent",
+              "horizontalGravity": "right",
+              "verticalGravity": "center",
+              "colorStyle": "navigationBarInverted",
+              "font": "titleBold",
+              "textColor": "$textInverted",
+              "visibility": "hidden"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

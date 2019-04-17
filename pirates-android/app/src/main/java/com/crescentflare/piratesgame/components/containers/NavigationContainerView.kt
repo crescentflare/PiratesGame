@@ -201,7 +201,6 @@ class NavigationContainerView: ViewGroup, AppEventObserver {
             if (field != null) {
                 addView(field)
             }
-            solidTopBar = field != null && !((field as? NavigationBarComponent)?.translucent == true)
             updateLinkedScrollPadding()
         }
 
@@ -215,7 +214,6 @@ class NavigationContainerView: ViewGroup, AppEventObserver {
                 if (field != null) {
                     addView(field)
                 }
-                solidBottomBar = field != null && !((field as? NavigationBarComponent)?.translucent == true)
                 updateLinkedScrollPadding()
             }
         }
@@ -289,6 +287,8 @@ class NavigationContainerView: ViewGroup, AppEventObserver {
             actionBarCalculatedForWidth = Resources.getSystem().displayMetrics.widthPixels
             actionBarHeight = getActionBarHeight()
         }
+        solidTopBar = topBarView != null && !((topBarView as? NavigationBarComponent)?.translucent == true)
+        solidBottomBar = bottomBarView != null && !((bottomBarView as? NavigationBarComponent)?.translucent == true)
         updateLinkedScrollPadding()
         if (widthMode == MeasureSpec.EXACTLY && heightMode == MeasureSpec.EXACTLY) {
             val totalTopBarHeight = actionBarHeight + transparentStatusBarHeight
@@ -310,6 +310,8 @@ class NavigationContainerView: ViewGroup, AppEventObserver {
         val bottomBarHeight = transparentNavigationBarHeight
         val topContentInset = if (solidTopBar) totalTopBarHeight else 0
         val bottomContentInset = if (solidBottomBar) bottomBarHeight else 0
+        solidTopBar = topBarView != null && !((topBarView as? NavigationBarComponent)?.translucent == true)
+        solidBottomBar = bottomBarView != null && !((bottomBarView as? NavigationBarComponent)?.translucent == true)
         updateLinkedScrollPadding()
         (topBarView as? NavigationBarComponent)?.statusBarInset = transparentStatusBarHeight
         topBarView?.layout(0, 0, right - left, totalTopBarHeight)

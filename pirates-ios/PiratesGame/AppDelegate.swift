@@ -114,8 +114,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Inflators.viewlet.register(name: "level", inflatable: LevelView.viewlet())
         
         // Navigation bars
-        Inflators.viewlet.register(name: "solidNavigationBar", inflatable: SolidNavigationBar.viewlet())
-        Inflators.viewlet.register(name: "transparentNavigationBar", inflatable: TransparentNavigationBar.viewlet())
+        Inflators.viewlet.register(name: "bottomNavigationBar", inflatable: BottomNavigationBar.viewlet())
+        Inflators.viewlet.register(name: "simpleNavigationBar", inflatable: SimpleNavigationBar.viewlet())
 
         // Simple viewlets
         Inflators.viewlet.register(name: "image", inflatable: ImageViewlet.viewlet())

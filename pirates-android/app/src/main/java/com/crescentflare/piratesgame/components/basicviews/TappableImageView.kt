@@ -40,8 +40,8 @@ class TappableImageView : FrameContainerView {
             override fun update(mapUtil: InflatorMapUtil, obj: Any, attributes: Map<String, Any>, parent: Any?, binder: InflatorBinder?): Boolean {
                 if (obj is TappableImageView) {
                     // Apply image states
-                    obj.image = ImageSource.fromObject(attributes["image"])
-                    obj.highlightedImage = ImageSource.fromObject(attributes["highlightedImage"])
+                    obj.source = ImageSource.fromObject(attributes["source"])
+                    obj.highlightedSource = ImageSource.fromObject(attributes["highlightedSource"])
 
                     // Apply separate colorization
                     val highlightedColor = mapUtil.optionalColor(attributes, "highlightedColor", 0)
@@ -123,23 +123,23 @@ class TappableImageView : FrameContainerView {
     // Configurable values
     // --
 
-    var image: ImageSource? = null
-        set(image) {
-            field = image
-            ImageViewlet.applyImageSource(normalImageView, image)
+    var source: ImageSource? = null
+        set(source) {
+            field = source
+            ImageViewlet.applyImageSource(normalImageView, source)
         }
 
-    var highlightedImage: ImageSource? = null
-        set(highlightedImage) {
-            field = highlightedImage
-            ImageViewlet.applyImageSource(highlightedImageView, highlightedImage)
+    var highlightedSource: ImageSource? = null
+        set(highlightedSource) {
+            field = highlightedSource
+            ImageViewlet.applyImageSource(highlightedImageView, highlightedSource)
             updateState()
         }
 
     var highlightedColor: Int? = null
         set(highlightedColor) {
             field = highlightedColor
-            val tintColor = highlightedColor ?: highlightedImage?.tintColor
+            val tintColor = highlightedColor ?: highlightedSource?.tintColor
             if (tintColor != null) {
                 highlightedImageView.colorFilter = PorterDuffColorFilter(tintColor, PorterDuff.Mode.SRC_IN)
             } else {
@@ -171,9 +171,9 @@ class TappableImageView : FrameContainerView {
                 break
             }
         }
-        val tintColor = if (pressed) highlightedColor ?: image?.tintColor else image?.tintColor
-        normalImageView.visibility = if (!pressed || highlightedImage == null) VISIBLE else INVISIBLE
-        highlightedImageView.visibility = if (pressed && highlightedImage != null) VISIBLE else INVISIBLE
+        val tintColor = if (pressed) highlightedColor ?: source?.tintColor else source?.tintColor
+        normalImageView.visibility = if (!pressed || highlightedSource == null) VISIBLE else INVISIBLE
+        highlightedImageView.visibility = if (pressed && highlightedSource != null) VISIBLE else INVISIBLE
         if (tintColor != null) {
             normalImageView.colorFilter = PorterDuffColorFilter(tintColor, PorterDuff.Mode.SRC_IN)
         } else {

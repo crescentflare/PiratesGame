@@ -18,13 +18,14 @@
       "backgroundColor": "#000000",
       "recycling": "true",
       "topBar": {
-        "viewlet": "transparentNavigationBar",
+        "viewlet": "simpleNavigationBar",
         "width": "stretchToParent",
-        "lightContent": true
+        "backgroundColor": "#00000000"
       },
       "bottomBar": {
-        "viewlet": "transparentNavigationBar",
-        "width": "stretchToParent"
+        "viewlet": "bottomNavigationBar",
+        "width": "stretchToParent",
+        "backgroundColor": "#00000000"
       },
       "content": {
         "viewlet": "frameContainer",
