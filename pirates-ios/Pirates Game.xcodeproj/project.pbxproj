@@ -48,6 +48,7 @@
 		048DA9B022670AB6003141F5 /* SimpleNavigationBar.json in Resources */ = {isa = PBXBuildFile; fileRef = 048DA9AF22670AB6003141F5 /* SimpleNavigationBar.json */; };
 		048DA9B322670BF3003141F5 /* BottomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048DA9B122670BF3003141F5 /* BottomNavigationBar.swift */; };
 		048DA9B422670BF3003141F5 /* SimpleNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048DA9B222670BF3003141F5 /* SimpleNavigationBar.swift */; };
+		048DA9B622673820003141F5 /* SystemImageSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048DA9B522673820003141F5 /* SystemImageSource.swift */; };
 		049357E4225A11D7008A5B5E /* NavigationContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049357E3225A11D7008A5B5E /* NavigationContainerView.swift */; };
 		049B63442232A8F700AFB13B /* Pages in Resources */ = {isa = PBXBuildFile; fileRef = 049B63432232A8F700AFB13B /* Pages */; };
 		049B634D2232BADC00AFB13B /* SplashAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049B634A2232BADC00AFB13B /* SplashAnimation.swift */; };
@@ -116,6 +117,7 @@
 		048DA9AF22670AB6003141F5 /* SimpleNavigationBar.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SimpleNavigationBar.json; sourceTree = "<group>"; };
 		048DA9B122670BF3003141F5 /* BottomNavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomNavigationBar.swift; sourceTree = "<group>"; };
 		048DA9B222670BF3003141F5 /* SimpleNavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleNavigationBar.swift; sourceTree = "<group>"; };
+		048DA9B522673820003141F5 /* SystemImageSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemImageSource.swift; sourceTree = "<group>"; };
 		049357E3225A11D7008A5B5E /* NavigationContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationContainerView.swift; sourceTree = "<group>"; };
 		049B63432232A8F700AFB13B /* Pages */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Pages; sourceTree = "<group>"; };
 		049B634A2232BADC00AFB13B /* SplashAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashAnimation.swift; sourceTree = "<group>"; };
@@ -242,8 +244,9 @@
 			children = (
 				041558D82232A200001158FA /* ImageSource.swift */,
 				041558D92232A200001158FA /* MarkdownGenerator.swift */,
-				041558DA2232A200001158FA /* ViewletUtil.swift */,
 				041558DB2232A200001158FA /* NavigationBarComponent.swift */,
+				048DA9B522673820003141F5 /* SystemImageSource.swift */,
+				041558DA2232A200001158FA /* ViewletUtil.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -592,6 +595,7 @@
 				043DF1762235511A00F686B1 /* ButtonView.swift in Sources */,
 				048DA9B422670BF3003141F5 /* SimpleNavigationBar.swift in Sources */,
 				041559142232A510001158FA /* ControllerModule.swift in Sources */,
+				048DA9B622673820003141F5 /* SystemImageSource.swift in Sources */,
 				049B634E2232BADC00AFB13B /* PublisherLogo.swift in Sources */,
 				042DBBFC22328EB4008831FE /* PageViewController.swift in Sources */,
 				049C3B4C223A9FCE00856808 /* UIImageGenerator.swift in Sources */,

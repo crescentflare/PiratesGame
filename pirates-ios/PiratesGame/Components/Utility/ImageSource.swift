@@ -245,13 +245,7 @@ class ImageSource {
                 result = UIImage(named: path, in: bundle, compatibleWith: nil)
             }
         } else if type == .systemImage {
-            switch fullPath {
-            case "spinner":
-                let bundle = Bundle(for: ImageSource.self)
-                result = UIImage(named: "icon_spinner", in: bundle, compatibleWith: nil)
-            default:
-                break
-            }
+            result = SystemImageSource.load(path: fullPath)
         } else if type == .generate {
             result = getGeneratedImage()
         }

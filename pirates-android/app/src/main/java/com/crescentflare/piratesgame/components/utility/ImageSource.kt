@@ -240,16 +240,7 @@ class ImageSource {
                 result = ContextCompat.getDrawable(context, resourceId)
             }
         } else if (type == Type.SystemImage) {
-            when (fullPath) {
-                "spinner" -> {
-                    val drawable = ProgressBar(context).indeterminateDrawable.mutate()
-                    if (drawable is Animatable) {
-                        drawable.start()
-                    }
-                    return drawable
-                }
-                else -> return null
-            }
+            return SystemImageSource.load(context, fullPath)
         } else if (type == Type.Generate) {
             result = getGeneratedDrawable(context)
         }
