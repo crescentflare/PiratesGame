@@ -230,6 +230,10 @@
             "button",
             "gradient",
             "tappableImage",
+            "splashAnimation",
+            "splashLoadingBar",
+            "publisherLogo",
+            "level",
             "frameContainer",
             "linearContainer",
             "navigationContainer",
@@ -497,8 +501,7 @@
               },
               "maxLines": {
                 "description": "The maximum amount of lines of the text, 0 = no limitation",
-                "type": "integer",
-                "default": 0
+                "type": "integer"
               },
               "textAlignment": {
                 "description": "The horizontal alignment of the text within its frame",
@@ -607,6 +610,87 @@
               "tapEvent": {
                 "description": "Send an event when tapping on the inage",
                 "$ref": "#/definitions/appEvent"
+              }
+            }
+          },
+          "else": {}
+        },
+        {
+          "if": {
+            "properties": {
+              "viewlet": {
+                "const": "splashAnimation"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "gradientColor": {
+                "description": "The gradient from black to the specified color at the bottom",
+                "$ref": "#/definitions/color"
+              },
+              "backgroundImage": {
+                "description": "The silhouette image to show on top of the gradient",
+                "$ref": "#/definitions/imageSource"
+              },
+              "autoAnimation": {
+                "description": "Automatically animate the component",
+                "type": "boolean"
+              },
+              "on": {
+                "description": "Turns lighting on or off for component rendering",
+                "type": "boolean"
+              },
+              "setOnEvent": {
+                "description": "Send an event the moment the lighting is set to on",
+                "$ref": "#/definitions/appEvent"
+              }
+            }
+          },
+          "else": {}
+        },
+        {
+          "if": {
+            "properties": {
+              "viewlet": {
+                "const": "splashLoadingBar"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "autoAnimation": {
+                "description": "Automatically animate the component",
+                "type": "boolean"
+              },
+              "progress": {
+                "description": "A number between 0 and 1 for an empty or filled up bar",
+                "type": "number"
+              }
+            }
+          },
+          "else": {}
+        },
+        {
+          "if": {
+            "properties": {
+              "viewlet": {
+                "const": "level"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "waveSpawnInterval": {
+                "description": "The interval between spawning waves, defaults to 0.2",
+                "type": "number"
+              },
+              "tileMap": {
+                "description": "Multiple rows of strings showing the tilemap in ASCII characters",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
               }
             }
           },
