@@ -163,7 +163,7 @@ class ImageSource {
                     }
                     uri = "$uri/pageimages/$fullPath"
                 }
-                getParameterString(listOf("caching", "colorize", "threePatch", "ninePatch"), true).let {
+                getParameterString(listOf("caching", "colorize", "threePatch", "ninePatch"), true)?.let {
                     uri += "?$it"
                 }
                 return uri
@@ -191,7 +191,7 @@ class ImageSource {
     val cacheKey: String
         get() {
             var uri = "${type.value}://$fullPath"
-            getParameterString(listOf("caching", "colorize", "threePatch", "ninePatch")).let {
+            getParameterString(listOf("caching", "colorize", "threePatch", "ninePatch"))?.let {
                 uri += "?$it"
             }
             return uri
@@ -205,7 +205,7 @@ class ImageSource {
     val uri: String
         get() {
             var uri = "${type.value}://$fullPath"
-            getParameterString().let {
+            getParameterString()?.let {
                 uri += "?$it"
             }
             return uri

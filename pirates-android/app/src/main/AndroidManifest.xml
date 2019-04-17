@@ -11,6 +11,7 @@
         android:label="@string/global_app_icon_name"
         android:icon="@mipmap/icon_app"
         android:roundIcon="@mipmap/icon_app_round"
+        android:usesCleartextTraffic="@bool/clearTextTraffic"
         android:theme="@style/AppTheme.NoActionBar">
 
         <activity
