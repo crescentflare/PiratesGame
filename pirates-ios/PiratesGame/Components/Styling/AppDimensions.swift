@@ -22,6 +22,7 @@ class AppDimensions {
                 "buttonText": buttonText,
                 
                 "buttonHorizontalPadding": buttonHorizontalPadding,
+                "buttonNavigationHorizontalPadding": buttonNavigationHorizontalPadding,
                 "buttonVerticalPadding": buttonVerticalPadding,
                 "buttonHeight": buttonHeight,
 
