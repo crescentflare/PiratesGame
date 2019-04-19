@@ -2,6 +2,7 @@ package com.crescentflare.piratesgame.page.activities
 
 import android.content.res.Configuration
 import android.content.res.Resources
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
@@ -175,8 +176,10 @@ abstract class NavigationActivity : AppCompatActivity(), SwipeRefreshLayout.OnRe
             val decor = window.decorView
             if (!lightNavigationIcons) {
                 decor.systemUiVisibility = decor.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+                window.navigationBarColor = Color.WHITE
             } else {
                 decor.systemUiVisibility -= decor.systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+                window.navigationBarColor = Color.BLACK
             }
         }
     }
