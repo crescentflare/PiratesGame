@@ -10,10 +10,7 @@ import com.crescentflare.piratesgame.components.basicviews.TappableImageView
 import com.crescentflare.piratesgame.components.complexviews.PublisherLogo
 import com.crescentflare.piratesgame.components.compoundviews.SplashAnimation
 import com.crescentflare.piratesgame.components.compoundviews.SplashLoadingBar
-import com.crescentflare.piratesgame.components.containers.FrameContainerView
-import com.crescentflare.piratesgame.components.containers.LinearContainerView
-import com.crescentflare.piratesgame.components.containers.NavigationContainerView
-import com.crescentflare.piratesgame.components.containers.ScrollContainerView
+import com.crescentflare.piratesgame.components.containers.*
 import com.crescentflare.piratesgame.components.game.LevelView
 import com.crescentflare.piratesgame.components.navigationbars.BottomNavigationBar
 import com.crescentflare.piratesgame.components.navigationbars.SimpleNavigationBar
@@ -23,6 +20,11 @@ import com.crescentflare.piratesgame.components.simpleviewlets.SpacerViewlet
 import com.crescentflare.piratesgame.components.simpleviewlets.SpinnerViewlet
 import com.crescentflare.piratesgame.components.simpleviewlets.TextViewlet
 import com.crescentflare.piratesgame.components.styling.AppFonts
+import com.crescentflare.piratesgame.gl.scene.SceneCameraObject
+import com.crescentflare.piratesgame.gl.scene.SceneMeshObject
+import com.crescentflare.piratesgame.gl.scene.SceneObject
+import com.crescentflare.piratesgame.gl.scene.SceneRootObject
+import com.crescentflare.piratesgame.gl.shaders.Shaders
 import com.crescentflare.piratesgame.infrastructure.appconfig.CustomAppConfigManager
 import com.crescentflare.piratesgame.infrastructure.inflator.Inflators
 import com.crescentflare.piratesgame.page.modules.shared.AlertModule
@@ -50,7 +52,9 @@ class BaseApplication : Application(), AppConfigStorage.ChangedConfigListener {
 
         // Configure framework
         AppFonts.setContext(this)
+        Shaders.setContext(this)
         registerModules()
+        registerSceneObjects()
         registerViewlets()
     }
 
@@ -79,6 +83,21 @@ class BaseApplication : Application(), AppConfigStorage.ChangedConfigListener {
         Inflators.module.register("splashLoader", SplashLoaderModule.inflatable)
     }
 
+    private fun registerSceneObjects() {
+        // Enable platform specific attributes
+        Inflators.scene.setMergeSubAttributes(listOf("android"))
+        Inflators.scene.setExcludeAttributes(listOf("ios"))
+
+        // Lookups
+        Inflators.scene.setColorLookup(InflatorResourceColorLookup(this))
+
+        // Objects
+        Inflators.scene.register("camera", SceneCameraObject.inflatable)
+        Inflators.scene.register("object", SceneObject.inflatable)
+        Inflators.scene.register("mesh", SceneMeshObject.inflatable)
+        Inflators.scene.register("root", SceneRootObject.inflatable)
+    }
+
     private fun registerViewlets() {
         // Enable platform specific attributes
         Inflators.viewlet.setMergeSubAttributes(listOf("android"))
@@ -103,6 +122,7 @@ class BaseApplication : Application(), AppConfigStorage.ChangedConfigListener {
 
         // Containers
         Inflators.viewlet.register("frameContainer", FrameContainerView.viewlet)
+        Inflators.viewlet.register("glContainer", GLContainer.viewlet)
         Inflators.viewlet.register( "linearContainer", LinearContainerView.viewlet)
         Inflators.viewlet.register("navigationContainer", NavigationContainerView.viewlet)
         Inflators.viewlet.register( "scrollContainer", ScrollContainerView.viewlet)

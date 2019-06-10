@@ -198,6 +198,29 @@
         }
       ]
     },
+    "sceneMatrix": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^(identity|translate|rotate|scale):.*$"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "description": "The type of transformation matrix",
+              "type": "string",
+              "enum": [
+                "identity",
+                "translate",
+                "rotate",
+                "scale"
+              ]
+            }
+          }
+        }
+      ]
+    },
     "module": {
       "type": "object",
       "properties": {
@@ -213,6 +236,113 @@
       },
       "required": [
         "module"
+      ]
+    },
+    "sceneObject": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "description": "The object, a container or item that can be rendered",
+          "type": "string",
+          "enum": [
+            "camera",
+            "mesh",
+            "object",
+            "root"
+          ]
+        },
+        "matrix": {
+          "description": "The transformation matrix of the object and its children",
+          "$ref": "#/definitions/sceneMatrix"
+        },
+        "items": {
+          "description": "A list of child objects",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/sceneObject"
+          }
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "anyOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "camera"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "near": {
+                "description": "The near plane of the projection frustum",
+                "type": "number"
+              },
+              "far": {
+                "description": "The far plane of the projection frustum",
+                "type": "number"
+              }
+            }
+          },
+          "else": {}
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "mesh"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "color": {
+                "description": "The color of the mesh",
+                "$ref": "#/definitions/color"
+              },
+              "vertices": {
+                "description": "A list of vertices to shape the mesh, takes 3 dimensions: x, y and z",
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              },
+              "indices": {
+                "description": "A list of indices referring to the vertex list, optional",
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "else": {}
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "root"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "camera": {
+                "description": "The main camera object for rendering",
+                "$ref": "#/definitions/sceneObject"
+              },
+              "clearColor": {
+                "description": "The background color of the scene",
+                "$ref": "#/definitions/color"
+              }
+            }
+          },
+          "else": {}
+        }
       ]
     },
     "viewlet": {
@@ -235,6 +365,7 @@
             "publisherLogo",
             "level",
             "frameContainer",
+            "glContainer",
             "linearContainer",
             "navigationContainer",
             "scrollContainer",
@@ -730,6 +861,24 @@
           "if": {
             "properties": {
               "viewlet": {
+                "const": "glContainer"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "scene": {
+                "description": "The root object of the scene graph",
+                "$ref": "#/definitions/sceneObject"
+              }
+            }
+          },
+          "else": {}
+        },
+        {
+          "if": {
+            "properties": {
+              "viewlet": {
                 "const": "linearContainer"
               }
             }
@@ -816,7 +965,7 @@
             "properties": {
               "item": {
                 "description": "Child of the scroll container",
-                "type": "object"
+                "$ref": "#/definitions/viewlet"
               },
               "fillContent": {
                 "description": "Stretches the child to the scroll view size when it's smaller",
